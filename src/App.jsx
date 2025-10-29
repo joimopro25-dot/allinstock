@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { LanguageProvider } from './contexts/LanguageContext';
-import ProtectedRoute from './components/auth/ProtectedRoute';
-import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
-import Dashboard from './pages/dashboard/Dashboard';
-import ProductList from './pages/stock/ProductList';
+import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { Login } from './pages/auth/Login';
+import { Register } from './pages/auth/Register';
+import { Dashboard } from './pages/dashboard/Dashboard';
+import { ProductList } from './pages/stock/ProductList';
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
               } 
             />
             <Route 
-              path="/products" 
+              path="/stock" 
               element={
                 <ProtectedRoute>
                   <ProductList />

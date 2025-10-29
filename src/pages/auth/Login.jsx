@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getTranslation } from '../../utils/translations';
-import LanguageToggle from '../../components/common/LanguageToggle';
+import { LanguageToggle } from '../../components/common/LanguageToggle';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -197,3 +197,4 @@ const Login = () => {
 };
 
 export default Login;
+export { Login };

@@ -9,7 +9,7 @@ import {
   BuildingStorefrontIcon,
   SparklesIcon
 } from '@heroicons/react/24/outline';
-import LanguageToggle from '../../components/common/LanguageToggle';
+import { LanguageToggle } from '../../components/common/LanguageToggle';
 import '../../styles/Dashboard.css';
 
 const Dashboard = () => {
@@ -106,7 +106,7 @@ const Dashboard = () => {
           {/* Stock Management - Active */}
           <div 
             className="module-card"
-            onClick={() => navigate('/products')}
+            onClick={() => navigate('/stock')}
             style={{ cursor: 'pointer' }}
           >
             <div className="card-glow"></div>
@@ -147,3 +147,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+export { Dashboard };
