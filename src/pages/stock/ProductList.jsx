@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { getTranslation } from '../../utils/translations';
 import { productService } from '../../services/productService';
 import { LanguageToggle } from '../../components/common/LanguageToggle';
 import { AddProductModal } from '../../components/stock/AddProductModal';
@@ -17,9 +18,11 @@ export function ProductList() {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [editModal, setEditModal] = useState({ show: false, product: null });
   
-  const { company, user, logout } = useAuth();
-  const { t } = useLanguage();
+  const { company, currentUser, signOut } = useAuth();
+  const { language } = useLanguage();
   const navigate = useNavigate();
+
+  const t = (key) => getTranslation(language, key);
 
   useEffect(() => {
     loadProducts();
@@ -68,7 +71,7 @@ export function ProductList() {
 
   const handleLogout = async () => {
     try {
-      await logout();
+      await signOut();
       navigate('/login');
     } catch (err) {
       console.error('Failed to logout:', err);
@@ -82,7 +85,7 @@ export function ProductList() {
           <h1 className="logo-text" onClick={() => navigate('/dashboard')} style={{ cursor: 'pointer' }}>
             AllInStock
           </h1>
-          <h2 className="page-title">{t('productList')}</h2>
+          <h2 className="page-title">{t('stockManagement')}</h2>
         </div>
         
         <div className="header-right">
@@ -110,7 +113,7 @@ export function ProductList() {
             onChange={(e) => setFamilyFilter(e.target.value)}
             className="filter-select"
           >
-            <option value="all">{t('allFamilies')}</option>
+            <option value="all">{t('all')} {t('family')}</option>
             {families.map(family => (
               <option key={family} value={family}>{family}</option>
             ))}
@@ -125,10 +128,10 @@ export function ProductList() {
         </div>
 
         {loading ? (
-          <div className="loading">Loading...</div>
+          <div className="loading">{t('loading')}</div>
         ) : filteredProducts.length === 0 ? (
           <div className="empty-state">
-            <p>No products found</p>
+            <p>{t('noProducts')}</p>
           </div>
         ) : (
           <div className="products-grid">
@@ -191,14 +194,12 @@ export function ProductList() {
         )}
       </div>
 
-      {/* Add Product Modal */}
       <AddProductModal
         isOpen={addModalOpen}
         onClose={() => setAddModalOpen(false)}
         onSuccess={loadProducts}
       />
 
-      {/* Edit Product Modal */}
       <EditProductModal
         isOpen={editModal.show}
         onClose={() => setEditModal({ show: false, product: null })}
@@ -206,7 +207,6 @@ export function ProductList() {
         product={editModal.product}
       />
 
-      {/* Delete Confirmation Modal */}
       {deleteModal.show && (
         <div className="modal-overlay" onClick={() => setDeleteModal({ show: false, product: null })}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>

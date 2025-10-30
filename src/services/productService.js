@@ -11,7 +11,6 @@ import {
 } from 'firebase/firestore';
 import { db } from '../config/firebase';
 
-// Get all products for a company
 async function getProducts(companyId) {
   const productsRef = collection(db, 'companies', companyId, 'products');
   const q = query(productsRef, orderBy('createdAt', 'desc'));
@@ -21,7 +20,6 @@ async function getProducts(companyId) {
   for (const docSnap of snapshot.docs) {
     const productData = { id: docSnap.id, ...docSnap.data() };
     
-    // Get stock locations and calculate total
     const locations = await getStockLocations(companyId, docSnap.id);
     productData.stockLocations = locations;
     productData.totalStock = locations.reduce((sum, loc) => sum + loc.quantity, 0);
@@ -32,7 +30,6 @@ async function getProducts(companyId) {
   return products;
 }
 
-// Get single product
 async function getProduct(companyId, productId) {
   const productRef = doc(db, 'companies', companyId, 'products', productId);
   const docSnap = await getDoc(productRef);
@@ -48,7 +45,6 @@ async function getProduct(companyId, productId) {
   return null;
 }
 
-// Create product
 async function createProduct(companyId, productData) {
   const productsRef = collection(db, 'companies', companyId, 'products');
   const newProduct = {
@@ -59,7 +55,6 @@ async function createProduct(companyId, productData) {
   
   const docRef = await addDoc(productsRef, newProduct);
   
-  // Create main warehouse location if initial stock provided
   if (productData.initialStock && productData.initialStock > 0) {
     await addStockLocation(companyId, docRef.id, {
       name: 'Armazém Principal',
@@ -72,7 +67,6 @@ async function createProduct(companyId, productData) {
   return docRef.id;
 }
 
-// Update product
 async function updateProduct(companyId, productId, productData) {
   const productRef = doc(db, 'companies', companyId, 'products', productId);
   await updateDoc(productRef, {
@@ -81,20 +75,16 @@ async function updateProduct(companyId, productId, productData) {
   });
 }
 
-// Delete product
 async function deleteProduct(companyId, productId) {
-  // Delete all stock locations first
   const locations = await getStockLocations(companyId, productId);
   for (const location of locations) {
     await deleteStockLocation(companyId, productId, location.id);
   }
   
-  // Delete product
   const productRef = doc(db, 'companies', companyId, 'products', productId);
   await deleteDoc(productRef);
 }
 
-// Get stock locations for a product
 async function getStockLocations(companyId, productId) {
   const locationsRef = collection(db, 'companies', companyId, 'products', productId, 'stockLocations');
   const snapshot = await getDocs(locationsRef);
@@ -105,7 +95,6 @@ async function getStockLocations(companyId, productId) {
   }));
 }
 
-// Add stock location
 async function addStockLocation(companyId, productId, locationData) {
   const locationsRef = collection(db, 'companies', companyId, 'products', productId, 'stockLocations');
   const newLocation = {
@@ -117,7 +106,6 @@ async function addStockLocation(companyId, productId, locationData) {
   return await addDoc(locationsRef, newLocation);
 }
 
-// Update stock location
 async function updateStockLocation(companyId, productId, locationId, locationData) {
   const locationRef = doc(db, 'companies', companyId, 'products', productId, 'stockLocations', locationId);
   await updateDoc(locationRef, {
@@ -126,13 +114,11 @@ async function updateStockLocation(companyId, productId, locationId, locationDat
   });
 }
 
-// Delete stock location
 async function deleteStockLocation(companyId, productId, locationId) {
   const locationRef = doc(db, 'companies', companyId, 'products', productId, 'stockLocations', locationId);
   await deleteDoc(locationRef);
 }
 
-// Export all functions as named exports
 export const productService = {
   getProducts,
   getProduct,

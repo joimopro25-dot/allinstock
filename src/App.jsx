@@ -15,21 +15,21 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route 
-              path="/dashboard" 
+            <Route
+              path="/dashboard"
               element={
                 <ProtectedRoute>
                   <Dashboard />
                 </ProtectedRoute>
-              } 
+              }
             />
-            <Route 
-              path="/stock" 
+            <Route
+              path="/stock"
               element={
                 <ProtectedRoute>
                   <ProductList />
                 </ProtectedRoute>
-              } 
+              }
             />
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
           </Routes>

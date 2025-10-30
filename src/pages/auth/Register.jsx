@@ -66,7 +66,6 @@ const Register = () => {
       position: 'relative',
       padding: '2rem'
     }}>
-      {/* Language Toggle - Top Right */}
       <div style={{ position: 'absolute', top: '2rem', right: '2rem' }}>
         <LanguageToggle />
       </div>

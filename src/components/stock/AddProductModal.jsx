@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { getTranslation } from '../../utils/translations';
 import { productService } from '../../services/productService';
 import './ProductModal.css';
 
 export function AddProductModal({ isOpen, onClose, onSuccess }) {
   const { company } = useAuth();
-  const { t } = useLanguage();
+  const { language } = useLanguage();
+  
+  const t = (key) => getTranslation(language, key);
   
   const [formData, setFormData] = useState({
     name: '',
@@ -66,7 +69,6 @@ export function AddProductModal({ isOpen, onClose, onSuccess }) {
 
       await productService.createProduct(company.id, productData);
       
-      // Reset form
       setFormData({
         name: '',
         reference: '',
