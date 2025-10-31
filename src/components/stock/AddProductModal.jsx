@@ -212,7 +212,7 @@ export function AddProductModal({ isOpen, onClose, onSuccess }) {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Initial Stock</label>
+            <label className="form-label">{t('initialStock')}</label>
             <input
               type="number"
               name="initialStock"
@@ -222,7 +222,10 @@ export function AddProductModal({ isOpen, onClose, onSuccess }) {
               min="0"
             />
             <span className="form-hint">
-              This will be added to "Main Warehouse" location
+              {language === 'pt'
+                ? 'Será adicionado à localização "Armazém Principal"'
+                : 'Will be added to "Main Warehouse" location'
+              }
             </span>
           </div>
 

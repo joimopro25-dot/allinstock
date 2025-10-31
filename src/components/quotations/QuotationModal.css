@@ -1,0 +1,333 @@
+/* Quotation Modal Specific Styles */
+
+.quotation-modal {
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Items Section */
+.items-section {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.items-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.items-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.add-item-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-item-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+}
+
+.button-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Item Row */
+.item-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  align-items: flex-end;
+}
+
+.item-fields {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.2fr 1fr 1.2fr;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+.item-product {
+  grid-column: span 1;
+}
+
+.item-quantity,
+.item-price,
+.item-discount {
+  grid-column: span 1;
+}
+
+.item-subtotal {
+  grid-column: span 1;
+}
+
+.item-subtotal-value {
+  padding: 0.75rem;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 8px;
+  color: #a78bfa;
+  font-weight: 600;
+  text-align: right;
+  font-size: 0.95rem;
+}
+
+.remove-item-button {
+  padding: 0.75rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  color: #f87171;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.remove-item-button:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+.empty-items {
+  text-align: center;
+  padding: 2rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+}
+
+/* Totals Section */
+.totals-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+}
+
+.totals-display {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.95rem;
+}
+
+.total-row.total-final {
+  padding-top: 0.75rem;
+  border-top: 2px solid rgba(139, 92, 246, 0.3);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+}
+
+.total-row.total-final span:last-child {
+  color: #a78bfa;
+}
+
+/* View Modal Specific */
+.quotation-view-container {
+  padding: 1rem;
+}
+
+.quotation-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.quotation-number-display {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.quotation-date {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+.client-info {
+  margin-bottom: 2rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+}
+
+.client-info h4 {
+  margin: 0 0 0.75rem 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.client-name-display {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 0.25rem;
+}
+
+.client-email-display {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+.items-table {
+  width: 100%;
+  margin-bottom: 2rem;
+  border-collapse: collapse;
+}
+
+.items-table th {
+  text-align: left;
+  padding: 0.75rem;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: #a78bfa;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.items-table th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.items-table th:last-child {
+  border-top-right-radius: 8px;
+  text-align: right;
+}
+
+.items-table td {
+  padding: 0.875rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+.items-table td:last-child {
+  text-align: right;
+}
+
+.items-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.product-name-col {
+  font-weight: 500;
+  color: white;
+}
+
+.product-ref-col {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+}
+
+.quotation-notes {
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+}
+
+.quotation-notes h4 {
+  margin: 0 0 0.75rem 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.quotation-notes p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .quotation-modal {
+    max-width: 95vw;
+    margin: 1rem;
+  }
+
+  .item-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .item-product,
+  .item-quantity,
+  .item-price,
+  .item-discount,
+  .item-subtotal {
+    grid-column: span 1;
+  }
+
+  .item-row {
+    flex-direction: column;
+  }
+
+  .remove-item-button {
+    width: 100%;
+  }
+
+  .totals-section {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .items-table {
+    font-size: 0.8rem;
+  }
+
+  .items-table th,
+  .items-table td {
+    padding: 0.5rem 0.4rem;
+  }
+}

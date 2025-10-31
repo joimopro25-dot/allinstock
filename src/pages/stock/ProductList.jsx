@@ -5,8 +5,11 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { getTranslation } from '../../utils/translations';
 import { productService } from '../../services/productService';
 import { LanguageToggle } from '../../components/common/LanguageToggle';
+import { Sidebar } from '../../components/common/Sidebar';
 import { AddProductModal } from '../../components/stock/AddProductModal';
 import { EditProductModal } from '../../components/stock/EditProductModal';
+import { StockLocationsModal } from '../../components/stock/StockLocationsModal';
+import { StockMovementsModal } from '../../components/stock/StockMovementsModal';
 import '../../styles/ProductList.css';
 
 export function ProductList() {
@@ -17,7 +20,10 @@ export function ProductList() {
   const [deleteModal, setDeleteModal] = useState({ show: false, product: null });
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [editModal, setEditModal] = useState({ show: false, product: null });
-  
+  const [locationsModal, setLocationsModal] = useState({ show: false, product: null });
+  const [movementsModal, setMovementsModal] = useState({ show: false, product: null });
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
   const { company, currentUser, signOut } = useAuth();
   const { language } = useLanguage();
   const navigate = useNavigate();
@@ -79,8 +85,10 @@ export function ProductList() {
   };
 
   return (
-    <div className="product-list-container">
-      <div className="product-header">
+    <>
+      <Sidebar isCollapsed={sidebarCollapsed} setIsCollapsed={setSidebarCollapsed} />
+      <div className={`product-list-container ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
+        <div className="product-header">
         <div className="header-left">
           <h1 className="logo-text" onClick={() => navigate('/dashboard')} style={{ cursor: 'pointer' }}>
             AllInStock
@@ -174,13 +182,25 @@ export function ProductList() {
                   </div>
                   
                   <div className="product-actions">
-                    <button 
+                    <button
+                      className="action-button locations"
+                      onClick={() => setLocationsModal({ show: true, product })}
+                    >
+                      {language === 'pt' ? 'Localizações' : 'Locations'}
+                    </button>
+                    <button
+                      className="action-button history"
+                      onClick={() => setMovementsModal({ show: true, product })}
+                    >
+                      {language === 'pt' ? 'Histórico' : 'History'}
+                    </button>
+                    <button
                       className="action-button edit"
                       onClick={() => setEditModal({ show: true, product })}
                     >
                       {t('edit')}
                     </button>
-                    <button 
+                    <button
                       className="action-button delete"
                       onClick={() => setDeleteModal({ show: true, product })}
                     >
@@ -207,6 +227,19 @@ export function ProductList() {
         product={editModal.product}
       />
 
+      <StockLocationsModal
+        isOpen={locationsModal.show}
+        onClose={() => setLocationsModal({ show: false, product: null })}
+        product={locationsModal.product}
+        onUpdate={loadProducts}
+      />
+
+      <StockMovementsModal
+        isOpen={movementsModal.show}
+        onClose={() => setMovementsModal({ show: false, product: null })}
+        product={movementsModal.product}
+      />
+
       {deleteModal.show && (
         <div className="modal-overlay" onClick={() => setDeleteModal({ show: false, product: null })}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -230,6 +263,7 @@ export function ProductList() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }

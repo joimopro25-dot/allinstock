@@ -33,9 +33,9 @@ export const translations = {
     stockManagement: 'Gestão de Stock',
     stockDescription: 'Controla o teu inventário em tempo real',
     clients: 'Clientes',
-    clientsDescription: 'Em breve...',
+    clientsDescription: 'Gere os teus clientes e contactos',
     suppliers: 'Fornecedores',
-    suppliersDescription: 'Em breve...',
+    suppliersDescription: 'Gere fornecedores e condições comerciais',
     
     // Plans
     smallPlan: 'Pequena Empresa (até 500 produtos)',
@@ -55,6 +55,10 @@ export const translations = {
     close: 'Fechar',
     confirm: 'Confirmar',
     all: 'Todos',
+    dashboard: 'Dashboard',
+    comingSoon: 'Em breve',
+    expand: 'Expandir',
+    collapse: 'Recolher',
     
     // Stock Management
     products: 'Produtos',
@@ -147,9 +151,9 @@ export const translations = {
     stockManagement: 'Stock Management',
     stockDescription: 'Control your inventory in real-time',
     clients: 'Clients',
-    clientsDescription: 'Coming soon...',
+    clientsDescription: 'Manage your clients and contacts',
     suppliers: 'Suppliers',
-    suppliersDescription: 'Coming soon...',
+    suppliersDescription: 'Manage suppliers and commercial terms',
     
     // Plans
     smallPlan: 'Small Business (up to 500 products)',
@@ -169,6 +173,10 @@ export const translations = {
     close: 'Close',
     confirm: 'Confirm',
     all: 'All',
+    dashboard: 'Dashboard',
+    comingSoon: 'Coming Soon',
+    expand: 'Expand',
+    collapse: 'Collapse',
     
     // Stock Management
     products: 'Products',

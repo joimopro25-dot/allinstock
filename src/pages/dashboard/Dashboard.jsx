@@ -2,11 +2,13 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getTranslation } from '../../utils/translations';
 import { useNavigate } from 'react-router-dom';
-import { 
+import {
   ArrowRightOnRectangleIcon,
   CubeIcon,
   UsersIcon,
   BuildingStorefrontIcon,
+  ChartBarIcon,
+  DocumentTextIcon,
   SparklesIcon
 } from '@heroicons/react/24/outline';
 import { LanguageToggle } from '../../components/common/LanguageToggle';
@@ -104,7 +106,7 @@ const Dashboard = () => {
         {/* Modules grid with glowing cards */}
         <div className="modules-grid">
           {/* Stock Management - Active */}
-          <div 
+          <div
             className="module-card"
             onClick={() => navigate('/stock')}
             style={{ cursor: 'pointer' }}
@@ -114,31 +116,73 @@ const Dashboard = () => {
               <CubeIcon style={{ width: '48px', height: '48px', color: '#a78bfa' }} />
             </div>
             <h3>
-              📦 {t('stockManagement')}
+              {t('stockManagement')}
             </h3>
             <p>{t('stockDescription')}</p>
           </div>
 
-          {/* Clients - Coming Soon */}
-          <div className="module-card disabled">
+          {/* Reports - Active */}
+          <div
+            className="module-card"
+            onClick={() => navigate('/reports')}
+            style={{ cursor: 'pointer' }}
+          >
+            <div className="card-glow"></div>
             <div className="module-icon">
-              <UsersIcon style={{ width: '48px', height: '48px', color: '#64748b' }} />
+              <ChartBarIcon style={{ width: '48px', height: '48px', color: '#10b981' }} />
             </div>
             <h3>
-              👥 {t('clients')}
+              {language === 'pt' ? 'Relatórios' : 'Reports'}
+            </h3>
+            <p>{language === 'pt' ? 'Análise de inventário e relatórios de negócio' : 'Inventory analysis and business reports'}</p>
+          </div>
+
+          {/* Clients - Active */}
+          <div
+            className="module-card"
+            onClick={() => navigate('/clients')}
+            style={{ cursor: 'pointer' }}
+          >
+            <div className="card-glow"></div>
+            <div className="module-icon">
+              <UsersIcon style={{ width: '48px', height: '48px', color: '#10b981' }} />
+            </div>
+            <h3>
+              {t('clients')}
             </h3>
             <p>{t('clientsDescription')}</p>
           </div>
 
-          {/* Suppliers - Coming Soon */}
-          <div className="module-card disabled">
+          {/* Suppliers - Active */}
+          <div
+            className="module-card"
+            onClick={() => navigate('/suppliers')}
+            style={{ cursor: 'pointer' }}
+          >
+            <div className="card-glow"></div>
             <div className="module-icon">
-              <BuildingStorefrontIcon style={{ width: '48px', height: '48px', color: '#64748b' }} />
+              <BuildingStorefrontIcon style={{ width: '48px', height: '48px', color: '#f59e0b' }} />
             </div>
             <h3>
-              🏭 {t('suppliers')}
+              {t('suppliers')}
             </h3>
             <p>{t('suppliersDescription')}</p>
+          </div>
+
+          {/* Quotations - Active */}
+          <div
+            className="module-card"
+            onClick={() => navigate('/quotations')}
+            style={{ cursor: 'pointer' }}
+          >
+            <div className="card-glow"></div>
+            <div className="module-icon">
+              <DocumentTextIcon style={{ width: '48px', height: '48px', color: '#8b5cf6' }} />
+            </div>
+            <h3>
+              {language === 'pt' ? 'Orçamentos' : 'Quotations'}
+            </h3>
+            <p>{language === 'pt' ? 'Crie e gira orçamentos para clientes' : 'Create and manage quotations for clients'}</p>
           </div>
         </div>
       </main>

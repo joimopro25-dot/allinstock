@@ -6,6 +6,10 @@ import { Login } from './pages/auth/Login';
 import { Register } from './pages/auth/Register';
 import { Dashboard } from './pages/dashboard/Dashboard';
 import { ProductList } from './pages/stock/ProductList';
+import { Reports } from './pages/reports/Reports';
+import { Clients } from './pages/clients/Clients';
+import { Suppliers } from './pages/suppliers/Suppliers';
+import { Quotations } from './pages/quotations/Quotations';
 
 function App() {
   return (
@@ -28,6 +32,38 @@ function App() {
               element={
                 <ProtectedRoute>
                   <ProductList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/reports"
+              element={
+                <ProtectedRoute>
+                  <Reports />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/clients"
+              element={
+                <ProtectedRoute>
+                  <Clients />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/suppliers"
+              element={
+                <ProtectedRoute>
+                  <Suppliers />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/quotations"
+              element={
+                <ProtectedRoute>
+                  <Quotations />
                 </ProtectedRoute>
               }
             />
