@@ -129,9 +129,9 @@ service cloud.firestore {
       allow write: if isSuperAdmin();
     }
 
-    // Plans collection - super admin can manage, anyone can read
+    // Plans collection - public read access, super admin can manage
     match /plans/{planId} {
-      allow read: if request.auth != null;
+      allow read: if true; // Public read access for pricing page
       allow write, create, update, delete: if isSuperAdmin();
     }
 
