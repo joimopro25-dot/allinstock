@@ -17,7 +17,9 @@ import {
   CheckCircleIcon,
   XCircleIcon,
   ClockIcon,
-  PaperAirplaneIcon
+  PaperAirplaneIcon,
+  FunnelIcon,
+  XMarkIcon
 } from '@heroicons/react/24/outline';
 import './Quotations.css';
 
@@ -26,6 +28,11 @@ export function Quotations() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [minValue, setMinValue] = useState('');
+  const [maxValue, setMaxValue] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
   const [deleteModal, setDeleteModal] = useState({ show: false, quotation: null });
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [viewModal, setViewModal] = useState({ show: false, quotation: null });
@@ -84,8 +91,36 @@ export function Quotations() {
 
     const matchesStatus = statusFilter === 'all' || quotation.status === statusFilter;
 
-    return matchesSearch && matchesStatus;
+    // Date range filter
+    const quotationDate = quotation.date ? new Date(quotation.date) : null;
+    const matchesStartDate = !startDate || !quotationDate || quotationDate >= new Date(startDate);
+    const matchesEndDate = !endDate || !quotationDate || quotationDate <= new Date(endDate);
+
+    // Value range filter
+    const quotationTotal = quotation.total || 0;
+    const matchesMinValue = minValue === '' || quotationTotal >= parseFloat(minValue);
+    const matchesMaxValue = maxValue === '' || quotationTotal <= parseFloat(maxValue);
+
+    return matchesSearch && matchesStatus && matchesStartDate && matchesEndDate &&
+           matchesMinValue && matchesMaxValue;
   });
+
+  const clearFilters = () => {
+    setStatusFilter('all');
+    setStartDate('');
+    setEndDate('');
+    setMinValue('');
+    setMaxValue('');
+    setSearch('');
+  };
+
+  const activeFilterCount = [
+    statusFilter !== 'all',
+    startDate !== '',
+    endDate !== '',
+    minValue !== '',
+    maxValue !== ''
+  ].filter(Boolean).length;
 
   const getStatusBadgeClass = (status) => {
     switch (status) {
@@ -167,18 +202,14 @@ export function Quotations() {
               />
             </div>
 
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="filter-select"
+            <button
+              className={`filter-toggle ${showFilters ? 'active' : ''}`}
+              onClick={() => setShowFilters(!showFilters)}
             >
-              <option value="all">{language === 'pt' ? 'Todos os Estados' : 'All Statuses'}</option>
-              <option value="draft">{language === 'pt' ? 'Rascunho' : 'Draft'}</option>
-              <option value="sent">{language === 'pt' ? 'Enviado' : 'Sent'}</option>
-              <option value="accepted">{language === 'pt' ? 'Aceite' : 'Accepted'}</option>
-              <option value="rejected">{language === 'pt' ? 'Rejeitado' : 'Rejected'}</option>
-              <option value="expired">{language === 'pt' ? 'Expirado' : 'Expired'}</option>
-            </select>
+              <FunnelIcon style={{ width: '18px', height: '18px' }} />
+              {language === 'pt' ? 'Filtros' : 'Filters'}
+              {activeFilterCount > 0 && <span className="filter-badge">{activeFilterCount}</span>}
+            </button>
 
             <button
               className="add-button"
@@ -187,6 +218,86 @@ export function Quotations() {
               {language === 'pt' ? 'Criar Orçamento' : 'Create Quotation'}
             </button>
           </div>
+
+          {showFilters && (
+            <div className="advanced-filters">
+              <div className="filter-row">
+                <div className="filter-group">
+                  <label>{language === 'pt' ? 'Estado' : 'Status'}</label>
+                  <select
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    className="filter-select"
+                  >
+                    <option value="all">{language === 'pt' ? 'Todos' : 'All'}</option>
+                    <option value="draft">{language === 'pt' ? 'Rascunho' : 'Draft'}</option>
+                    <option value="sent">{language === 'pt' ? 'Enviado' : 'Sent'}</option>
+                    <option value="accepted">{language === 'pt' ? 'Aceite' : 'Accepted'}</option>
+                    <option value="rejected">{language === 'pt' ? 'Rejeitado' : 'Rejected'}</option>
+                    <option value="expired">{language === 'pt' ? 'Expirado' : 'Expired'}</option>
+                  </select>
+                </div>
+
+                <div className="filter-group">
+                  <label>{language === 'pt' ? 'Data Início' : 'Start Date'}</label>
+                  <input
+                    type="date"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    className="filter-input"
+                  />
+                </div>
+
+                <div className="filter-group">
+                  <label>{language === 'pt' ? 'Data Fim' : 'End Date'}</label>
+                  <input
+                    type="date"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    className="filter-input"
+                  />
+                </div>
+
+                <div className="filter-group">
+                  <label>{language === 'pt' ? 'Valor Mínimo' : 'Min Value'}</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="0.00"
+                    value={minValue}
+                    onChange={(e) => setMinValue(e.target.value)}
+                    className="filter-input"
+                  />
+                </div>
+
+                <div className="filter-group">
+                  <label>{language === 'pt' ? 'Valor Máximo' : 'Max Value'}</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="0.00"
+                    value={maxValue}
+                    onChange={(e) => setMaxValue(e.target.value)}
+                    className="filter-input"
+                  />
+                </div>
+
+                <div className="filter-group">
+                  <label>&nbsp;</label>
+                  <button
+                    className="clear-filters-button"
+                    onClick={clearFilters}
+                    disabled={activeFilterCount === 0}
+                  >
+                    <XMarkIcon style={{ width: '18px', height: '18px' }} />
+                    {language === 'pt' ? 'Limpar Filtros' : 'Clear Filters'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {loading ? (
             <div className="loading">{t('loading')}</div>
@@ -203,7 +314,12 @@ export function Quotations() {
           ) : (
             <div className="quotations-grid">
               {filteredQuotations.map(quotation => (
-                <div key={quotation.id} className="quotation-card">
+                <div
+                  key={quotation.id}
+                  className="quotation-card"
+                  onClick={() => navigate(`/quotations/${quotation.id}`)}
+                  style={{ cursor: 'pointer' }}
+                >
                   <div className="quotation-card-header">
                     <div className="quotation-number-section">
                       <DocumentTextIcon className="quotation-icon" />
@@ -241,7 +357,10 @@ export function Quotations() {
                   <div className="quotation-actions">
                     <button
                       className="action-button view"
-                      onClick={() => setViewModal({ show: true, quotation })}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setViewModal({ show: true, quotation });
+                      }}
                       title={language === 'pt' ? 'Ver' : 'View'}
                     >
                       <EyeIcon className="action-icon" />
@@ -250,14 +369,20 @@ export function Quotations() {
                       <>
                         <button
                           className="action-button edit"
-                          onClick={() => setEditModal({ show: true, quotation })}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setEditModal({ show: true, quotation });
+                          }}
                           title={language === 'pt' ? 'Editar' : 'Edit'}
                         >
                           <PencilIcon className="action-icon" />
                         </button>
                         <button
                           className="action-button send"
-                          onClick={() => handleStatusChange(quotation.id, 'sent')}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleStatusChange(quotation.id, 'sent');
+                          }}
                           title={language === 'pt' ? 'Enviar' : 'Send'}
                         >
                           <PaperAirplaneIcon className="action-icon" />
@@ -268,14 +393,20 @@ export function Quotations() {
                       <>
                         <button
                           className="action-button accept"
-                          onClick={() => handleStatusChange(quotation.id, 'accepted')}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleStatusChange(quotation.id, 'accepted');
+                          }}
                           title={language === 'pt' ? 'Aceitar' : 'Accept'}
                         >
                           <CheckCircleIcon className="action-icon" />
                         </button>
                         <button
                           className="action-button reject"
-                          onClick={() => handleStatusChange(quotation.id, 'rejected')}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleStatusChange(quotation.id, 'rejected');
+                          }}
                           title={language === 'pt' ? 'Rejeitar' : 'Reject'}
                         >
                           <XCircleIcon className="action-icon" />
@@ -284,7 +415,10 @@ export function Quotations() {
                     )}
                     <button
                       className="action-button delete"
-                      onClick={() => setDeleteModal({ show: true, quotation })}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setDeleteModal({ show: true, quotation });
+                      }}
                       title={language === 'pt' ? 'Eliminar' : 'Delete'}
                     >
                       <TrashIcon className="action-icon" />

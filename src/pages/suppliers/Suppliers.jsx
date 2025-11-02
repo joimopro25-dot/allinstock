@@ -163,7 +163,11 @@ export function Suppliers() {
             <div className="suppliers-grid">
               {filteredSuppliers.map(supplier => (
                 <div key={supplier.id} className="supplier-card">
-                  <div className="supplier-card-header">
+                  <div
+                    className="supplier-card-header"
+                    onClick={() => navigate(`/suppliers/${supplier.id}`)}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <div className="supplier-avatar">
                       <BuildingStorefrontIcon className="avatar-icon" />
                     </div>
@@ -181,7 +185,11 @@ export function Suppliers() {
                     </span>
                   </div>
 
-                  <div className="supplier-details">
+                  <div
+                    className="supplier-details"
+                    onClick={() => navigate(`/suppliers/${supplier.id}`)}
+                    style={{ cursor: 'pointer' }}
+                  >
                     {supplier.email && (
                       <div className="detail-row">
                         <EnvelopeIcon className="detail-icon" />
@@ -229,7 +237,10 @@ export function Suppliers() {
                   <div className="supplier-actions">
                     <button
                       className={`action-button toggle ${supplier.status === 'active' ? 'deactivate' : 'activate'}`}
-                      onClick={() => handleToggleStatus(supplier.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleToggleStatus(supplier.id);
+                      }}
                     >
                       {supplier.status === 'active'
                         ? (language === 'pt' ? 'Desativar' : 'Deactivate')
@@ -238,13 +249,19 @@ export function Suppliers() {
                     </button>
                     <button
                       className="action-button edit"
-                      onClick={() => setEditModal({ show: true, supplier })}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setEditModal({ show: true, supplier });
+                      }}
                     >
                       {t('edit')}
                     </button>
                     <button
                       className="action-button delete"
-                      onClick={() => setDeleteModal({ show: true, supplier })}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setDeleteModal({ show: true, supplier });
+                      }}
                     >
                       {t('delete')}
                     </button>

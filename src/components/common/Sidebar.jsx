@@ -8,8 +8,14 @@ import {
   BuildingStorefrontIcon,
   ChartBarIcon,
   DocumentTextIcon,
+  BanknotesIcon,
+  ShoppingCartIcon,
   ChevronLeftIcon,
-  ChevronRightIcon
+  ChevronRightIcon,
+  Cog6ToothIcon,
+  EnvelopeIcon,
+  CalendarIcon,
+  MapPinIcon
 } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import '../../styles/Sidebar.css';
@@ -35,6 +41,12 @@ export function Sidebar({ isCollapsed, setIsCollapsed }) {
       active: true
     },
     {
+      path: '/stock-locations',
+      icon: MapPinIcon,
+      label: language === 'pt' ? 'Localizações Stock' : 'Stock Locations',
+      active: true
+    },
+    {
       path: '/reports',
       icon: ChartBarIcon,
       label: language === 'pt' ? 'Relatórios' : 'Reports',
@@ -56,6 +68,36 @@ export function Sidebar({ isCollapsed, setIsCollapsed }) {
       path: '/quotations',
       icon: DocumentTextIcon,
       label: language === 'pt' ? 'Orçamentos' : 'Quotations',
+      active: true
+    },
+    {
+      path: '/invoices',
+      icon: BanknotesIcon,
+      label: language === 'pt' ? 'Faturas' : 'Invoices',
+      active: true
+    },
+    {
+      path: '/purchase-orders',
+      icon: ShoppingCartIcon,
+      label: language === 'pt' ? 'Encomendas' : 'Purchase Orders',
+      active: true
+    },
+    {
+      path: '/email-hub',
+      icon: EnvelopeIcon,
+      label: language === 'pt' ? 'Central de Email' : 'Email Hub',
+      active: true
+    },
+    {
+      path: '/calendar',
+      icon: CalendarIcon,
+      label: language === 'pt' ? 'Calendário' : 'Calendar',
+      active: true
+    },
+    {
+      path: '/settings/categories',
+      icon: Cog6ToothIcon,
+      label: language === 'pt' ? 'Categorias' : 'Categories',
       active: true
     }
   ];

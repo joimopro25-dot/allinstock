@@ -4,12 +4,13 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAJSXmFTsf6msG66dJtkcIWHE3jarj4NEU",
-  authDomain: "allinstock-ddb69.firebaseapp.com",
-  projectId: "allinstock-ddb69",
-  storageBucket: "allinstock-ddb69.firebasestorage.app",
-  messagingSenderId: "824387170549",
-  appId: "1:824387170549:web:9b57e48adf321a641795bc"
+  apiKey: "AIzaSyCwIve4PFG6i7jkPV-2Hxq4s0eJtF2CG2M",
+  authDomain: "allinstock-ded6e.firebaseapp.com",
+  projectId: "allinstock-ded6e",
+  storageBucket: "allinstock-ded6e.firebasestorage.app",
+  messagingSenderId: "842871801549",
+  appId: "1:842871801549:web:ef5e3da0ee17bc04c0cb84",
+  measurementId: "G-SNLXKVNKF6"
 };
 
 const app = initializeApp(firebaseConfig);

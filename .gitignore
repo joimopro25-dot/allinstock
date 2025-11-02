@@ -22,3 +22,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment variables (contains sensitive API keys)
+.env
+functions/.env
+
+# Firebase cache and debug
+.firebase/
+firebase-debug.log
+firestore-debug.log
+
+# Other
+nul

@@ -4,12 +4,15 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getTranslation } from '../../utils/translations';
 import { productService } from '../../services/productService';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../config/firebase';
 import { LanguageToggle } from '../../components/common/LanguageToggle';
 import { Sidebar } from '../../components/common/Sidebar';
 import { AddProductModal } from '../../components/stock/AddProductModal';
 import { EditProductModal } from '../../components/stock/EditProductModal';
 import { StockLocationsModal } from '../../components/stock/StockLocationsModal';
 import { StockMovementsModal } from '../../components/stock/StockMovementsModal';
+import { FunnelIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import '../../styles/ProductList.css';
 
 export function ProductList() {
@@ -17,6 +20,15 @@ export function ProductList() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [familyFilter, setFamilyFilter] = useState('all');
+  const [typeFilter, setTypeFilter] = useState('all');
+  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [stockStatusFilter, setStockStatusFilter] = useState('all');
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
+  const [families, setFamilies] = useState([]);
+  const [types, setTypes] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [deleteModal, setDeleteModal] = useState({ show: false, product: null });
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [editModal, setEditModal] = useState({ show: false, product: null });
@@ -31,12 +43,15 @@ export function ProductList() {
   const t = (key) => getTranslation(language, key);
 
   useEffect(() => {
-    loadProducts();
+    if (company?.id) {
+      loadProducts();
+      loadFilterOptions();
+    }
   }, [company]);
 
   const loadProducts = async () => {
     if (!company) return;
-    
+
     try {
       setLoading(true);
       const data = await productService.getProducts(company.id);
@@ -45,6 +60,24 @@ export function ProductList() {
       console.error('Failed to load products:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadFilterOptions = async () => {
+    try {
+      // Load families
+      const familiesSnapshot = await getDocs(collection(db, 'companies', company.id, 'productFamilies'));
+      setFamilies(familiesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+
+      // Load types
+      const typesSnapshot = await getDocs(collection(db, 'companies', company.id, 'productTypes'));
+      setTypes(typesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+
+      // Load categories
+      const categoriesSnapshot = await getDocs(collection(db, 'companies', company.id, 'productCategories'));
+      setCategories(categoriesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    } catch (err) {
+      console.error('Failed to load filter options:', err);
     }
   };
 
@@ -67,13 +100,50 @@ export function ProductList() {
   };
 
   const filteredProducts = products.filter(product => {
+    // Search filter
     const matchesSearch = product.name.toLowerCase().includes(search.toLowerCase()) ||
                          product.reference?.toLowerCase().includes(search.toLowerCase());
-    const matchesFamily = familyFilter === 'all' || product.family === familyFilter;
-    return matchesSearch && matchesFamily;
+
+    // Family filter
+    const matchesFamily = familyFilter === 'all' || product.familyId === familyFilter;
+
+    // Type filter
+    const matchesType = typeFilter === 'all' || product.typeId === typeFilter;
+
+    // Category filter
+    const matchesCategory = categoryFilter === 'all' || product.categoryId === categoryFilter;
+
+    // Stock status filter
+    const status = getStockStatus(product);
+    const matchesStockStatus = stockStatusFilter === 'all' || status === stockStatusFilter;
+
+    // Price range filter
+    const productPrice = product.price || 0;
+    const matchesMinPrice = minPrice === '' || productPrice >= parseFloat(minPrice);
+    const matchesMaxPrice = maxPrice === '' || productPrice <= parseFloat(maxPrice);
+
+    return matchesSearch && matchesFamily && matchesType && matchesCategory &&
+           matchesStockStatus && matchesMinPrice && matchesMaxPrice;
   });
 
-  const families = [...new Set(products.map(p => p.family).filter(Boolean))];
+  const clearFilters = () => {
+    setFamilyFilter('all');
+    setTypeFilter('all');
+    setCategoryFilter('all');
+    setStockStatusFilter('all');
+    setMinPrice('');
+    setMaxPrice('');
+    setSearch('');
+  };
+
+  const activeFilterCount = [
+    familyFilter !== 'all',
+    typeFilter !== 'all',
+    categoryFilter !== 'all',
+    stockStatusFilter !== 'all',
+    minPrice !== '',
+    maxPrice !== ''
+  ].filter(Boolean).length;
 
   const handleLogout = async () => {
     try {
@@ -115,25 +185,125 @@ export function ProductList() {
               className="search-input"
             />
           </div>
-          
-          <select 
-            value={familyFilter} 
-            onChange={(e) => setFamilyFilter(e.target.value)}
-            className="filter-select"
+
+          <button
+            className={`filter-toggle ${showFilters ? 'active' : ''}`}
+            onClick={() => setShowFilters(!showFilters)}
           >
-            <option value="all">{t('all')} {t('family')}</option>
-            {families.map(family => (
-              <option key={family} value={family}>{family}</option>
-            ))}
-          </select>
-          
-          <button 
+            <FunnelIcon style={{ width: '18px', height: '18px' }} />
+            {language === 'pt' ? 'Filtros' : 'Filters'}
+            {activeFilterCount > 0 && <span className="filter-badge">{activeFilterCount}</span>}
+          </button>
+
+          <button
             className="add-button"
             onClick={() => setAddModalOpen(true)}
           >
             {t('addProduct')}
           </button>
         </div>
+
+        {showFilters && (
+          <div className="advanced-filters">
+            <div className="filter-row">
+              <div className="filter-group">
+                <label>{language === 'pt' ? 'Família' : 'Family'}</label>
+                <select
+                  value={familyFilter}
+                  onChange={(e) => setFamilyFilter(e.target.value)}
+                  className="filter-select"
+                >
+                  <option value="all">{language === 'pt' ? 'Todas' : 'All'}</option>
+                  {families.map(family => (
+                    <option key={family.id} value={family.id}>{family.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="filter-group">
+                <label>{language === 'pt' ? 'Tipo' : 'Type'}</label>
+                <select
+                  value={typeFilter}
+                  onChange={(e) => setTypeFilter(e.target.value)}
+                  className="filter-select"
+                >
+                  <option value="all">{language === 'pt' ? 'Todos' : 'All'}</option>
+                  {types.map(type => (
+                    <option key={type.id} value={type.id}>{type.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="filter-group">
+                <label>{language === 'pt' ? 'Categoria' : 'Category'}</label>
+                <select
+                  value={categoryFilter}
+                  onChange={(e) => setCategoryFilter(e.target.value)}
+                  className="filter-select"
+                >
+                  <option value="all">{language === 'pt' ? 'Todas' : 'All'}</option>
+                  {categories.map(category => (
+                    <option key={category.id} value={category.id}>{category.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="filter-group">
+                <label>{language === 'pt' ? 'Status do Stock' : 'Stock Status'}</label>
+                <select
+                  value={stockStatusFilter}
+                  onChange={(e) => setStockStatusFilter(e.target.value)}
+                  className="filter-select"
+                >
+                  <option value="all">{language === 'pt' ? 'Todos' : 'All'}</option>
+                  <option value="in">{language === 'pt' ? 'Em Stock' : 'In Stock'}</option>
+                  <option value="low">{language === 'pt' ? 'Stock Baixo' : 'Low Stock'}</option>
+                  <option value="out">{language === 'pt' ? 'Sem Stock' : 'Out of Stock'}</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="filter-row">
+              <div className="filter-group">
+                <label>{language === 'pt' ? 'Preço Mínimo' : 'Min Price'}</label>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="0.00"
+                  value={minPrice}
+                  onChange={(e) => setMinPrice(e.target.value)}
+                  className="filter-input"
+                />
+              </div>
+
+              <div className="filter-group">
+                <label>{language === 'pt' ? 'Preço Máximo' : 'Max Price'}</label>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="0.00"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                  className="filter-input"
+                />
+              </div>
+
+              <div className="filter-group" style={{ flex: 2 }}>
+                <label>&nbsp;</label>
+                <button
+                  className="clear-filters-button"
+                  onClick={clearFilters}
+                  disabled={activeFilterCount === 0}
+                >
+                  <XMarkIcon style={{ width: '18px', height: '18px' }} />
+                  {language === 'pt' ? 'Limpar Filtros' : 'Clear Filters'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {loading ? (
           <div className="loading">{t('loading')}</div>

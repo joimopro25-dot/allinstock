@@ -161,7 +161,11 @@ export function Clients() {
             <div className="clients-grid">
               {filteredClients.map(client => (
                 <div key={client.id} className="client-card">
-                  <div className="client-card-header">
+                  <div
+                    className="client-card-header"
+                    onClick={() => navigate(`/clients/${client.id}`)}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <div className="client-avatar">
                       {client.companyName ? (
                         <BuildingOfficeIcon className="avatar-icon" />
@@ -183,7 +187,11 @@ export function Clients() {
                     </span>
                   </div>
 
-                  <div className="client-details">
+                  <div
+                    className="client-details"
+                    onClick={() => navigate(`/clients/${client.id}`)}
+                    style={{ cursor: 'pointer' }}
+                  >
                     {client.email && (
                       <div className="detail-row">
                         <EnvelopeIcon className="detail-icon" />
@@ -215,7 +223,10 @@ export function Clients() {
                   <div className="client-actions">
                     <button
                       className={`action-button toggle ${client.status === 'active' ? 'deactivate' : 'activate'}`}
-                      onClick={() => handleToggleStatus(client.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleToggleStatus(client.id);
+                      }}
                     >
                       {client.status === 'active'
                         ? (language === 'pt' ? 'Desativar' : 'Deactivate')
@@ -224,13 +235,19 @@ export function Clients() {
                     </button>
                     <button
                       className="action-button edit"
-                      onClick={() => setEditModal({ show: true, client })}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setEditModal({ show: true, client });
+                      }}
                     >
                       {t('edit')}
                     </button>
                     <button
                       className="action-button delete"
-                      onClick={() => setDeleteModal({ show: true, client })}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setDeleteModal({ show: true, client });
+                      }}
                     >
                       {t('delete')}
                     </button>

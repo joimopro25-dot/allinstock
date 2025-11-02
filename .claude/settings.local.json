@@ -1,7 +1,24 @@
 {
   "permissions": {
     "allow": [
-      "Bash(cmd /c \"dir /B\")"
+      "Bash(Select-Object Id, ProcessName, StartTime)",
+      "Bash(dir /B firestore.* 2)",
+      "Bash(nul)",
+      "Bash(npm uninstall:*)",
+      "Bash(npm run dev:*)",
+      "Bash(netstat:*)",
+      "Bash(tasklist:*)",
+      "Bash(powershell -Command \"Get-Content ''D:\\allinstock\\src\\pages\\admin\\AdminDashboard.css'' | Measure-Object -Line\")",
+      "Bash(powershell -Command \"$content = Get-Content ''D:\\allinstock\\src\\pages\\admin\\AdminDashboard.css'' -Raw; $content += @''\n\n/* ========== PLANS VIEW STYLES ========== */\n\n/* Plans Grid */\n.plans-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));\n  gap: 2rem;\n  margin-top: 2rem;\n}\n\n/* Plan Card */\n.plan-card {\n  background: rgba(255, 255, 255, 0.05);\n  backdrop-filter: blur(20px);\n  border: 2px solid rgba(255, 255, 255, 0.1);\n  border-radius: 20px;\n  padding: 2rem;\n  transition: all 0.3s ease;\n  display: flex;\n  flex-direction: column;\n}\n\n.plan-card:hover {\n  transform: translateY(-8px);\n  border-color: rgba(102, 126, 234, 0.5);\n  box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);\n  background: rgba(255, 255, 255, 0.08);\n}\n\n/* Plan Header */\n.plan-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: flex-start;\n  margin-bottom: 1.5rem;\n  gap: 1rem;\n}\n\n.plan-header h3 {\n  font-size: 1.75rem;\n  font-weight: 800;\n  color: white;\n  margin: 0;\n}\n\n.badge-popular {\n  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);\n  color: white;\n  padding: 0.375rem 0.875rem;\n  border-radius: 20px;\n  font-size: 0.75rem;\n  font-weight: 700;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  white-space: nowrap;\n}\n\n/* Plan Price */\n.plan-price {\n  margin-bottom: 1.5rem;\n  display: flex;\n  align-items: baseline;\n  gap: 0.25rem;\n}\n\n.price-free {\n  font-size: 3rem;\n  font-weight: 900;\n  background: linear-gradient(135deg, #10b981 0%, #059669 100%);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n}\n\n.price-currency {\n  font-size: 1.5rem;\n  font-weight: 700;\n  color: #667eea;\n}\n\n.price-amount {\n  font-size: 3.5rem;\n  font-weight: 900;\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n  line-height: 1;\n}\n\n.price-period {\n  font-size: 1rem;\n  color: rgba(255, 255, 255, 0.5);\n  font-weight: 600;\n}\n\n/* Plan Description */\n.plan-description {\n  color: rgba(255, 255, 255, 0.7);\n  font-size: 1rem;\n  line-height: 1.6;\n  margin-bottom: 1.5rem;\n  min-height: 3rem;\n}\n\n/* Plan Features List */\n.plan-features-list {\n  flex: 1;\n  margin-bottom: 1.5rem;\n}\n\n.plan-features-list h4 {\n  font-size: 0.875rem;\n  font-weight: 700;\n  color: rgba(255, 255, 255, 0.6);\n  text-transform: uppercase;\n  letter-spacing: 0.1em;\n  margin: 0 0 1rem 0;\n}\n\n.plan-features-list ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n\n.plan-features-list li {\n  color: rgba(255, 255, 255, 0.85);\n  font-size: 0.95rem;\n  padding: 0.625rem 0;\n  border-bottom: 1px solid rgba(255, 255, 255, 0.05);\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n}\n\n.plan-features-list li:last-child {\n  border-bottom: none;\n}\n\n/* Edit Plan Button */\n.btn-edit-plan {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  width: 100%;\n  padding: 0.875rem 1.5rem;\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  border: none;\n  border-radius: 12px;\n  color: white;\n  font-weight: 700;\n  font-size: 0.95rem;\n  cursor: pointer;\n  transition: all 0.3s ease;\n}\n\n.btn-edit-plan:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);\n  background: linear-gradient(135deg, #7c8ff0 0%, #8b5bb8 100%);\n}\n\n.btn-edit-plan:active {\n  transform: translateY(0);\n}\n''@; Set-Content ''D:\\allinstock\\src\\pages\\admin\\AdminDashboard.css'' -Value $content\")",
+      "Bash(powershell -Command \"Get-Content ''D:\\allinstock\\src\\pages\\admin\\AdminDashboardNew.jsx'' | Measure-Object -Line\")",
+      "Bash(powershell -Command \"Get-Content ''D:\\allinstock\\src\\pages\\admin\\AdminDashboardNew.jsx'' | Select-Object -Last 20\")",
+      "Bash(powershell -Command:*)",
+      "Bash(dir:*)",
+      "Bash(taskkill:*)",
+      "Bash(timeout /t 3 /nobreak)",
+      "Bash(npm run build:*)",
+      "Bash(node -e:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

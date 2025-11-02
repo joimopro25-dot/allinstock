@@ -28,9 +28,19 @@ export const AuthProvider = ({ children }) => {
       const userDoc = await getDoc(doc(db, 'users', userId));
       if (userDoc.exists()) {
         const userData = userDoc.data();
-        const companyDoc = await getDoc(doc(db, 'companies', userData.companyId));
-        if (companyDoc.exists()) {
-          setCompany({ id: companyDoc.id, ...companyDoc.data() });
+
+        // Super admins don't have a company - they manage all companies
+        if (userData.role === 'super_admin') {
+          setCompany(null);
+          return;
+        }
+
+        // Regular users have a companyId
+        if (userData.companyId) {
+          const companyDoc = await getDoc(doc(db, 'companies', userData.companyId));
+          if (companyDoc.exists()) {
+            setCompany({ id: companyDoc.id, ...companyDoc.data() });
+          }
         }
       }
     } catch (error) {
