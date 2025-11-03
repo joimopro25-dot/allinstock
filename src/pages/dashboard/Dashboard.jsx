@@ -20,7 +20,9 @@ import {
   ShoppingCartIcon,
   EnvelopeIcon,
   CalendarIcon,
-  Cog6ToothIcon
+  Cog6ToothIcon,
+  UserCircleIcon,
+  ChevronDownIcon
 } from '@heroicons/react/24/outline';
 import { LanguageToggle } from '../../components/common/LanguageToggle';
 import { NotificationBell } from '../../components/common/NotificationBell';
@@ -42,6 +44,7 @@ const Dashboard = () => {
     quotationsValue: 0
   });
   const [loading, setLoading] = useState(true);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const t = (key) => getTranslation(language, key);
 
@@ -146,14 +149,107 @@ const Dashboard = () => {
         <div className="user-info">
           <NotificationBell />
           <LanguageToggle />
-          <span className="user-email">{currentUser?.email}</span>
-          <button
-            onClick={handleLogout}
-            className="btn-futuristic btn-logout"
-          >
-            <ArrowRightOnRectangleIcon style={{ width: '20px', height: '20px', display: 'inline', marginRight: '8px' }} />
-            {t('logout')}
-          </button>
+
+          {/* Profile Dropdown */}
+          <div className="profile-dropdown" style={{ position: 'relative' }}>
+            <button
+              onClick={() => setShowProfileMenu(!showProfileMenu)}
+              className="profile-button"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.5rem 1rem',
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '8px',
+                color: 'white',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+            >
+              <UserCircleIcon style={{ width: '24px', height: '24px' }} />
+              <span className="user-email">{currentUser?.email}</span>
+              <ChevronDownIcon style={{ width: '16px', height: '16px' }} />
+            </button>
+
+            {showProfileMenu && (
+              <div
+                className="profile-menu"
+                style={{
+                  position: 'absolute',
+                  top: 'calc(100% + 0.5rem)',
+                  right: 0,
+                  background: 'rgba(30, 30, 50, 0.95)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: '12px',
+                  padding: '0.5rem',
+                  minWidth: '200px',
+                  boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
+                  zIndex: 1000
+                }}
+              >
+                <button
+                  onClick={() => {
+                    setShowProfileMenu(false);
+                    navigate('/settings/account');
+                  }}
+                  className="profile-menu-item"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.75rem',
+                    width: '100%',
+                    padding: '0.75rem 1rem',
+                    background: 'transparent',
+                    border: 'none',
+                    borderRadius: '8px',
+                    color: 'white',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    textAlign: 'left'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(102, 126, 234, 0.2)'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                >
+                  <Cog6ToothIcon style={{ width: '20px', height: '20px' }} />
+                  <span>{t('settings') || 'Settings'}</span>
+                </button>
+
+                <div style={{ height: '1px', background: 'rgba(255, 255, 255, 0.1)', margin: '0.5rem 0' }} />
+
+                <button
+                  onClick={() => {
+                    setShowProfileMenu(false);
+                    handleLogout();
+                  }}
+                  className="profile-menu-item"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.75rem',
+                    width: '100%',
+                    padding: '0.75rem 1rem',
+                    background: 'transparent',
+                    border: 'none',
+                    borderRadius: '8px',
+                    color: '#ef4444',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    textAlign: 'left'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                >
+                  <ArrowRightOnRectangleIcon style={{ width: '20px', height: '20px' }} />
+                  <span>{t('logout')}</span>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </header>
 

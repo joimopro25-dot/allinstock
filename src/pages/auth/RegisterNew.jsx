@@ -174,13 +174,13 @@ const RegisterNew = () => {
       setLoading(true);
 
       // Create user account
-      const userCredential = await signUp(formData.email, formData.password, {
+      const user = await signUp(formData.email, formData.password, {
         name: formData.companyName,
         plan: formData.plan,
         promoCode: promoCodeStatus === 'valid' ? formData.promoCode : null
       });
 
-      setUserId(userCredential.user.uid);
+      setUserId(user.uid);
 
       // If free plan, go directly to dashboard
       if (selectedPlanData.price === 0 || discountedPrice === 0) {

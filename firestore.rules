@@ -139,5 +139,11 @@ service cloud.firestore {
     match /payments/{paymentId} {
       allow read, write: if isSuperAdmin();
     }
+
+    // Promo codes collection - public read for validation, super admin can manage
+    match /promoCodes/{promoId} {
+      allow read: if true; // Public read access for promo code validation during registration
+      allow write, create, update, delete: if isSuperAdmin();
+    }
   }
 }

@@ -1,5 +1,6 @@
 const {onCall, HttpsError} = require('firebase-functions/v2/https');
 const {onRequest} = require('firebase-functions/v2/https');
+const {onSchedule} = require('firebase-functions/v2/scheduler');
 const {defineString} = require('firebase-functions/params');
 const admin = require('firebase-admin');
 const axios = require('axios');
@@ -361,5 +362,76 @@ exports.eupagoWebhook = onRequest(async (req, res) => {
   } catch (error) {
     console.error('Error processing webhook:', error);
     return res.status(500).send('Internal server error');
+  }
+});
+
+/**
+ * Process Scheduled Plan Changes
+ * Runs daily at 00:00 UTC to process scheduled plan downgrades/cancellations
+ * This handles the "freeze until billing date" logic for cancelled subscriptions
+ */
+exports.processScheduledPlanChanges = onSchedule('every day 00:00', async (event) => {
+  try {
+    console.log('Starting scheduled plan changes processing...');
+
+    const now = new Date();
+    const todayStr = now.toISOString().split('T')[0]; // YYYY-MM-DD format
+
+    // Find all companies with scheduled plan changes for today or earlier
+    const companiesSnapshot = await admin.firestore()
+      .collection('companies')
+      .where('scheduledDate', '<=', todayStr)
+      .get();
+
+    if (companiesSnapshot.empty) {
+      console.log('No scheduled plan changes to process');
+      return null;
+    }
+
+    console.log(`Found ${companiesSnapshot.size} companies with scheduled changes`);
+
+    const batch = admin.firestore().batch();
+    let processedCount = 0;
+
+    for (const companyDoc of companiesSnapshot.docs) {
+      const companyData = companyDoc.data();
+      const scheduledPlan = companyData.scheduledPlan;
+
+      if (!scheduledPlan) {
+        continue;
+      }
+
+      console.log(`Processing ${companyDoc.id}: ${companyData.plan} -> ${scheduledPlan}`);
+
+      // Update company with new plan
+      batch.update(companyDoc.ref, {
+        plan: scheduledPlan,
+        subscriptionStatus: scheduledPlan === 'free' ? 'inactive' : 'active',
+        scheduledPlan: admin.firestore.FieldValue.delete(),
+        scheduledDate: admin.firestore.FieldValue.delete(),
+        downgradedAt: admin.firestore.FieldValue.serverTimestamp(),
+        updatedAt: admin.firestore.FieldValue.serverTimestamp()
+      });
+
+      processedCount++;
+
+      // Log the change for audit purposes
+      batch.set(admin.firestore().collection('subscriptionChanges').doc(), {
+        companyId: companyDoc.id,
+        previousPlan: companyData.plan,
+        newPlan: scheduledPlan,
+        changeType: scheduledPlan === 'free' ? 'cancellation' : 'downgrade',
+        scheduledDate: companyData.scheduledDate,
+        processedAt: admin.firestore.FieldValue.serverTimestamp()
+      });
+    }
+
+    await batch.commit();
+
+    console.log(`Successfully processed ${processedCount} scheduled plan changes`);
+    return { processedCount };
+  } catch (error) {
+    console.error('Error processing scheduled plan changes:', error);
+    throw error;
   }
 });

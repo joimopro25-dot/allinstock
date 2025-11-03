@@ -16,6 +16,8 @@ import QuotationDetail from './pages/quotations/QuotationDetail';
 import { Invoices } from './pages/invoices/Invoices';
 import { PurchaseOrders } from './pages/purchaseOrders/PurchaseOrders';
 import { ProductCategories } from './pages/settings/ProductCategories';
+import AccountSettings from './pages/settings/AccountSettings';
+import PlanManagement from './pages/settings/PlanManagement';
 import { EmailHub } from './pages/emailHub/EmailHub';
 import { Calendar } from './pages/calendar/Calendar';
 import StockLocations from './pages/stockLocations/StockLocations';
@@ -124,6 +126,22 @@ function App() {
               element={
                 <ProtectedRoute>
                   <ProductCategories />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/settings/account"
+              element={
+                <ProtectedRoute>
+                  <AccountSettings />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/settings/plans"
+              element={
+                <ProtectedRoute>
+                  <PlanManagement />
                 </ProtectedRoute>
               }
             />

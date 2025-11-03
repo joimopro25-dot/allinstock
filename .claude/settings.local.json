@@ -21,7 +21,9 @@
       "Bash(git add:*)",
       "Bash(git commit -m \"$(cat <<''EOF''\nfeat: Deploy AllInStock CRM with Firebase and Eupago payment integration\n\nMajor updates:\n- Migrated to new Firebase project (allinstock-ded6e)\n- Deployed production app to https://allinstock.pt\n- Configured custom domain with SSL\n- Implemented Eupago payment integration (MB WAY + Multibanco)\n- Deployed Cloud Functions for payment processing\n- Added landing page with pricing plans\n- Implemented admin dashboard for plan management\n- Added email hub with Gmail integration\n- Added calendar integration\n- Enhanced responsive design for mobile devices\n- Added purchase orders, invoices, and stock locations features\n- Updated Firebase to v5 API with Node 20 runtime\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
       "Bash(git push:*)",
-      "Bash(timeout 5 npm run dev:*)"
+      "Bash(timeout 5 npm run dev:*)",
+      "Bash(node scripts/setSuperAdmin.js:*)",
+      "Bash(cmd /c \"dir /B dist\")"
     ],
     "deny": [],
     "ask": []
