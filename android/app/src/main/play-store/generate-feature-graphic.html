@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feature Graphic Generator</title>
+    <style>
+        body { margin: 0; padding: 20px; background: #f0f0f0; }
+        #canvas { border: 1px solid #ccc; }
+        button { margin: 10px 0; padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h2>AllInStock Feature Graphic (1024x500)</h2>
+    <p>Right-click the canvas below and "Save image as..." to download</p>
+    <canvas id="canvas" width="1024" height="500"></canvas>
+    <br>
+    <button onclick="downloadImage()">Download Image</button>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Create gradient background
+        const bgGradient = ctx.createLinearGradient(0, 0, 1024, 500);
+        bgGradient.addColorStop(0, '#667eea');
+        bgGradient.addColorStop(1, '#764ba2');
+
+        // Fill background
+        ctx.fillStyle = bgGradient;
+        ctx.fillRect(0, 0, 1024, 500);
+
+        // Draw logo on the left (scaled down boxes)
+        function drawBox(x1, y1, x2, y2, x3, y3, size, topAlpha, leftAlpha, rightAlpha) {
+            const midX = x2;
+            const midY = y2;
+
+            // Top face
+            ctx.fillStyle = `rgba(255, 255, 255, ${topAlpha})`;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(midX, midY);
+            ctx.lineTo(x3, y3);
+            ctx.lineTo(x3, y3 + size);
+            ctx.lineTo(midX, midY + size);
+            ctx.lineTo(x1, y1 + size);
+            ctx.closePath();
+            ctx.fill();
+
+            // Left face
+            ctx.fillStyle = `rgba(102, 126, 234, ${leftAlpha})`;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(midX, midY);
+            ctx.lineTo(midX, midY + size);
+            ctx.lineTo(x1, y1 + size);
+            ctx.closePath();
+            ctx.fill();
+
+            // Right face
+            ctx.fillStyle = `rgba(118, 75, 162, ${rightAlpha})`;
+            ctx.beginPath();
+            ctx.moveTo(x3, y3);
+            ctx.lineTo(midX, midY);
+            ctx.lineTo(midX, midY + size);
+            ctx.lineTo(x3, y3 + size);
+            ctx.closePath();
+            ctx.fill();
+
+            // Top edge
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(midX, midY);
+            ctx.lineTo(x3, y3);
+            ctx.stroke();
+        }
+
+        // Draw three stacked boxes (logo) - scaled and positioned on left
+        const scale = 0.4;
+        const offsetX = 120;
+        const offsetY = 130;
+
+        drawBox(offsetX + 90*scale, offsetY + 320*scale, offsetX + 256*scale, offsetY + 280*scale, offsetX + 332*scale, offsetY + 320*scale, 35*scale, 0.9, 0.3, 0.2);
+        drawBox(offsetX + 80*scale, offsetY + 240*scale, offsetX + 256*scale, offsetY + 195*scale, offsetX + 352*scale, offsetY + 240*scale, 40*scale, 0.95, 0.4, 0.3);
+        drawBox(offsetX + 70*scale, offsetY + 160*scale, offsetX + 256*scale, offsetY + 110*scale, offsetX + 372*scale, offsetY + 160*scale, 45*scale, 1, 0.5, 0.4);
+
+        // Draw checkmark on top box
+        const checkX = offsetX + 256*scale;
+        const checkY = offsetY + 150*scale;
+        ctx.fillStyle = 'rgba(16, 185, 129, 0.95)';
+        ctx.beginPath();
+        ctx.arc(checkX, checkY, 18*scale, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 3*scale;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        ctx.moveTo(checkX - 6*scale, checkY);
+        ctx.lineTo(checkX - 2*scale, checkY + 5*scale);
+        ctx.lineTo(checkX + 8*scale, checkY - 7*scale);
+        ctx.stroke();
+
+        // Draw app name
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 72px Arial, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('AllInStock', 340, 180);
+
+        // Draw tagline
+        ctx.font = '32px Arial, sans-serif';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+        ctx.fillText('CRM Completo para Gestão Empresarial', 340, 280);
+
+        // Draw feature icons/text on right
+        ctx.font = 'bold 20px Arial, sans-serif';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+
+        // Feature icons with heroicons-style SVG paths
+        const drawIcon = (x, y, iconPath, label) => {
+            ctx.save();
+            ctx.translate(x, y);
+
+            // Draw icon circle background
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+            ctx.beginPath();
+            ctx.arc(0, 0, 22, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // Draw icon (simple shapes to represent heroicons style)
+            ctx.strokeStyle = '#ffffff';
+            ctx.fillStyle = '#ffffff';
+            ctx.lineWidth = 2.5;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            if (iconPath === 'box') {
+                // Box/Package icon
+                ctx.beginPath();
+                ctx.rect(-10, -8, 20, 16);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(-10, -8);
+                ctx.lineTo(0, -14);
+                ctx.lineTo(10, -8);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(0, -14);
+                ctx.lineTo(0, -8);
+                ctx.stroke();
+            } else if (iconPath === 'users') {
+                // Users icon
+                ctx.beginPath();
+                ctx.arc(-6, -4, 4, 0, 2 * Math.PI);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(6, -4, 4, 0, 2 * Math.PI);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(-12, 8);
+                ctx.quadraticCurveTo(-6, 2, 0, 8);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(0, 8);
+                ctx.quadraticCurveTo(6, 2, 12, 8);
+                ctx.stroke();
+            } else if (iconPath === 'document') {
+                // Document icon
+                ctx.beginPath();
+                ctx.moveTo(-8, -10);
+                ctx.lineTo(-8, 10);
+                ctx.lineTo(8, 10);
+                ctx.lineTo(8, -4);
+                ctx.lineTo(2, -10);
+                ctx.closePath();
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(2, -10);
+                ctx.lineTo(2, -4);
+                ctx.lineTo(8, -4);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(-4, 0);
+                ctx.lineTo(4, 0);
+                ctx.moveTo(-4, 4);
+                ctx.lineTo(4, 4);
+                ctx.stroke();
+            } else if (iconPath === 'chart') {
+                // Chart bar icon
+                ctx.beginPath();
+                ctx.rect(-10, 0, 4, 8);
+                ctx.rect(-3, -4, 4, 12);
+                ctx.rect(4, -8, 4, 16);
+                ctx.stroke();
+            }
+
+            ctx.restore();
+
+            // Draw label
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+            ctx.font = 'bold 20px Arial, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(label, x, y + 45);
+        };
+
+        // Draw feature icons
+        drawIcon(420, 370, 'box', 'Stock');
+        drawIcon(560, 370, 'users', 'Clientes');
+        drawIcon(700, 370, 'document', 'Orçamentos');
+        drawIcon(840, 370, 'chart', 'Relatórios');
+
+        function downloadImage() {
+            const link = document.createElement('a');
+            link.download = 'feature-graphic.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html>

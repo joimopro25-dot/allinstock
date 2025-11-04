@@ -13,6 +13,7 @@ import { EditProductModal } from '../../components/stock/EditProductModal';
 import { StockLocationsModal } from '../../components/stock/StockLocationsModal';
 import { StockMovementsModal } from '../../components/stock/StockMovementsModal';
 import { FunnelIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { migrateProductFields } from '../../utils/migrateProductFields';
 import '../../styles/ProductList.css';
 
 export function ProductList() {
@@ -154,6 +155,35 @@ export function ProductList() {
     }
   };
 
+  const handleMigration = async () => {
+    if (!company?.id) return;
+
+    const confirmed = window.confirm(
+      language === 'pt'
+        ? 'Isto irá criar listas de Famílias, Tipos e Categorias baseadas nos produtos existentes. Continuar?'
+        : 'This will create Family, Type, and Category lists based on existing products. Continue?'
+    );
+
+    if (!confirmed) return;
+
+    try {
+      setLoading(true);
+      const result = await migrateProductFields(company.id);
+
+      if (result.success) {
+        alert(result.message);
+        await loadFilterOptions(); // Reload the filter options
+      } else {
+        alert(`Error: ${result.message}`);
+      }
+    } catch (err) {
+      console.error('Migration error:', err);
+      alert('Migration failed. Check console for details.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <Sidebar isCollapsed={sidebarCollapsed} setIsCollapsed={setSidebarCollapsed} />
@@ -194,6 +224,16 @@ export function ProductList() {
             {language === 'pt' ? 'Filtros' : 'Filters'}
             {activeFilterCount > 0 && <span className="filter-badge">{activeFilterCount}</span>}
           </button>
+
+          {families.length === 0 && types.length === 0 && categories.length === 0 && products.length > 0 && (
+            <button
+              className="migration-button"
+              onClick={handleMigration}
+              title={language === 'pt' ? 'Criar listas de dropdown dos produtos existentes' : 'Create dropdown lists from existing products'}
+            >
+              {language === 'pt' ? '⚡ Migrar Dados' : '⚡ Migrate Data'}
+            </button>
+          )}
 
           <button
             className="add-button"
@@ -316,7 +356,7 @@ export function ProductList() {
             {filteredProducts.map(product => {
               const status = getStockStatus(product);
               return (
-                <div key={product.id} className="product-card">
+                <div key={product.id} className="product-card" onClick={() => navigate(`/stock/${product.id}`)} style={{ cursor: 'pointer' }}>
                   <div className="product-card-header">
                     <h3 className="product-name">{product.name}</h3>
                     <span className={`stock-badge ${status}`}>
@@ -351,7 +391,7 @@ export function ProductList() {
                     )}
                   </div>
                   
-                  <div className="product-actions">
+                  <div className="product-actions" onClick={(e) => e.stopPropagation()}>
                     <button
                       className="action-button locations"
                       onClick={() => setLocationsModal({ show: true, product })}

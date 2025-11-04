@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "842871801549",
+    "project_id": "allinstock-ded6e",
+    "storage_bucket": "allinstock-ded6e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:842871801549:android:16c31ff129be2308c0cb84",
+        "android_client_info": {
+          "package_name": "pt.allinstock.crm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2PzXwHGfCugwgsCcOWIDJaxa5Dy6F20Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -54,21 +54,62 @@ export default function StockLocations() {
   };
 
   const loadLocations = async () => {
-    const snapshot = await getDocs(collection(db, 'companies', company.id, 'stockLocations'));
-    const data = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
-    setLocations(data);
+    // Aggregate unique locations from all products
+    const productsSnapshot = await getDocs(collection(db, 'companies', company.id, 'products'));
+    const locationMap = new Map();
+
+    for (const productDoc of productsSnapshot.docs) {
+      const locationsSnapshot = await getDocs(
+        collection(db, 'companies', company.id, 'products', productDoc.id, 'stockLocations')
+      );
+
+      locationsSnapshot.docs.forEach(locDoc => {
+        const locData = locDoc.data();
+        const locationKey = locData.name; // Use name as unique key
+
+        if (!locationMap.has(locationKey)) {
+          locationMap.set(locationKey, {
+            id: locationKey,
+            name: locData.name,
+            type: locData.type || 'warehouse',
+            address: locData.address || '',
+            contactPerson: locData.contactPerson || '',
+            contactPhone: locData.contactPhone || ''
+          });
+        }
+      });
+    }
+
+    setLocations(Array.from(locationMap.values()));
   };
 
   const loadProducts = async () => {
     const snapshot = await getDocs(collection(db, 'companies', company.id, 'products'));
-    const data = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
-    setProducts(data);
+    const productsData = [];
+
+    for (const productDoc of snapshot.docs) {
+      const productData = {
+        id: productDoc.id,
+        ...productDoc.data()
+      };
+
+      // Load stock locations for this product
+      const locationsSnapshot = await getDocs(
+        collection(db, 'companies', company.id, 'products', productDoc.id, 'stockLocations')
+      );
+
+      productData.stockLocations = locationsSnapshot.docs.map(locDoc => ({
+        id: locDoc.id,
+        ...locDoc.data()
+      }));
+
+      // Calculate total stock
+      productData.totalStock = productData.stockLocations.reduce((sum, loc) => sum + (loc.quantity || 0), 0);
+
+      productsData.push(productData);
+    }
+
+    setProducts(productsData);
   };
 
   const handleAddLocation = async (locationData) => {
@@ -120,8 +161,15 @@ export default function StockLocations() {
   };
 
   const getStockByLocation = (locationId) => {
+    // locationId is now the location name (used as unique key)
+    const locationName = locationId;
+
     return products.reduce((acc, product) => {
-      const stockInLocation = product.stockLocations?.find(sl => sl.locationId === locationId);
+      // Find stock location with matching name
+      const stockInLocation = product.stockLocations?.find(
+        sl => sl.name === locationName
+      );
+
       if (stockInLocation && stockInLocation.quantity > 0) {
         acc.push({
           ...product,
@@ -168,10 +216,6 @@ export default function StockLocations() {
             <button className="btn-refresh" onClick={loadData}>
               <ArrowPathIcon className="btn-icon" />
               {language === 'pt' ? 'Atualizar' : 'Refresh'}
-            </button>
-            <button className="btn-primary" onClick={() => setShowAddModal(true)}>
-              <PlusIcon className="btn-icon" />
-              {language === 'pt' ? 'Nova Localização' : 'New Location'}
             </button>
           </div>
         </div>
@@ -320,11 +364,11 @@ export default function StockLocations() {
             {locations.length === 0 && (
               <div className="hierarchy-empty">
                 <MapPinIcon className="empty-icon-large" />
-                <p>{language === 'pt' ? 'Nenhuma localização criada ainda' : 'No locations created yet'}</p>
+                <p>{language === 'pt' ? 'Nenhuma localização encontrada' : 'No locations found'}</p>
                 <p className="empty-hint">
                   {language === 'pt'
-                    ? 'Crie a sua primeira localização para começar a rastrear o stock'
-                    : 'Create your first location to start tracking stock'}
+                    ? 'Adicione stock aos produtos para que as localizações apareçam aqui'
+                    : 'Add stock to products so locations appear here'}
                 </p>
               </div>
             )}

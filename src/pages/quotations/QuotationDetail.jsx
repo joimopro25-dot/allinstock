@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getTranslation } from '../../utils/translations';
+import { safeToFixed } from '../../utils/formatters';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import { invoiceService } from '../../services/invoiceService';
@@ -334,8 +335,8 @@ const QuotationDetail = () => {
                 <tr key={index}>
                   <td>{item.description}</td>
                   <td>{item.quantity}</td>
-                  <td>{item.price.toFixed(2)}€</td>
-                  <td>{(item.quantity * item.price).toFixed(2)}€</td>
+                  <td>{safeToFixed(item.price, 2)}€</td>
+                  <td>{safeToFixed(item.quantity * item.price, 2)}€</td>
                 </tr>
               ))}
             </tbody>
@@ -346,17 +347,17 @@ const QuotationDetail = () => {
         <div className="totals-section">
           <div className="totals-row">
             <span>{language === 'pt' ? 'Subtotal:' : 'Subtotal:'}</span>
-            <span>{calculateSubtotal().toFixed(2)}€</span>
+            <span>{safeToFixed(calculateSubtotal(), 2)}€</span>
           </div>
           {quotation.taxRate > 0 && (
             <div className="totals-row">
               <span>{language === 'pt' ? 'IVA' : 'Tax'} ({quotation.taxRate}%):</span>
-              <span>{calculateTax().toFixed(2)}€</span>
+              <span>{safeToFixed(calculateTax(), 2)}€</span>
             </div>
           )}
           <div className="totals-row total">
             <span><strong>{language === 'pt' ? 'Total:' : 'Total:'}</strong></span>
-            <span><strong>{calculateTotal().toFixed(2)}€</strong></span>
+            <span><strong>{safeToFixed(calculateTotal(), 2)}€</strong></span>
           </div>
         </div>
 

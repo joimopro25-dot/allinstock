@@ -1,0 +1,50 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle with Gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="boxGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f0f0ff;stop-opacity:0.95" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <circle cx="256" cy="256" r="256" fill="url(#bgGradient)"/>
+
+  <!-- Stack of boxes representing inventory/stock -->
+  <!-- Bottom box -->
+  <g filter="url(#shadow)">
+    <path d="M 180 320 L 256 280 L 332 320 L 332 380 L 256 420 L 180 380 Z" fill="url(#boxGradient)" opacity="0.9"/>
+    <path d="M 180 320 L 256 280 L 256 340 L 180 380 Z" fill="#667eea" opacity="0.3"/>
+    <path d="M 332 320 L 256 280 L 256 340 L 332 380 Z" fill="#764ba2" opacity="0.2"/>
+    <path d="M 180 320 L 256 280 L 332 320" stroke="#ffffff" stroke-width="3" fill="none"/>
+  </g>
+
+  <!-- Middle box -->
+  <g filter="url(#shadow)">
+    <path d="M 160 240 L 256 195 L 352 240 L 352 310 L 256 355 L 160 310 Z" fill="url(#boxGradient)" opacity="0.95"/>
+    <path d="M 160 240 L 256 195 L 256 265 L 160 310 Z" fill="#667eea" opacity="0.4"/>
+    <path d="M 352 240 L 256 195 L 256 265 L 352 310 Z" fill="#764ba2" opacity="0.3"/>
+    <path d="M 160 240 L 256 195 L 352 240" stroke="#ffffff" stroke-width="3" fill="none"/>
+  </g>
+
+  <!-- Top box -->
+  <g filter="url(#shadow)">
+    <path d="M 140 160 L 256 110 L 372 160 L 372 240 L 256 290 L 140 240 Z" fill="url(#boxGradient)"/>
+    <path d="M 140 160 L 256 110 L 256 190 L 140 240 Z" fill="#667eea" opacity="0.5"/>
+    <path d="M 372 160 L 256 110 L 256 190 L 372 240 Z" fill="#764ba2" opacity="0.4"/>
+    <path d="M 140 160 L 256 110 L 372 160" stroke="#ffffff" stroke-width="4" fill="none"/>
+  </g>
+
+  <!-- Checkmark icon on top box -->
+  <g transform="translate(256, 150)">
+    <circle cx="0" cy="0" r="35" fill="#10b981" opacity="0.95"/>
+    <path d="M -12 0 L -5 10 L 15 -12" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+</svg>

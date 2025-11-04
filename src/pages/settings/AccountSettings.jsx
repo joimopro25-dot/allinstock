@@ -12,6 +12,7 @@ import {
   XMarkIcon,
   ArrowPathIcon
 } from '@heroicons/react/24/outline';
+import { Sidebar } from '../../components/common/Sidebar';
 import './AccountSettings.css';
 
 export default function AccountSettings() {
@@ -19,6 +20,7 @@ export default function AccountSettings() {
   const [activeTab, setActiveTab] = useState('profile');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   // Profile data
   const [profileData, setProfileData] = useState({
@@ -194,11 +196,13 @@ export default function AccountSettings() {
   };
 
   return (
-    <div className="account-settings">
-      <div className="settings-header">
-        <h1>Account Settings</h1>
-        <p>Manage your account, company, and subscription details</p>
-      </div>
+    <>
+      <Sidebar isCollapsed={sidebarCollapsed} setIsCollapsed={setSidebarCollapsed} />
+      <div className="account-settings">
+        <div className="settings-header">
+          <h1>Account Settings</h1>
+          <p>Manage your account, company, and subscription details</p>
+        </div>
 
       {message.text && (
         <div className={`message-alert ${message.type}`}>
@@ -409,6 +413,7 @@ export default function AccountSettings() {
           </div>
         )}
       </div>
-    </div>
+      </div>
+    </>
   );
 }

@@ -1,16 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getTranslation } from '../../utils/translations';
 import { productService } from '../../services/productService';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../config/firebase';
 import './ProductModal.css';
 
 export function AddProductModal({ isOpen, onClose, onSuccess }) {
   const { company } = useAuth();
   const { language } = useLanguage();
-  
+
   const t = (key) => getTranslation(language, key);
-  
+
   const [formData, setFormData] = useState({
     name: '',
     reference: '',
@@ -22,9 +24,15 @@ export function AddProductModal({ isOpen, onClose, onSuccess }) {
     minStock: '',
     initialStock: ''
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [families, setFamilies] = useState([]);
+  const [types, setTypes] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [showNewFamily, setShowNewFamily] = useState(false);
+  const [showNewType, setShowNewType] = useState(false);
+  const [showNewCategory, setShowNewCategory] = useState(false);
 
   const units = [
     { value: 'pieces', label: 'Pieces / Peças' },
@@ -35,8 +43,50 @@ export function AddProductModal({ isOpen, onClose, onSuccess }) {
     { value: 'boxes', label: 'Boxes / Caixas' }
   ];
 
+  useEffect(() => {
+    if (isOpen && company?.id) {
+      loadFilterOptions();
+    }
+  }, [isOpen, company]);
+
+  const loadFilterOptions = async () => {
+    try {
+      // Load families
+      const familiesSnapshot = await getDocs(collection(db, 'companies', company.id, 'productFamilies'));
+      setFamilies(familiesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+
+      // Load types
+      const typesSnapshot = await getDocs(collection(db, 'companies', company.id, 'productTypes'));
+      setTypes(typesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+
+      // Load categories
+      const categoriesSnapshot = await getDocs(collection(db, 'companies', company.id, 'productCategories'));
+      setCategories(categoriesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    } catch (err) {
+      console.error('Failed to load filter options:', err);
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // Handle special dropdown values
+    if (name === 'family' && value === '__new__') {
+      setShowNewFamily(true);
+      setFormData(prev => ({ ...prev, family: '' }));
+      return;
+    }
+    if (name === 'type' && value === '__new__') {
+      setShowNewType(true);
+      setFormData(prev => ({ ...prev, type: '' }));
+      return;
+    }
+    if (name === 'category' && value === '__new__') {
+      setShowNewCategory(true);
+      setFormData(prev => ({ ...prev, category: '' }));
+      return;
+    }
+
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -134,37 +184,136 @@ export function AddProductModal({ isOpen, onClose, onSuccess }) {
           <div className="form-row">
             <div className="form-group">
               <label className="form-label">{t('family')}</label>
-              <input
-                type="text"
-                name="family"
-                value={formData.family}
-                onChange={handleChange}
-                className="form-input"
-              />
+              {showNewFamily || families.length === 0 ? (
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <input
+                    type="text"
+                    name="family"
+                    value={formData.family}
+                    onChange={handleChange}
+                    className="form-input"
+                    placeholder={language === 'pt' ? 'Digite nova família' : 'Enter new family'}
+                  />
+                  {families.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowNewFamily(false);
+                        setFormData(prev => ({ ...prev, family: '' }));
+                      }}
+                      className="toggle-input-button"
+                      title={language === 'pt' ? 'Selecionar existente' : 'Select existing'}
+                    >
+                      ↓
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <select
+                    name="family"
+                    value={formData.family}
+                    onChange={handleChange}
+                    className="form-input"
+                  >
+                    <option value="">{language === 'pt' ? 'Selecione...' : 'Select...'}</option>
+                    {families.map(family => (
+                      <option key={family.id} value={family.name}>{family.name}</option>
+                    ))}
+                    <option value="__new__">{language === 'pt' ? '+ Adicionar nova' : '+ Add new'}</option>
+                  </select>
+                </div>
+              )}
             </div>
 
             <div className="form-group">
               <label className="form-label">{t('type')}</label>
-              <input
-                type="text"
-                name="type"
-                value={formData.type}
-                onChange={handleChange}
-                className="form-input"
-              />
+              {showNewType || types.length === 0 ? (
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <input
+                    type="text"
+                    name="type"
+                    value={formData.type}
+                    onChange={handleChange}
+                    className="form-input"
+                    placeholder={language === 'pt' ? 'Digite novo tipo' : 'Enter new type'}
+                  />
+                  {types.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowNewType(false);
+                        setFormData(prev => ({ ...prev, type: '' }));
+                      }}
+                      className="toggle-input-button"
+                      title={language === 'pt' ? 'Selecionar existente' : 'Select existing'}
+                    >
+                      ↓
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <select
+                    name="type"
+                    value={formData.type}
+                    onChange={handleChange}
+                    className="form-input"
+                  >
+                    <option value="">{language === 'pt' ? 'Selecione...' : 'Select...'}</option>
+                    {types.map(type => (
+                      <option key={type.id} value={type.name}>{type.name}</option>
+                    ))}
+                    <option value="__new__">{language === 'pt' ? '+ Adicionar novo' : '+ Add new'}</option>
+                  </select>
+                </div>
+              )}
             </div>
           </div>
 
           <div className="form-row">
             <div className="form-group">
               <label className="form-label">{t('category')}</label>
-              <input
-                type="text"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                className="form-input"
-              />
+              {showNewCategory || categories.length === 0 ? (
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <input
+                    type="text"
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                    className="form-input"
+                    placeholder={language === 'pt' ? 'Digite nova categoria' : 'Enter new category'}
+                  />
+                  {categories.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowNewCategory(false);
+                        setFormData(prev => ({ ...prev, category: '' }));
+                      }}
+                      className="toggle-input-button"
+                      title={language === 'pt' ? 'Selecionar existente' : 'Select existing'}
+                    >
+                      ↓
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                    className="form-input"
+                  >
+                    <option value="">{language === 'pt' ? 'Selecione...' : 'Select...'}</option>
+                    {categories.map(category => (
+                      <option key={category.id} value={category.name}>{category.name}</option>
+                    ))}
+                    <option value="__new__">{language === 'pt' ? '+ Adicionar nova' : '+ Add new'}</option>
+                  </select>
+                </div>
+              )}
             </div>
 
             <div className="form-group">

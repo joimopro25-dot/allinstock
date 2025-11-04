@@ -11,6 +11,8 @@ import {
   ExclamationTriangleIcon
 } from '@heroicons/react/24/outline';
 import { getAllPlans } from '../../config/plans';
+import PaymentModal from '../../components/payment/PaymentModal';
+import { Sidebar } from '../../components/common/Sidebar';
 import './PlanManagement.css';
 
 export default function PlanManagement() {
@@ -22,6 +24,8 @@ export default function PlanManagement() {
   const [currentSubscription, setCurrentSubscription] = useState(null);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   useEffect(() => {
     loadPlansAndSubscription();
@@ -99,18 +103,23 @@ export default function PlanManagement() {
     try {
       const isUpgrade = isPlanUpgrade(selectedPlan);
 
+      // Calculate next billing date (30 days from now if not set)
+      const nextBillingDate = currentSubscription.nextBillingDate ||
+        new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+
       if (selectedPlan === 'free') {
         // Downgrade to free - schedule for next billing date
         await updateDoc(doc(db, 'companies', currentUser.uid), {
           scheduledPlan: 'free',
-          scheduledDate: currentSubscription.nextBillingDate,
+          scheduledDate: nextBillingDate,
           subscriptionStatus: 'cancelled',
+          nextBillingDate: nextBillingDate, // Ensure it's set
           updatedAt: new Date().toISOString()
         });
 
         setMessage({
           type: 'success',
-          text: `Your subscription will be cancelled and downgraded to Free plan on ${new Date(currentSubscription.nextBillingDate).toLocaleDateString()}. You'll keep access to all features until then.`
+          text: `Your subscription will be cancelled and downgraded to Free plan on ${new Date(nextBillingDate).toLocaleDateString()}. You'll keep access to all features until then.`
         });
       } else if (isUpgrade) {
         // Upgrade - redirect to payment
@@ -119,13 +128,14 @@ export default function PlanManagement() {
         // Downgrade to paid plan - schedule for next billing date
         await updateDoc(doc(db, 'companies', currentUser.uid), {
           scheduledPlan: selectedPlan,
-          scheduledDate: currentSubscription.nextBillingDate,
+          scheduledDate: nextBillingDate,
+          nextBillingDate: nextBillingDate, // Ensure it's set
           updatedAt: new Date().toISOString()
         });
 
         setMessage({
           type: 'success',
-          text: `Your plan will be changed to ${selectedPlan} on ${new Date(currentSubscription.nextBillingDate).toLocaleDateString()}. You'll keep your current features until then.`
+          text: `Your plan will be changed to ${selectedPlan} on ${new Date(nextBillingDate).toLocaleDateString()}. You'll keep your current features until then.`
         });
       }
 
@@ -139,38 +149,17 @@ export default function PlanManagement() {
   };
 
   const handleUpgradePayment = async (planId) => {
-    try {
-      const planPrice = getPlanPrice(planId);
+    // Open payment modal instead of navigating
+    setShowPaymentModal(true);
+  };
 
-      // Create payment record
-      const paymentRef = await addDoc(collection(db, 'payments'), {
-        companyId: currentUser.uid,
-        userId: currentUser.uid,
-        plan: planId,
-        amount: planPrice,
-        type: 'upgrade',
-        status: 'pending',
-        createdAt: new Date().toISOString()
-      });
-
-      // Store payment intent
-      sessionStorage.setItem('pendingPlanChange', JSON.stringify({
-        paymentId: paymentRef.id,
-        plan: planId,
-        type: 'upgrade'
-      }));
-
-      // Redirect to payment page (landing page with payment selection)
-      navigate('/', {
-        state: {
-          showPayment: true,
-          plan: planId,
-          isUpgrade: true
-        }
-      });
-    } catch (error) {
-      throw new Error('Failed to initiate payment: ' + error.message);
-    }
+  const handlePaymentSuccess = async () => {
+    setShowPaymentModal(false);
+    setMessage({
+      type: 'success',
+      text: 'Payment successful! Your plan has been upgraded.'
+    });
+    await loadPlansAndSubscription();
   };
 
   const handleCancelScheduledChange = async () => {
@@ -263,14 +252,16 @@ export default function PlanManagement() {
   };
 
   return (
-    <div className="plan-management">
-      <div className="settings-header">
-        <button onClick={() => navigate('/settings/account')} className="btn-back">
-          ← Back to Settings
-        </button>
-        <h1>Plan Management</h1>
-        <p>Upgrade or downgrade your subscription plan</p>
-      </div>
+    <>
+      <Sidebar isCollapsed={sidebarCollapsed} setIsCollapsed={setSidebarCollapsed} />
+      <div className="plan-management">
+        <div className="settings-header">
+          <button onClick={() => navigate('/settings/account')} className="btn-back">
+            ← Back to Settings
+          </button>
+          <h1>Plan Management</h1>
+          <p>Upgrade or downgrade your subscription plan</p>
+        </div>
 
       {message.text && (
         <div className={`message-alert ${message.type}`}>
@@ -358,6 +349,18 @@ export default function PlanManagement() {
           </div>
         </div>
       )}
-    </div>
+
+      {/* Payment Modal */}
+      <PaymentModal
+        isOpen={showPaymentModal}
+        onClose={() => setShowPaymentModal(false)}
+        plan={selectedPlan}
+        amount={getPlanPrice(selectedPlan)}
+        userId={currentUser?.uid}
+        companyId={currentUser?.uid}
+        onPaymentSuccess={handlePaymentSuccess}
+      />
+      </div>
+    </>
   );
 }

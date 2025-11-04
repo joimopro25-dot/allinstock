@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getTranslation } from '../../utils/translations';
+import { safeToFixed } from '../../utils/formatters';
 import { quotationService } from '../../services/quotationService';
 import { LanguageToggle } from '../../components/common/LanguageToggle';
 import { Sidebar } from '../../components/common/Sidebar';
@@ -336,7 +337,7 @@ export function Quotations() {
                   <div className="quotation-details">
                     <div className="detail-row">
                       <span className="detail-label">{language === 'pt' ? 'Total' : 'Total'}:</span>
-                      <span className="detail-value total">€{quotation.total?.toFixed(2)}</span>
+                      <span className="detail-value total">€{safeToFixed(quotation.total, 2)}</span>
                     </div>
                     <div className="detail-row">
                       <span className="detail-label">{language === 'pt' ? 'Itens' : 'Items'}:</span>

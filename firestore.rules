@@ -40,7 +40,7 @@ service cloud.firestore {
         }
 
         // Stock movements under products
-        match /stockMovements/{movementId} {
+        match /movements/{movementId} {
           allow read, write: if request.auth != null;
         }
       }

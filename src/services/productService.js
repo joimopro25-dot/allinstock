@@ -97,8 +97,11 @@ async function getStockLocations(companyId, productId) {
 
 async function addStockLocation(companyId, productId, locationData, userEmail = null) {
   const locationsRef = collection(db, 'companies', companyId, 'products', productId, 'stockLocations');
+
+  // Include locationId if provided (to link to global location)
   const newLocation = {
     ...locationData,
+    locationId: locationData.locationId || null, // Link to global location if provided
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   };

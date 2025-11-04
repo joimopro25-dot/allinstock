@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getTranslation } from '../../utils/translations';
+import { safeToFixed } from '../../utils/formatters';
 import { productService } from '../../services/productService';
 import { Sidebar } from '../../components/common/Sidebar';
 import { LanguageToggle } from '../../components/common/LanguageToggle';
@@ -161,7 +162,7 @@ export function Reports() {
                         <span className="metric-label">
                           {language === 'pt' ? 'Valor Total do Stock' : 'Total Stock Value'}
                         </span>
-                        <span className="metric-value">€{totalStockValue.toFixed(2)}</span>
+                        <span className="metric-value">€{safeToFixed(totalStockValue, 2)}</span>
                       </div>
                     </div>
 
@@ -210,7 +211,7 @@ export function Reports() {
                               <span className="stat-label">
                                 {language === 'pt' ? 'Valor' : 'Value'}:
                               </span>
-                              <span className="stat-value">€{data.value.toFixed(2)}</span>
+                              <span className="stat-value">€{safeToFixed(data.value, 2)}</span>
                             </div>
                           </div>
                         </div>
@@ -240,8 +241,8 @@ export function Reports() {
                               <td className="product-name-cell">{product.name}</td>
                               <td className="reference-cell">{product.reference || '-'}</td>
                               <td>{product.totalStock} {product.unit}</td>
-                              <td>€{product.price.toFixed(2)}</td>
-                              <td className="value-cell">€{product.value.toFixed(2)}</td>
+                              <td>€{safeToFixed(product.price, 2)}</td>
+                              <td className="value-cell">€{safeToFixed(product.value, 2)}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -289,7 +290,7 @@ export function Reports() {
                                   </span>
                                 </td>
                                 <td className="value-cell">
-                                  €{((product.totalStock || 0) * (product.price || 0)).toFixed(2)}
+                                  €{safeToFixed((product.totalStock || 0) * (product.price || 0), 2)}
                                 </td>
                               </tr>
                             );
@@ -357,7 +358,7 @@ export function Reports() {
                         <span className="metric-label">
                           {language === 'pt' ? 'Valor Total do Inventário' : 'Total Inventory Value'}
                         </span>
-                        <span className="metric-value large">€{totalStockValue.toFixed(2)}</span>
+                        <span className="metric-value large">€{safeToFixed(totalStockValue, 2)}</span>
                       </div>
                     </div>
                   </div>
@@ -372,7 +373,7 @@ export function Reports() {
                         .map(([family, data]) => (
                           <div key={family} className="valuation-card">
                             <h4 className="valuation-family">{family}</h4>
-                            <div className="valuation-amount">€{data.value.toFixed(2)}</div>
+                            <div className="valuation-amount">€{safeToFixed(data.value, 2)}</div>
                             <div className="valuation-detail">
                               {data.count} {language === 'pt' ? 'produtos' : 'products'}
                             </div>

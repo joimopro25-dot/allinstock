@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">AllInStock</string>
+    <string name="title_activity_main">AllInStock</string>
+    <string name="package_name">pt.allinstock.crm</string>
+    <string name="custom_url_scheme">pt.allinstock.crm</string>
+</resources>

@@ -6,6 +6,7 @@ import { Login } from './pages/auth/Login';
 import { RegisterNew } from './pages/auth/RegisterNew';
 import { Dashboard } from './pages/dashboard/Dashboard';
 import { ProductList } from './pages/stock/ProductList';
+import ProductDetail from './pages/stock/ProductDetail';
 import { Reports } from './pages/reports/Reports';
 import { Clients } from './pages/clients/Clients';
 import ClientDetail from './pages/clients/ClientDetail';
@@ -23,6 +24,7 @@ import { Calendar } from './pages/calendar/Calendar';
 import StockLocations from './pages/stockLocations/StockLocations';
 import LandingPage from './pages/landing/LandingPage';
 import AdminDashboard from './pages/admin/AdminDashboardNew';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 function App() {
   return (
@@ -46,6 +48,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <ProductList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/stock/:productId"
+              element={
+                <ProtectedRoute>
+                  <ProductDetail />
                 </ProtectedRoute>
               }
             />
@@ -177,6 +187,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </AuthProvider>

@@ -1,8 +1,16 @@
 /* Quotation Modal Specific Styles */
 
+.quotation-modal.modal-container {
+  max-width: 1200px !important;
+  width: 95vw;
+  max-height: 95vh;
+  overflow-y: auto;
+}
+
 .quotation-modal {
-  max-width: 900px;
-  max-height: 90vh;
+  max-width: 1200px;
+  width: 95vw;
+  max-height: 95vh;
   overflow-y: auto;
 }
 
@@ -53,6 +61,38 @@
   height: 18px;
 }
 
+/* Item Headers */
+.item-headers {
+  display: grid;
+  grid-template-columns: 2.5fr 1fr 1.3fr 1fr 1.3fr 60px;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(139, 92, 246, 0.05);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 10px;
+  margin-bottom: 0.75rem;
+  align-items: center;
+}
+
+.item-header-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.item-header-label.center {
+  text-align: center;
+}
+
+.item-header-label.right {
+  text-align: right;
+}
+
 /* Item Row */
 .item-row {
   display: flex;
@@ -68,9 +108,10 @@
 .item-fields {
   flex: 1;
   display: grid;
-  grid-template-columns: 2fr 1fr 1.2fr 1fr 1.2fr;
-  gap: 0.75rem;
+  grid-template-columns: 2.5fr 1fr 1.3fr 1fr 1.3fr;
+  gap: 1rem;
   align-items: end;
+  min-width: 0;
 }
 
 .item-product {
@@ -96,6 +137,10 @@
   font-weight: 600;
   text-align: right;
   font-size: 0.95rem;
+  min-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .remove-item-button {

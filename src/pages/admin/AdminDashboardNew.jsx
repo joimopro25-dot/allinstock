@@ -31,6 +31,7 @@ import {
   CheckIcon
 } from '@heroicons/react/24/outline';
 import './AdminDashboard.css';
+import PrivacyPolicyEditor from './PrivacyPolicyEditor';
 
 // Plans View Component
 function PlansView({ plans, onBack, onSave }) {
@@ -2152,6 +2153,15 @@ export default function AdminDashboardNew() {
                 <p>Configure general, email, security, and notification settings</p>
                 <div className="management-card-stat">Configure</div>
               </div>
+
+              <div className="management-card" onClick={() => setActiveView('privacyPolicy')}>
+                <div className="management-card-icon">
+                  <DocumentTextIcon />
+                </div>
+                <h3>Privacy Policy</h3>
+                <p>Edit and publish the privacy policy for your application</p>
+                <div className="management-card-stat">Edit</div>
+              </div>
             </div>
           </>
         )}
@@ -2214,8 +2224,15 @@ export default function AdminDashboardNew() {
           />
         )}
 
+        {/* Privacy Policy View */}
+        {activeView === 'privacyPolicy' && (
+          <PrivacyPolicyEditor
+            onBack={() => setActiveView('dashboard')}
+          />
+        )}
+
         {/* Other views */}
-        {(activeView !== 'dashboard' && activeView !== 'plans' && activeView !== 'promos' && activeView !== 'settings' && activeView !== 'subscriptions' && activeView !== 'payments') && (
+        {(activeView !== 'dashboard' && activeView !== 'plans' && activeView !== 'promos' && activeView !== 'settings' && activeView !== 'subscriptions' && activeView !== 'payments' && activeView !== 'privacyPolicy') && (
           <div className="view-container">
             <button className="btn-back" onClick={() => setActiveView('dashboard')}>
               ← Back to Dashboard

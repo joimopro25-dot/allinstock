@@ -7,9 +7,22 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "android:build": "npm run build && npx cap sync android",
+    "android:open": "npx cap open android",
+    "android:run": "npm run android:build && npx cap run android",
+    "android:sync": "npx cap sync android",
+    "cap:sync": "npx cap sync",
+    "cap:update": "npx cap update"
   },
   "dependencies": {
+    "@capacitor/android": "^7.4.4",
+    "@capacitor/app": "^7.1.0",
+    "@capacitor/cli": "^7.4.4",
+    "@capacitor/core": "^7.4.4",
+    "@capacitor/keyboard": "^7.0.3",
+    "@capacitor/splash-screen": "^7.0.3",
+    "@capacitor/status-bar": "^7.0.3",
     "@heroicons/react": "^2.2.0",
     "firebase": "^12.4.0",
     "firebase-admin": "^13.5.0",
@@ -18,6 +31,7 @@
     "react-router-dom": "^7.9.4"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
     "@eslint/js": "^9.36.0",
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",
@@ -26,6 +40,8 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.4.0",
+    "sharp": "^0.34.4",
+    "typescript": "^5.9.3",
     "vite": "^7.1.7"
   }
 }

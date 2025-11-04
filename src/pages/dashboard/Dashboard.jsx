@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getTranslation } from '../../utils/translations';
+import { safeToFixed } from '../../utils/formatters';
 import { useNavigate } from 'react-router-dom';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../config/firebase';
@@ -281,7 +282,7 @@ const Dashboard = () => {
               </div>
               <div className="analytics-content">
                 <div className="analytics-label">{language === 'pt' ? 'Valor em Stock' : 'Stock Value'}</div>
-                <div className="analytics-value">{analytics.stockValue.toFixed(0)}€</div>
+                <div className="analytics-value">{safeToFixed(analytics.stockValue, 0)}€</div>
                 <div className="analytics-subtitle">{analytics.totalProducts} {language === 'pt' ? 'produtos' : 'products'}</div>
               </div>
             </div>
@@ -329,7 +330,7 @@ const Dashboard = () => {
               </div>
               <div className="analytics-content">
                 <div className="analytics-label">{language === 'pt' ? 'Orçamentos Aprovados' : 'Approved Quotations'}</div>
-                <div className="analytics-value">{analytics.quotationsValue.toFixed(0)}€</div>
+                <div className="analytics-value">{safeToFixed(analytics.quotationsValue, 0)}€</div>
                 <div className="analytics-subtitle">{analytics.approvedQuotations} {language === 'pt' ? 'aprovados' : 'approved'}</div>
               </div>
             </div>

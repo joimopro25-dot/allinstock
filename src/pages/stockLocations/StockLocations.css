@@ -159,6 +159,8 @@
 
 .analytics-content {
   flex: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .analytics-label {
@@ -168,12 +170,19 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .analytics-value {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 700;
   color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
 }
 
 /* Map Section */
@@ -375,12 +384,16 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .location-icon {
   width: 40px;
   height: 40px;
   color: #a78bfa;
+  flex-shrink: 0;
 }
 
 .location-title h3 {
@@ -388,6 +401,9 @@
   font-size: 1.25rem;
   font-weight: 700;
   color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .location-type-badge {
@@ -401,6 +417,8 @@
   color: #a78bfa;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .card-actions {
@@ -485,12 +503,19 @@
 .summary-label {
   font-size: 0.875rem;
   color: rgba(255, 255, 255, 0.6);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .summary-value {
   font-size: 0.875rem;
   font-weight: 700;
   color: #a78bfa;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .stock-items h4 {
@@ -518,11 +543,18 @@
 
 .item-name {
   color: rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
 }
 
 .item-quantity {
   font-weight: 600;
   color: #10b981;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .more-items {
@@ -884,18 +916,23 @@ textarea.form-input {
   font-size: 1.5rem;
   font-weight: 700;
   color: white;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .type-title .location-icon {
   width: 32px;
   height: 32px;
   color: #a78bfa;
+  flex-shrink: 0;
 }
 
 .type-stats {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+  flex-shrink: 0;
 }
 
 .stat-badge {
@@ -907,6 +944,9 @@ textarea.form-input {
   font-weight: 600;
   color: rgba(255, 255, 255, 0.8);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
 }
 
 .stat-badge.value {
@@ -946,6 +986,8 @@ textarea.form-input {
 
 .location-info {
   flex: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .location-info h4 {
@@ -953,6 +995,9 @@ textarea.form-input {
   font-size: 1.125rem;
   font-weight: 600;
   color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .location-address-small {
@@ -962,6 +1007,9 @@ textarea.form-input {
   margin: 0;
   font-size: 0.875rem;
   color: rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .mini-icon {
@@ -973,6 +1021,7 @@ textarea.form-input {
 .location-metrics {
   display: flex;
   gap: 1.5rem;
+  flex-shrink: 0;
 }
 
 .metric {
@@ -980,12 +1029,17 @@ textarea.form-input {
   flex-direction: column;
   align-items: flex-end;
   gap: 0.25rem;
+  min-width: 0;
 }
 
 .metric-value {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 120px;
 }
 
 .metric.value-metric .metric-value {
@@ -997,6 +1051,7 @@ textarea.form-input {
   color: rgba(255, 255, 255, 0.5);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  white-space: nowrap;
 }
 
 /* Stock Distribution Bar */
@@ -1103,12 +1158,17 @@ textarea.form-input {
   font-weight: 500;
   color: white;
   flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }
 
 .item-details {
   display: flex;
   gap: 1.5rem;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .item-quantity {
@@ -1118,6 +1178,7 @@ textarea.form-input {
   padding: 0.25rem 0.75rem;
   background: rgba(167, 139, 250, 0.1);
   border-radius: 6px;
+  white-space: nowrap;
 }
 
 .item-value {
@@ -1125,7 +1186,11 @@ textarea.form-input {
   font-weight: 700;
   color: #10b981;
   min-width: 80px;
+  max-width: 100px;
   text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Empty State */
