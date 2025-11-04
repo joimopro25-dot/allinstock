@@ -51,7 +51,8 @@
       "Bash(move:*)",
       "Bash(cmd /c \"cd /d D:\\allinstock && move generate-icons.js generate-icons.cjs && node generate-icons.cjs\")",
       "Bash(keytool:*)",
-      "Bash(firebase deploy:*)"
+      "Bash(firebase deploy:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
