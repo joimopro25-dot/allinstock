@@ -11,8 +11,8 @@
 
 // Google Cloud OAuth credentials (same as Gmail)
 const CALENDAR_CONFIG = {
-  clientId: '1018807409883-23boqn5amq8a20mbvq9et7v8b0jq5des.apps.googleusercontent.com',
-  apiKey: 'AIzaSyCvRbrInA84zwRNKm0mqXu0w2OMVH-rT3U',
+  clientId: '842871801549-3gg0vhapqn3rs5v3b6cd7lhkhgui0rta.apps.googleusercontent.com',
+  apiKey: 'AIzaSyCwIve4PFG6i7jkPV-2Hxq4s0eJtF2CG2M',
   scopes: 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events'
 };
 
