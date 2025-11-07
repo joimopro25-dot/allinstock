@@ -15,7 +15,9 @@ import {
   Cog6ToothIcon,
   EnvelopeIcon,
   CalendarIcon,
-  MapPinIcon
+  MapPinIcon,
+  ChevronDownIcon,
+  ChevronUpIcon
 } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 import '../../styles/Sidebar.css';
@@ -24,6 +26,7 @@ export function Sidebar({ isCollapsed, setIsCollapsed }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { language } = useLanguage();
+  const [stockManagementExpanded, setStockManagementExpanded] = useState(false);
 
   const t = (key) => getTranslation(language, key);
 
@@ -35,16 +38,25 @@ export function Sidebar({ isCollapsed, setIsCollapsed }) {
       active: true
     },
     {
-      path: '/stock',
+      path: null, // No direct path, just expandable
       icon: CubeIcon,
-      label: t('stockManagement'),
-      active: true
-    },
-    {
-      path: '/stock-locations',
-      icon: MapPinIcon,
-      label: language === 'pt' ? 'Localizações Stock' : 'Stock Locations',
-      active: true
+      label: language === 'pt' ? 'Stock' : 'Stock',
+      active: true,
+      expandable: true,
+      submenu: [
+        {
+          path: '/stock',
+          icon: CubeIcon,
+          label: t('stockManagement'),
+          active: true
+        },
+        {
+          path: '/stock-locations',
+          icon: MapPinIcon,
+          label: language === 'pt' ? 'Localizações Stock' : 'Stock Locations',
+          active: true
+        }
+      ]
     },
     {
       path: '/reports',
@@ -105,7 +117,9 @@ export function Sidebar({ isCollapsed, setIsCollapsed }) {
   const isActive = (path) => location.pathname === path;
 
   const handleNavigation = (item) => {
-    if (item.active && !item.comingSoon) {
+    if (item.expandable) {
+      setStockManagementExpanded(!stockManagementExpanded);
+    } else if (item.active && !item.comingSoon) {
       navigate(item.path);
     }
   };
@@ -128,31 +142,65 @@ export function Sidebar({ isCollapsed, setIsCollapsed }) {
 
       {/* Navigation Menu */}
       <nav className="sidebar-nav">
-        {menuItems.map((item) => {
+        {menuItems.map((item, index) => {
           const Icon = item.icon;
+          // Check if Stock parent should be active (when any submenu item is active)
+          const isStockParentActive = item.expandable && item.submenu?.some(sub => isActive(sub.path));
+
           return (
-            <div
-              key={item.path}
-              className={`sidebar-item ${isActive(item.path) ? 'active' : ''} ${
-                item.comingSoon ? 'disabled' : ''
-              }`}
-              onClick={() => handleNavigation(item)}
-              title={isCollapsed ? item.label : ''}
-            >
-              <div className="sidebar-item-content">
-                <Icon className="sidebar-icon" />
-                {!isCollapsed && (
-                  <>
-                    <span className="sidebar-label">{item.label}</span>
-                    {item.comingSoon && (
-                      <span className="coming-soon-badge">
-                        {t('comingSoon')}
-                      </span>
-                    )}
-                  </>
-                )}
+            <div key={item.path || `expandable-${index}`}>
+              <div
+                className={`sidebar-item ${isStockParentActive ? 'active' : isActive(item.path) ? 'active' : ''} ${
+                  item.comingSoon ? 'disabled' : ''
+                }`}
+                onClick={() => handleNavigation(item)}
+                title={isCollapsed ? item.label : ''}
+              >
+                <div className="sidebar-item-content">
+                  <Icon className="sidebar-icon" />
+                  {!isCollapsed && (
+                    <>
+                      <span className="sidebar-label">{item.label}</span>
+                      {item.comingSoon && (
+                        <span className="coming-soon-badge">
+                          {t('comingSoon')}
+                        </span>
+                      )}
+                      {item.expandable && (
+                        stockManagementExpanded ?
+                          <ChevronUpIcon className="expand-icon" /> :
+                          <ChevronDownIcon className="expand-icon" />
+                      )}
+                    </>
+                  )}
+                </div>
+                {isActive(item.path) && !item.expandable && <div className="active-indicator" />}
               </div>
-              {isActive(item.path) && <div className="active-indicator" />}
+
+              {/* Submenu */}
+              {item.expandable && !isCollapsed && stockManagementExpanded && item.submenu && (
+                <div className="submenu">
+                  {item.submenu.map((subItem) => {
+                    const SubIcon = subItem.icon;
+                    return (
+                      <div
+                        key={subItem.path}
+                        className={`sidebar-item submenu-item ${isActive(subItem.path) ? 'active' : ''}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(subItem.path);
+                        }}
+                      >
+                        <div className="sidebar-item-content">
+                          <SubIcon className="sidebar-icon" />
+                          <span className="sidebar-label">{subItem.label}</span>
+                        </div>
+                        {isActive(subItem.path) && <div className="active-indicator" />}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           );
         })}

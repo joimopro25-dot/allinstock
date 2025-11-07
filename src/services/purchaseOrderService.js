@@ -1,5 +1,6 @@
 import { collection, getDocs, getDoc, doc, addDoc, updateDoc, deleteDoc, query, where } from 'firebase/firestore';
 import { db } from '../config/firebase';
+import { supplierPriceService } from './supplierPriceService';
 
 export const purchaseOrderService = {
   async getPurchaseOrders(companyId) {
@@ -64,7 +65,7 @@ export const purchaseOrderService = {
     });
   },
 
-  async receivePurchaseOrder(companyId, purchaseOrderId) {
+  async checkPriceChanges(companyId, purchaseOrderId) {
     const purchaseOrderRef = doc(db, 'companies', companyId, 'purchaseOrders', purchaseOrderId);
     const purchaseOrderDoc = await getDoc(purchaseOrderRef);
 
@@ -73,12 +74,59 @@ export const purchaseOrderService = {
     }
 
     const purchaseOrder = purchaseOrderDoc.data();
+    const priceChanges = [];
+
+    // Check each item for price changes
+    for (const item of purchaseOrder.items) {
+      if (item.productId && item.price) {
+        // Get current supplier price for this product
+        const supplierPrice = await supplierPriceService.getSupplierPriceBySupplierId(
+          companyId,
+          item.productId,
+          purchaseOrder.supplierId
+        );
+
+        if (supplierPrice && supplierPrice.purchasePrice !== item.price) {
+          priceChanges.push({
+            productId: item.productId,
+            productName: item.productName,
+            supplierName: purchaseOrder.supplierName,
+            oldPrice: supplierPrice.purchasePrice,
+            newPrice: item.price
+          });
+        } else if (!supplierPrice) {
+          // New supplier for this product
+          priceChanges.push({
+            productId: item.productId,
+            productName: item.productName,
+            supplierName: purchaseOrder.supplierName,
+            oldPrice: null,
+            newPrice: item.price,
+            isNew: true
+          });
+        }
+      }
+    }
+
+    return priceChanges;
+  },
+
+  async receivePurchaseOrder(companyId, purchaseOrderId, updatePrices = false) {
+    const purchaseOrderRef = doc(db, 'companies', companyId, 'purchaseOrders', purchaseOrderId);
+    const purchaseOrderDoc = await getDoc(purchaseOrderRef);
+
+    if (!purchaseOrderDoc.exists()) {
+      throw new Error('Purchase order not found');
+    }
+
+    const purchaseOrder = purchaseOrderDoc.data();
+    const receivedDate = new Date().toISOString();
 
     // Update PO status
     await updateDoc(purchaseOrderRef, {
       status: 'received',
-      receivedDate: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      receivedDate,
+      updatedAt: receivedDate
     });
 
     // Update product stock for each item
@@ -93,7 +141,7 @@ export const purchaseOrderService = {
 
           await updateDoc(productRef, {
             stock: newStock,
-            updatedAt: new Date().toISOString()
+            updatedAt: receivedDate
           });
 
           // Add stock movement record
@@ -104,9 +152,23 @@ export const purchaseOrderService = {
             reason: `Purchase Order ${purchaseOrder.poNumber}`,
             supplierId: purchaseOrder.supplierId,
             supplierName: purchaseOrder.supplierName,
-            date: new Date().toISOString(),
-            createdAt: new Date().toISOString()
+            date: receivedDate,
+            createdAt: receivedDate
           });
+
+          // Update supplier prices if requested
+          if (updatePrices && item.price) {
+            await supplierPriceService.updatePriceFromPurchaseOrder(
+              companyId,
+              item.productId,
+              purchaseOrder.supplierId,
+              {
+                purchasePrice: item.price,
+                purchaseOrderId,
+                purchaseOrderDate: receivedDate
+              }
+            );
+          }
         }
       }
     }

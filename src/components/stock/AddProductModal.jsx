@@ -3,6 +3,8 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getTranslation } from '../../utils/translations';
 import { productService } from '../../services/productService';
+import { supplierService } from '../../services/supplierService';
+import { supplierPriceService } from '../../services/supplierPriceService';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import './ProductModal.css';
@@ -18,7 +20,6 @@ export function AddProductModal({ isOpen, onClose, onSuccess }) {
     reference: '',
     family: '',
     type: '',
-    category: '',
     unit: 'pieces',
     price: '',
     minStock: '',
@@ -29,10 +30,10 @@ export function AddProductModal({ isOpen, onClose, onSuccess }) {
   const [error, setError] = useState('');
   const [families, setFamilies] = useState([]);
   const [types, setTypes] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [suppliers, setSuppliers] = useState([]);
+  const [supplierPrices, setSupplierPrices] = useState([]);
   const [showNewFamily, setShowNewFamily] = useState(false);
   const [showNewType, setShowNewType] = useState(false);
-  const [showNewCategory, setShowNewCategory] = useState(false);
 
   const units = [
     { value: 'pieces', label: 'Pieces / Peças' },
@@ -59,12 +60,40 @@ export function AddProductModal({ isOpen, onClose, onSuccess }) {
       const typesSnapshot = await getDocs(collection(db, 'companies', company.id, 'productTypes'));
       setTypes(typesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
 
-      // Load categories
-      const categoriesSnapshot = await getDocs(collection(db, 'companies', company.id, 'productCategories'));
-      setCategories(categoriesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      // Load suppliers
+      const suppliersData = await supplierService.getSuppliers(company.id);
+      setSuppliers(suppliersData.filter(s => s.status === 'active'));
     } catch (err) {
       console.error('Failed to load filter options:', err);
     }
+  };
+
+  const addSupplierPrice = () => {
+    setSupplierPrices([...supplierPrices, {
+      supplierId: '',
+      supplierReference: '',
+      purchasePrice: '',
+      isPreferred: supplierPrices.length === 0
+    }]);
+  };
+
+  const removeSupplierPrice = (index) => {
+    const newPrices = supplierPrices.filter((_, i) => i !== index);
+    setSupplierPrices(newPrices);
+  };
+
+  const updateSupplierPrice = (index, field, value) => {
+    const newPrices = [...supplierPrices];
+    newPrices[index] = { ...newPrices[index], [field]: value };
+    setSupplierPrices(newPrices);
+  };
+
+  const setPreferred = (index) => {
+    const newPrices = supplierPrices.map((price, i) => ({
+      ...price,
+      isPreferred: i === index
+    }));
+    setSupplierPrices(newPrices);
   };
 
   const handleChange = (e) => {
@@ -81,11 +110,6 @@ export function AddProductModal({ isOpen, onClose, onSuccess }) {
       setFormData(prev => ({ ...prev, type: '' }));
       return;
     }
-    if (name === 'category' && value === '__new__') {
-      setShowNewCategory(true);
-      setFormData(prev => ({ ...prev, category: '' }));
-      return;
-    }
 
     setFormData(prev => ({
       ...prev,
@@ -95,7 +119,7 @@ export function AddProductModal({ isOpen, onClose, onSuccess }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!formData.name.trim()) {
       setError('Product name is required');
       return;
@@ -110,27 +134,39 @@ export function AddProductModal({ isOpen, onClose, onSuccess }) {
         reference: formData.reference.trim(),
         family: formData.family.trim(),
         type: formData.type.trim(),
-        category: formData.category.trim(),
         unit: formData.unit,
         price: formData.price ? parseFloat(formData.price) : 0,
         minStock: formData.minStock ? parseInt(formData.minStock) : 0,
         initialStock: formData.initialStock ? parseInt(formData.initialStock) : 0
       };
 
-      await productService.createProduct(company.id, productData);
-      
+      const productId = await productService.createProduct(company.id, productData);
+
+      // Add supplier prices if any
+      for (const supplierPrice of supplierPrices) {
+        if (supplierPrice.supplierId) {
+          await supplierPriceService.createSupplierPrice(company.id, productId, {
+            supplierId: supplierPrice.supplierId,
+            supplierReference: supplierPrice.supplierReference.trim(),
+            purchasePrice: supplierPrice.purchasePrice ? parseFloat(supplierPrice.purchasePrice) : 0,
+            isPreferred: supplierPrice.isPreferred || false,
+            currency: 'EUR'
+          });
+        }
+      }
+
       setFormData({
         name: '',
         reference: '',
         family: '',
         type: '',
-        category: '',
         unit: 'pieces',
         price: '',
         minStock: '',
         initialStock: ''
       });
-      
+      setSupplierPrices([]);
+
       onSuccess();
       onClose();
     } catch (err) {
@@ -273,50 +309,6 @@ export function AddProductModal({ isOpen, onClose, onSuccess }) {
 
           <div className="form-row">
             <div className="form-group">
-              <label className="form-label">{t('category')}</label>
-              {showNewCategory || categories.length === 0 ? (
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                  <input
-                    type="text"
-                    name="category"
-                    value={formData.category}
-                    onChange={handleChange}
-                    className="form-input"
-                    placeholder={language === 'pt' ? 'Digite nova categoria' : 'Enter new category'}
-                  />
-                  {categories.length > 0 && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setShowNewCategory(false);
-                        setFormData(prev => ({ ...prev, category: '' }));
-                      }}
-                      className="toggle-input-button"
-                      title={language === 'pt' ? 'Selecionar existente' : 'Select existing'}
-                    >
-                      ↓
-                    </button>
-                  )}
-                </div>
-              ) : (
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                  <select
-                    name="category"
-                    value={formData.category}
-                    onChange={handleChange}
-                    className="form-input"
-                  >
-                    <option value="">{language === 'pt' ? 'Selecione...' : 'Select...'}</option>
-                    {categories.map(category => (
-                      <option key={category.id} value={category.name}>{category.name}</option>
-                    ))}
-                    <option value="__new__">{language === 'pt' ? '+ Adicionar nova' : '+ Add new'}</option>
-                  </select>
-                </div>
-              )}
-            </div>
-
-            <div className="form-group">
               <label className="form-label">{t('unit')}</label>
               <select
                 name="unit"
@@ -331,6 +323,101 @@ export function AddProductModal({ isOpen, onClose, onSuccess }) {
                 ))}
               </select>
             </div>
+          </div>
+
+          {/* Supplier Prices Section */}
+          <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+              <label className="form-label">
+                {language === 'pt' ? 'Fornecedores e Preços de Compra' : 'Suppliers & Purchase Prices'}
+              </label>
+              <button
+                type="button"
+                onClick={addSupplierPrice}
+                className="add-field-btn"
+                title={language === 'pt' ? 'Adicionar fornecedor' : 'Add supplier'}
+              >
+                + {language === 'pt' ? 'Adicionar Fornecedor' : 'Add Supplier'}
+              </button>
+            </div>
+
+            {supplierPrices.map((sp, index) => (
+              <div key={index} style={{ display: 'grid', gridTemplateColumns: '2fr 1.5fr 1fr auto auto', gap: '0.5rem', marginBottom: '0.5rem', alignItems: 'end' }}>
+                <div className="form-group" style={{ margin: 0 }}>
+                  <label className="form-label" style={{ fontSize: '0.85rem' }}>
+                    {language === 'pt' ? 'Fornecedor' : 'Supplier'}
+                  </label>
+                  <select
+                    value={sp.supplierId}
+                    onChange={(e) => updateSupplierPrice(index, 'supplierId', e.target.value)}
+                    className="form-input"
+                  >
+                    <option value="">{language === 'pt' ? 'Selecionar...' : 'Select...'}</option>
+                    {suppliers.map(supplier => (
+                      <option key={supplier.id} value={supplier.id}>
+                        {supplier.companyName || supplier.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="form-group" style={{ margin: 0 }}>
+                  <label className="form-label" style={{ fontSize: '0.85rem' }}>
+                    {language === 'pt' ? 'Ref. Fornecedor' : 'Supplier Ref'}
+                  </label>
+                  <input
+                    type="text"
+                    value={sp.supplierReference}
+                    onChange={(e) => updateSupplierPrice(index, 'supplierReference', e.target.value)}
+                    className="form-input"
+                    placeholder={language === 'pt' ? 'Ref. do fornecedor' : 'Supplier reference'}
+                  />
+                </div>
+
+                <div className="form-group" style={{ margin: 0 }}>
+                  <label className="form-label" style={{ fontSize: '0.85rem' }}>
+                    {language === 'pt' ? 'Preço Compra (€)' : 'Purchase Price (€)'}
+                  </label>
+                  <input
+                    type="number"
+                    value={sp.purchasePrice}
+                    onChange={(e) => updateSupplierPrice(index, 'purchasePrice', e.target.value)}
+                    className="form-input"
+                    min="0"
+                    step="0.01"
+                  />
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', paddingBottom: '0.25rem' }}>
+                  <input
+                    type="checkbox"
+                    checked={sp.isPreferred}
+                    onChange={() => setPreferred(index)}
+                    id={`preferred-${index}`}
+                  />
+                  <label htmlFor={`preferred-${index}`} style={{ fontSize: '0.85rem', cursor: 'pointer' }}>
+                    {language === 'pt' ? 'Preferido' : 'Preferred'}
+                  </label>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => removeSupplierPrice(index)}
+                  className="remove-field-btn"
+                  title={language === 'pt' ? 'Remover' : 'Remove'}
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+
+            {supplierPrices.length === 0 && (
+              <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)', fontStyle: 'italic' }}>
+                {language === 'pt'
+                  ? 'Nenhum fornecedor adicionado. Clique em "Adicionar Fornecedor" para adicionar.'
+                  : 'No suppliers added. Click "Add Supplier" to add one.'}
+              </p>
+            )}
           </div>
 
           <div className="form-row">

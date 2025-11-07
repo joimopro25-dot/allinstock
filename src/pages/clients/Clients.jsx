@@ -174,9 +174,11 @@ export function Clients() {
                       )}
                     </div>
                     <div className="client-title">
-                      <h3 className="client-name">{client.name}</h3>
+                      <h3 className="client-name">
+                        {client.companyName || client.name}
+                      </h3>
                       {client.companyName && (
-                        <p className="client-company">{client.companyName}</p>
+                        <p className="client-company">{client.name}</p>
                       )}
                     </div>
                     <span className={`status-badge ${client.status}`}>
@@ -192,18 +194,36 @@ export function Clients() {
                     onClick={() => navigate(`/clients/${client.id}`)}
                     style={{ cursor: 'pointer' }}
                   >
-                    {client.email && (
+                    {/* Show all emails */}
+                    {client.emails && client.emails.length > 0 ? (
+                      client.emails.map((email, index) => email && (
+                        <div key={`email-${index}`} className="detail-row">
+                          <EnvelopeIcon className="detail-icon" />
+                          <span className="detail-value">{email}</span>
+                        </div>
+                      ))
+                    ) : client.email && (
                       <div className="detail-row">
                         <EnvelopeIcon className="detail-icon" />
                         <span className="detail-value">{client.email}</span>
                       </div>
                     )}
-                    {client.phone && (
+
+                    {/* Show all phones */}
+                    {client.phones && client.phones.length > 0 ? (
+                      client.phones.map((phone, index) => phone && (
+                        <div key={`phone-${index}`} className="detail-row">
+                          <PhoneIcon className="detail-icon" />
+                          <span className="detail-value">{phone}</span>
+                        </div>
+                      ))
+                    ) : client.phone && (
                       <div className="detail-row">
                         <PhoneIcon className="detail-icon" />
                         <span className="detail-value">{client.phone}</span>
                       </div>
                     )}
+
                     {client.taxId && (
                       <div className="detail-row">
                         <IdentificationIcon className="detail-icon" />

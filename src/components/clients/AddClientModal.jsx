@@ -13,8 +13,8 @@ export function AddClientModal({ isOpen, onClose, onSuccess }) {
   const [formData, setFormData] = useState({
     name: '',
     companyName: '',
-    email: '',
-    phone: '',
+    emails: [''],
+    phones: [''],
     taxId: '',
     address: {
       street: '',
@@ -26,6 +26,36 @@ export function AddClientModal({ isOpen, onClose, onSuccess }) {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const addEmailField = () => {
+    setFormData({ ...formData, emails: [...formData.emails, ''] });
+  };
+
+  const removeEmailField = (index) => {
+    const newEmails = formData.emails.filter((_, i) => i !== index);
+    setFormData({ ...formData, emails: newEmails.length > 0 ? newEmails : [''] });
+  };
+
+  const updateEmail = (index, value) => {
+    const newEmails = [...formData.emails];
+    newEmails[index] = value;
+    setFormData({ ...formData, emails: newEmails });
+  };
+
+  const addPhoneField = () => {
+    setFormData({ ...formData, phones: [...formData.phones, ''] });
+  };
+
+  const removePhoneField = (index) => {
+    const newPhones = formData.phones.filter((_, i) => i !== index);
+    setFormData({ ...formData, phones: newPhones.length > 0 ? newPhones : [''] });
+  };
+
+  const updatePhone = (index, value) => {
+    const newPhones = [...formData.phones];
+    newPhones[index] = value;
+    setFormData({ ...formData, phones: newPhones });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,8 +72,11 @@ export function AddClientModal({ isOpen, onClose, onSuccess }) {
       const clientData = {
         name: formData.name.trim(),
         companyName: formData.companyName.trim(),
-        email: formData.email.trim(),
-        phone: formData.phone.trim(),
+        emails: formData.emails.filter(e => e.trim()).map(e => e.trim()),
+        phones: formData.phones.filter(p => p.trim()).map(p => p.trim()),
+        // Keep legacy single email/phone for backward compatibility
+        email: formData.emails[0]?.trim() || '',
+        phone: formData.phones[0]?.trim() || '',
         taxId: formData.taxId.trim(),
         address: {
           street: formData.address.street.trim(),
@@ -60,8 +93,8 @@ export function AddClientModal({ isOpen, onClose, onSuccess }) {
       setFormData({
         name: '',
         companyName: '',
-        email: '',
-        phone: '',
+        emails: [''],
+        phones: [''],
         taxId: '',
         address: { street: '', city: '', postalCode: '', country: '' },
         notes: ''
@@ -128,27 +161,79 @@ export function AddClientModal({ isOpen, onClose, onSuccess }) {
 
           <div className="form-row">
             <div className="form-group">
-              <label className="form-label">Email</label>
-              <input
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="form-input"
-                placeholder="email@example.com"
-              />
+              <label className="form-label">
+                {language === 'pt' ? 'Emails' : 'Emails'}
+              </label>
+              {formData.emails.map((email, index) => (
+                <div key={index} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => updateEmail(index, e.target.value)}
+                    className="form-input"
+                    placeholder="email@example.com"
+                    style={{ flex: 1 }}
+                  />
+                  {formData.emails.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeEmailField(index)}
+                      className="remove-field-btn"
+                      title={language === 'pt' ? 'Remover' : 'Remove'}
+                    >
+                      ✕
+                    </button>
+                  )}
+                  {index === formData.emails.length - 1 && (
+                    <button
+                      type="button"
+                      onClick={addEmailField}
+                      className="add-field-btn"
+                      title={language === 'pt' ? 'Adicionar email' : 'Add email'}
+                    >
+                      +
+                    </button>
+                  )}
+                </div>
+              ))}
             </div>
 
             <div className="form-group">
               <label className="form-label">
-                {language === 'pt' ? 'Telefone' : 'Phone'}
+                {language === 'pt' ? 'Telefones' : 'Phones'}
               </label>
-              <input
-                type="tel"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="form-input"
-                placeholder="+351 912 345 678"
-              />
+              {formData.phones.map((phone, index) => (
+                <div key={index} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => updatePhone(index, e.target.value)}
+                    className="form-input"
+                    placeholder="+351 912 345 678"
+                    style={{ flex: 1 }}
+                  />
+                  {formData.phones.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removePhoneField(index)}
+                      className="remove-field-btn"
+                      title={language === 'pt' ? 'Remover' : 'Remove'}
+                    >
+                      ✕
+                    </button>
+                  )}
+                  {index === formData.phones.length - 1 && (
+                    <button
+                      type="button"
+                      onClick={addPhoneField}
+                      className="add-field-btn"
+                      title={language === 'pt' ? 'Adicionar telefone' : 'Add phone'}
+                    >
+                      +
+                    </button>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
 

@@ -26,6 +26,7 @@ import {
   ChevronDownIcon
 } from '@heroicons/react/24/outline';
 import { LanguageToggle } from '../../components/common/LanguageToggle';
+import { ThemeToggle } from '../../components/common/ThemeToggle';
 import { NotificationBell } from '../../components/common/NotificationBell';
 import '../../styles/Dashboard.css';
 
@@ -149,6 +150,7 @@ const Dashboard = () => {
         
         <div className="user-info">
           <NotificationBell />
+          <ThemeToggle />
           <LanguageToggle />
 
           {/* Profile Dropdown */}

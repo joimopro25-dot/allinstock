@@ -9,6 +9,7 @@ import { db } from '../../config/firebase';
 import { LanguageToggle } from '../../components/common/LanguageToggle';
 import { Sidebar } from '../../components/common/Sidebar';
 import { AddPurchaseOrderModal } from '../../components/purchaseOrders/AddPurchaseOrderModal';
+import { PriceUpdateConfirmModal } from '../../components/purchaseOrders/PriceUpdateConfirmModal';
 import {
   ShoppingCartIcon,
   CheckCircleIcon,
@@ -34,6 +35,11 @@ export function PurchaseOrders() {
   const [deleteModal, setDeleteModal] = useState({ show: false, po: null });
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [priceConfirmModal, setPriceConfirmModal] = useState({
+    show: false,
+    poId: null,
+    priceChanges: []
+  });
 
   const { company, signOut } = useAuth();
   const { language } = useLanguage();
@@ -85,16 +91,51 @@ export function PurchaseOrders() {
 
   const handleReceive = async (poId) => {
     try {
-      const confirmed = confirm(
-        language === 'pt'
-          ? 'Marcar esta encomenda como recebida? Isto irá atualizar o stock dos produtos.'
-          : 'Mark this order as received? This will update product stock.'
-      );
+      // First check if there are any price changes
+      const priceChanges = await purchaseOrderService.checkPriceChanges(company.id, poId);
 
-      if (!confirmed) return;
+      if (priceChanges.length > 0) {
+        // Show price confirmation modal
+        setPriceConfirmModal({
+          show: true,
+          poId,
+          priceChanges
+        });
+      } else {
+        // No price changes, proceed directly
+        const confirmed = confirm(
+          language === 'pt'
+            ? 'Marcar esta encomenda como recebida? Isto irá atualizar o stock dos produtos.'
+            : 'Mark this order as received? This will update product stock.'
+        );
 
-      await purchaseOrderService.receivePurchaseOrder(company.id, poId);
+        if (!confirmed) return;
+
+        await purchaseOrderService.receivePurchaseOrder(company.id, poId, false);
+        await loadPurchaseOrders();
+      }
+    } catch (err) {
+      console.error('Failed to receive purchase order:', err);
+      alert(language === 'pt' ? 'Erro ao receber encomenda' : 'Error receiving order');
+    }
+  };
+
+  const handleConfirmPriceUpdate = async () => {
+    try {
+      await purchaseOrderService.receivePurchaseOrder(company.id, priceConfirmModal.poId, true);
       await loadPurchaseOrders();
+      setPriceConfirmModal({ show: false, poId: null, priceChanges: [] });
+    } catch (err) {
+      console.error('Failed to receive purchase order:', err);
+      alert(language === 'pt' ? 'Erro ao receber encomenda' : 'Error receiving order');
+    }
+  };
+
+  const handleSkipPriceUpdate = async () => {
+    try {
+      await purchaseOrderService.receivePurchaseOrder(company.id, priceConfirmModal.poId, false);
+      await loadPurchaseOrders();
+      setPriceConfirmModal({ show: false, poId: null, priceChanges: [] });
     } catch (err) {
       console.error('Failed to receive purchase order:', err);
       alert(language === 'pt' ? 'Erro ao receber encomenda' : 'Error receiving order');
@@ -362,6 +403,16 @@ export function PurchaseOrders() {
           isOpen={addModalOpen}
           onClose={() => setAddModalOpen(false)}
           onSuccess={loadPurchaseOrders}
+        />
+
+        {/* Price Update Confirmation Modal */}
+        <PriceUpdateConfirmModal
+          isOpen={priceConfirmModal.show}
+          onClose={() => setPriceConfirmModal({ show: false, poId: null, priceChanges: [] })}
+          onConfirm={handleConfirmPriceUpdate}
+          onSkip={handleSkipPriceUpdate}
+          priceChanges={priceConfirmModal.priceChanges}
+          language={language}
         />
 
         {/* Delete Modal */}

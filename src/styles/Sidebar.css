@@ -220,6 +220,55 @@
   white-space: nowrap;
 }
 
+/* Expand Icon for expandable menu items */
+.expand-icon {
+  width: 16px;
+  height: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: auto;
+  transition: all 0.3s ease;
+}
+
+.sidebar-item:hover .expand-icon {
+  color: #667eea;
+}
+
+/* Submenu Styles */
+.submenu {
+  margin-left: 1rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  border-left: 2px solid rgba(102, 126, 234, 0.2);
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 200px;
+  }
+}
+
+.submenu-item {
+  padding: 0.6rem 1rem;
+  margin: 0.15rem 0;
+  font-size: 0.9rem;
+}
+
+.submenu-item .sidebar-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.submenu-item .sidebar-label {
+  font-size: 0.875rem;
+}
+
 /* Toggle Button */
 .sidebar-toggle {
   position: absolute;
