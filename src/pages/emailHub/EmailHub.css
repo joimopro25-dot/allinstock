@@ -463,3 +463,202 @@
     font-size: 1.5rem;
   }
 }
+
+/* ==================== LIGHT THEME STYLES ==================== */
+
+/* Container */
+[data-theme="light"] .email-hub-container {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f0f4f8 100%);
+}
+
+/* Header */
+[data-theme="light"] .email-hub-header {
+  border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+[data-theme="light"] .page-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .logout-button {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #ef4444;
+}
+
+[data-theme="light"] .logout-button:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+}
+
+/* Loading */
+[data-theme="light"] .loading {
+  color: #64748b;
+}
+
+/* Section Titles */
+[data-theme="light"] .section-title {
+  color: #0f172a;
+}
+
+/* Connection Cards */
+[data-theme="light"] .connect-card,
+[data-theme="light"] .connected-card {
+  background: #ffffff;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .connect-icon {
+  color: #667eea;
+}
+
+[data-theme="light"] .connect-card h4 {
+  color: #0f172a;
+}
+
+[data-theme="light"] .connect-description {
+  color: #475569;
+}
+
+[data-theme="light"] .connect-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+}
+
+[data-theme="light"] .connect-button:hover {
+  background: linear-gradient(135deg, #5b21b6 0%, #6d28d9 100%);
+  box-shadow: 0 6px 30px rgba(102, 126, 234, 0.5);
+}
+
+/* Connected Card */
+[data-theme="light"] .connected-header {
+  border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+[data-theme="light"] .user-avatar {
+  border: 2px solid rgba(102, 126, 234, 0.35);
+}
+
+[data-theme="light"] .user-name {
+  color: #0f172a;
+}
+
+[data-theme="light"] .user-email {
+  color: #64748b;
+}
+
+[data-theme="light"] .status-badge.connected {
+  background: rgba(16, 185, 129, 0.15);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+/* Action Buttons */
+[data-theme="light"] .sync-button {
+  background: rgba(102, 126, 234, 0.08);
+  border: 1px solid rgba(102, 126, 234, 0.25);
+  color: #667eea;
+}
+
+[data-theme="light"] .sync-button:hover:not(:disabled) {
+  background: rgba(102, 126, 234, 0.15);
+  border-color: rgba(102, 126, 234, 0.4);
+  box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+}
+
+[data-theme="light"] .disconnect-button {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #ef4444;
+}
+
+[data-theme="light"] .disconnect-button:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+}
+
+/* Sync Progress */
+[data-theme="light"] .sync-progress {
+  border-top: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+[data-theme="light"] .progress-bar {
+  background: #e2e8f0;
+}
+
+[data-theme="light"] .progress-fill {
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+}
+
+[data-theme="light"] .progress-text {
+  color: #475569;
+}
+
+/* Statistics Cards */
+[data-theme="light"] .stat-card {
+  background: #ffffff;
+  border: 1px solid rgba(102, 126, 234, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .stat-card:hover {
+  background: #f8fafc;
+  border-color: rgba(102, 126, 234, 0.35);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .stat-icon.total {
+  background: rgba(102, 126, 234, 0.15);
+  color: #667eea;
+}
+
+[data-theme="light"] .stat-icon.clients {
+  background: rgba(16, 185, 129, 0.15);
+  color: #059669;
+}
+
+[data-theme="light"] .stat-icon.suppliers {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+}
+
+[data-theme="light"] .stat-icon.unmatched {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+[data-theme="light"] .stat-label {
+  color: #64748b;
+}
+
+[data-theme="light"] .stat-value {
+  color: #0f172a;
+}
+
+[data-theme="light"] .last-sync {
+  color: #94a3b8;
+}
+
+/* Instructions Section */
+[data-theme="light"] .instruction-item {
+  background: #ffffff;
+  border: 1px solid rgba(102, 126, 234, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .instruction-number {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+[data-theme="light"] .instruction-content h4 {
+  color: #0f172a;
+}
+
+[data-theme="light"] .instruction-content p {
+  color: #475569;
+}

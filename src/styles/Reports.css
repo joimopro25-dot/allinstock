@@ -532,3 +532,549 @@
     padding: 0.75rem 0.5rem;
   }
 }
+
+/* ==================== LIGHT THEME STYLES ==================== */
+
+/* Container */
+[data-theme="light"] .reports-container {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f0f4f8 100%);
+}
+
+/* Header */
+[data-theme="light"] .reports-header {
+  border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+/* Report Tabs */
+[data-theme="light"] .report-tabs::-webkit-scrollbar-track {
+  background: rgba(102, 126, 234, 0.08);
+}
+
+[data-theme="light"] .report-tabs::-webkit-scrollbar-thumb {
+  background: rgba(102, 126, 234, 0.4);
+}
+
+[data-theme="light"] .report-tab {
+  background: #ffffff;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  color: #64748b;
+}
+
+[data-theme="light"] .report-tab:hover {
+  background: #f8fafc;
+  border-color: rgba(102, 126, 234, 0.35);
+  color: #0f172a;
+}
+
+[data-theme="light"] .report-tab.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.35);
+}
+
+/* Metrics Grid and Cards */
+[data-theme="light"] .metric-card {
+  background: #ffffff;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .metric-card:hover {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.35);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .metric-card.warning {
+  border-left: 3px solid rgba(251, 191, 36, 0.8);
+}
+
+[data-theme="light"] .metric-card.danger {
+  border-left: 3px solid rgba(239, 68, 68, 0.8);
+}
+
+[data-theme="light"] .metric-icon {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .metric-icon svg {
+  color: white;
+}
+
+[data-theme="light"] .metric-icon.products {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+[data-theme="light"] .metric-icon.value {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+[data-theme="light"] .metric-icon.alert {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+}
+
+[data-theme="light"] .metric-icon.out {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+[data-theme="light"] .metric-label {
+  color: #64748b;
+}
+
+[data-theme="light"] .metric-value {
+  color: #0f172a;
+}
+
+/* Report Section */
+[data-theme="light"] .report-section {
+  background: #ffffff;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .section-title {
+  color: #0f172a;
+  border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+/* Family Grid and Cards */
+[data-theme="light"] .family-card {
+  background: #f8fafc;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+[data-theme="light"] .family-card:hover {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .family-name {
+  color: #0f172a;
+}
+
+[data-theme="light"] .stat-label {
+  color: #64748b;
+}
+
+[data-theme="light"] .stat-value {
+  color: #1e293b;
+  font-weight: 700;
+}
+
+/* Table Styles */
+[data-theme="light"] .table-container {
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .report-table thead {
+  background: #f8fafc;
+  border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+}
+
+[data-theme="light"] .report-table th {
+  color: #475569;
+  border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+[data-theme="light"] .report-table td {
+  color: #334155;
+  border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+[data-theme="light"] .report-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+[data-theme="light"] .product-name-cell {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+[data-theme="light"] .reference-cell {
+  color: #64748b;
+}
+
+[data-theme="light"] .value-cell {
+  color: #059669;
+  font-weight: 700;
+}
+
+[data-theme="light"] .warning-row {
+  background: rgba(251, 191, 36, 0.08);
+  border-left: 3px solid rgba(251, 191, 36, 0.8);
+}
+
+[data-theme="light"] .danger-text {
+  color: #ef4444;
+  font-weight: 700;
+}
+
+[data-theme="light"] .success-text {
+  color: #059669;
+  font-weight: 700;
+}
+
+/* Status Badge */
+[data-theme="light"] .status-badge.ok {
+  background: rgba(16, 185, 129, 0.15);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+[data-theme="light"] .status-badge.low {
+  background: rgba(251, 191, 36, 0.15);
+  color: #d97706;
+  border: 1px solid rgba(251, 191, 36, 0.35);
+}
+
+[data-theme="light"] .status-badge.out {
+  background: rgba(239, 68, 68, 0.15);
+  color: #dc2626;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+/* Empty Report */
+[data-theme="light"] .empty-report {
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+[data-theme="light"] .empty-icon {
+  color: rgba(102, 126, 234, 0.4);
+}
+
+[data-theme="light"] .empty-report p {
+  color: #64748b;
+}
+
+/* Valuation Grid and Cards */
+[data-theme="light"] .valuation-card {
+  background: #f8fafc;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+[data-theme="light"] .valuation-card:hover {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.35);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .valuation-family {
+  color: #0f172a;
+}
+
+[data-theme="light"] .valuation-amount {
+  color: #059669;
+}
+
+[data-theme="light"] .valuation-detail {
+  color: #64748b;
+}
+
+[data-theme="light"] .valuation-bar {
+  background: rgba(102, 126, 234, 0.15);
+}
+
+[data-theme="light"] .valuation-fill {
+  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+}
+
+/* Loading State */
+[data-theme="light"] .loading-state {
+  color: #64748b;
+}
+
+/* Charts and Visualizations (if added later) */
+[data-theme="light"] .chart-container {
+  background: #ffffff;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+[data-theme="light"] .chart-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .chart-legend {
+  color: #475569;
+}
+
+/* Additional Text Elements */
+[data-theme="light"] .report-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .report-subtitle {
+  color: #64748b;
+}
+
+[data-theme="light"] .report-description {
+  color: #475569;
+}
+
+[data-theme="light"] .report-hint {
+  color: #94a3b8;
+}
+
+/* Borders and Dividers */
+[data-theme="light"] .divider {
+  border-color: rgba(102, 126, 234, 0.2);
+}
+
+[data-theme="light"] .separator {
+  background: rgba(102, 126, 234, 0.2);
+}
+
+/* Summary Cards */
+[data-theme="light"] .summary-card {
+  background: #ffffff;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .summary-card:hover {
+  border-color: rgba(102, 126, 234, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .summary-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .summary-value {
+  color: #1e293b;
+}
+
+[data-theme="light"] .summary-label {
+  color: #64748b;
+}
+
+/* Export/Action Buttons (if present) */
+[data-theme="light"] .export-button {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  color: #667eea;
+}
+
+[data-theme="light"] .export-button:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+  border-color: rgba(102, 126, 234, 0.35);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+[data-theme="light"] .print-button {
+  background: #f8fafc;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  color: #475569;
+}
+
+[data-theme="light"] .print-button:hover {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.35);
+}
+
+/* Filters and Controls */
+[data-theme="light"] .report-filter {
+  background: #ffffff;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  color: #1e293b;
+}
+
+[data-theme="light"] .report-filter:focus {
+  border-color: rgba(102, 126, 234, 0.5);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+}
+
+[data-theme="light"] .date-range-picker {
+  background: #ffffff;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  color: #1e293b;
+}
+
+[data-theme="light"] .date-range-picker:focus {
+  border-color: rgba(102, 126, 234, 0.5);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+}
+
+/* Tooltips */
+[data-theme="light"] .report-tooltip {
+  background: #0f172a;
+  color: #ffffff;
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Pagination (if present) */
+[data-theme="light"] .pagination-button {
+  background: #ffffff;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  color: #667eea;
+}
+
+[data-theme="light"] .pagination-button:hover:not(:disabled) {
+  background: #f8fafc;
+  border-color: rgba(102, 126, 234, 0.35);
+}
+
+[data-theme="light"] .pagination-button.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: transparent;
+  color: white;
+}
+
+[data-theme="light"] .pagination-button:disabled {
+  background: #f0f4f8;
+  border-color: rgba(102, 126, 234, 0.1);
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* Data Grid Enhancements */
+[data-theme="light"] .grid-header {
+  background: #f8fafc;
+  color: #475569;
+  border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+}
+
+[data-theme="light"] .grid-cell {
+  color: #334155;
+  border-color: rgba(102, 126, 234, 0.1);
+}
+
+[data-theme="light"] .grid-row:hover {
+  background: #f8fafc;
+}
+
+[data-theme="light"] .grid-row.selected {
+  background: rgba(102, 126, 234, 0.08);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+/* Progress Bars */
+[data-theme="light"] .progress-bar {
+  background: rgba(102, 126, 234, 0.15);
+}
+
+[data-theme="light"] .progress-fill {
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+}
+
+[data-theme="light"] .progress-label {
+  color: #475569;
+}
+
+/* Info Boxes */
+[data-theme="light"] .info-box {
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  color: #1e40af;
+}
+
+[data-theme="light"] .warning-box {
+  background: rgba(251, 191, 36, 0.08);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  color: #92400e;
+}
+
+[data-theme="light"] .error-box {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #991b1b;
+}
+
+[data-theme="light"] .success-box {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: #065f46;
+}
+
+/* Report Statistics */
+[data-theme="light"] .stat-card {
+  background: #ffffff;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .stat-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-color: rgba(102, 126, 234, 0.35);
+}
+
+[data-theme="light"] .stat-number {
+  color: #0f172a;
+}
+
+[data-theme="light"] .stat-description {
+  color: #64748b;
+}
+
+/* Badges and Tags */
+[data-theme="light"] .tag {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+[data-theme="light"] .badge-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+[data-theme="light"] .badge-secondary {
+  background: #f8fafc;
+  color: #475569;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+/* Dropdown Menus */
+[data-theme="light"] .dropdown-menu {
+  background: #ffffff;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .dropdown-item {
+  color: #334155;
+}
+
+[data-theme="light"] .dropdown-item:hover {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+[data-theme="light"] .dropdown-divider {
+  background: rgba(102, 126, 234, 0.15);
+}
+
+/* Accordion/Collapsible Sections */
+[data-theme="light"] .accordion-header {
+  background: #f8fafc;
+  color: #0f172a;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+[data-theme="light"] .accordion-header:hover {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.35);
+}
+
+[data-theme="light"] .accordion-content {
+  background: #ffffff;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  border-top: none;
+}
+
+/* Scrollbars */
+[data-theme="light"] .report-section::-webkit-scrollbar-track {
+  background: rgba(102, 126, 234, 0.08);
+}
+
+[data-theme="light"] .report-section::-webkit-scrollbar-thumb {
+  background: rgba(102, 126, 234, 0.3);
+}
+
+[data-theme="light"] .report-section::-webkit-scrollbar-thumb:hover {
+  background: rgba(102, 126, 234, 0.5);
+}

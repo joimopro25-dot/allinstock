@@ -2,6 +2,11 @@
   position: relative;
   cursor: pointer;
   transition: all 0.3s ease;
+  opacity: 0.6;
+}
+
+.theme-toggle:hover {
+  opacity: 1;
 }
 
 .theme-toggle-track {
@@ -96,9 +101,23 @@
 }
 
 /* Light theme specific colors */
+[data-theme="light"] .theme-toggle-track {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.12) 100%);
+  border: 1px solid rgba(102, 126, 234, 0.25);
+}
+
+[data-theme="light"] .theme-toggle:hover .theme-toggle-track {
+  box-shadow: 0 0 15px rgba(102, 126, 234, 0.3);
+  border-color: rgba(102, 126, 234, 0.5);
+}
+
 [data-theme="light"] .theme-toggle-slider {
-  background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   box-shadow:
-    0 0 20px rgba(245, 158, 11, 0.5),
+    0 0 20px rgba(102, 126, 234, 0.5),
     inset 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="light"] .theme-option-icon {
+  color: rgba(102, 126, 234, 0.4);
 }

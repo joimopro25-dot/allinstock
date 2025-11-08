@@ -732,3 +732,344 @@
     font-size: 1.1rem;
   }
 }
+
+/* ==================== LIGHT THEME STYLES ==================== */
+
+[data-theme="light"] .quotations-container {
+  background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 50%, #cbd5e0 100%);
+  color: #0f172a;
+}
+
+/* Header - Light Theme */
+[data-theme="light"] .quotations-header {
+  border-bottom-color: rgba(102, 126, 234, 0.2);
+}
+
+[data-theme="light"] .logo-text {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .page-title {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .logout-button {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.25);
+  color: #334155;
+}
+
+[data-theme="light"] .logout-button:hover {
+  background: #f8fafc;
+  border-color: rgba(102, 126, 234, 0.35);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Search and Filters - Light Theme */
+[data-theme="light"] .search-input {
+  background: #f8fafc;
+  border-color: rgba(102, 126, 234, 0.2);
+  color: #0f172a;
+}
+
+[data-theme="light"] .search-input::placeholder {
+  color: #94a3b8;
+}
+
+[data-theme="light"] .search-input:focus {
+  background: #ffffff;
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+[data-theme="light"] .filter-toggle {
+  background: #f8fafc;
+  border-color: rgba(102, 126, 234, 0.2);
+  color: #334155;
+}
+
+[data-theme="light"] .filter-toggle:hover {
+  background: #ffffff;
+  border-color: rgba(167, 139, 250, 0.4);
+  color: #0f172a;
+}
+
+[data-theme="light"] .filter-toggle.active {
+  background: rgba(167, 139, 250, 0.15);
+  border-color: rgba(167, 139, 250, 0.4);
+  color: #7c3aed;
+}
+
+[data-theme="light"] .filter-badge {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+/* Advanced Filters - Light Theme */
+[data-theme="light"] .advanced-filters {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .filter-group label {
+  color: #64748b;
+}
+
+[data-theme="light"] .filter-select,
+[data-theme="light"] .filter-input {
+  background: #f8fafc;
+  border-color: rgba(102, 126, 234, 0.2);
+  color: #0f172a;
+}
+
+[data-theme="light"] .filter-select:focus,
+[data-theme="light"] .filter-input:focus {
+  border-color: rgba(167, 139, 250, 0.5);
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.1);
+}
+
+[data-theme="light"] .filter-select option {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+[data-theme="light"] .clear-filters-button {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #dc2626;
+}
+
+[data-theme="light"] .clear-filters-button:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+[data-theme="light"] .add-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+[data-theme="light"] .add-button:hover {
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Loading and Empty States - Light Theme */
+[data-theme="light"] .loading {
+  color: #64748b;
+}
+
+[data-theme="light"] .empty-icon {
+  color: #cbd5e0;
+}
+
+[data-theme="light"] .empty-state p {
+  color: #64748b;
+}
+
+/* Quotation Cards - Light Theme */
+[data-theme="light"] .quotation-card {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .quotation-card:hover {
+  background: #ffffff;
+  border-color: rgba(139, 92, 246, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .quotation-card-header {
+  border-bottom-color: rgba(102, 126, 234, 0.15);
+}
+
+[data-theme="light"] .quotation-icon {
+  color: #8b5cf6;
+}
+
+[data-theme="light"] .quotation-number {
+  color: #0f172a;
+}
+
+[data-theme="light"] .quotation-client {
+  color: #64748b;
+}
+
+/* Status Badges - Light Theme */
+[data-theme="light"] .status-badge.draft {
+  background: rgba(148, 163, 184, 0.15);
+  border-color: rgba(148, 163, 184, 0.3);
+  color: #64748b;
+}
+
+[data-theme="light"] .status-badge.sent {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: #3b82f6;
+}
+
+[data-theme="light"] .status-badge.accepted {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #059669;
+}
+
+[data-theme="light"] .status-badge.rejected {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #dc2626;
+}
+
+[data-theme="light"] .status-badge.expired {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: #d97706;
+}
+
+/* Quotation Details - Light Theme */
+[data-theme="light"] .detail-row {
+  color: #334155;
+}
+
+[data-theme="light"] .detail-label {
+  color: #64748b;
+}
+
+[data-theme="light"] .detail-value {
+  color: #334155;
+}
+
+[data-theme="light"] .detail-value.total {
+  color: #8b5cf6;
+}
+
+/* Action Buttons - Light Theme */
+[data-theme="light"] .action-button {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.2);
+  color: #334155;
+}
+
+[data-theme="light"] .action-button:hover {
+  background: #f8fafc;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .action-button.view {
+  color: #3b82f6;
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+[data-theme="light"] .action-button.view:hover {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+[data-theme="light"] .action-button.edit {
+  color: #8b5cf6;
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+[data-theme="light"] .action-button.edit:hover {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+[data-theme="light"] .action-button.send {
+  color: #3b82f6;
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+[data-theme="light"] .action-button.send:hover {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+[data-theme="light"] .action-button.accept {
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+[data-theme="light"] .action-button.accept:hover {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.5);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+[data-theme="light"] .action-button.reject {
+  color: #dc2626;
+  border-color: rgba(220, 38, 38, 0.3);
+}
+
+[data-theme="light"] .action-button.reject:hover {
+  background: rgba(220, 38, 38, 0.1);
+  border-color: rgba(220, 38, 38, 0.5);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+}
+
+[data-theme="light"] .action-button.delete {
+  color: #dc2626;
+  border-color: rgba(220, 38, 38, 0.3);
+}
+
+[data-theme="light"] .action-button.delete:hover {
+  background: rgba(220, 38, 38, 0.1);
+  border-color: rgba(220, 38, 38, 0.5);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+}
+
+/* Modal - Light Theme */
+[data-theme="light"] .modal-overlay {
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+[data-theme="light"] .modal-content {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .modal-title {
+  color: #dc2626;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .modal-text {
+  color: #334155;
+}
+
+[data-theme="light"] .modal-warning {
+  color: #dc2626;
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+[data-theme="light"] .modal-button.cancel {
+  background: #ffffff;
+  border: 1px solid rgba(102, 126, 234, 0.25);
+  color: #334155;
+}
+
+[data-theme="light"] .modal-button.cancel:hover {
+  background: #f8fafc;
+  border-color: rgba(102, 126, 234, 0.35);
+}
+
+[data-theme="light"] .modal-button.confirm {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+[data-theme="light"] .modal-button.confirm:hover {
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+}

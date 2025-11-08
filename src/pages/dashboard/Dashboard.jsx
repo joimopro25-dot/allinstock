@@ -179,73 +179,26 @@ const Dashboard = () => {
             </button>
 
             {showProfileMenu && (
-              <div
-                className="profile-menu"
-                style={{
-                  position: 'absolute',
-                  top: 'calc(100% + 0.5rem)',
-                  right: 0,
-                  background: 'rgba(30, 30, 50, 0.95)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  borderRadius: '12px',
-                  padding: '0.5rem',
-                  minWidth: '200px',
-                  boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
-                  zIndex: 1000
-                }}
-              >
+              <div className="profile-menu">
                 <button
                   onClick={() => {
                     setShowProfileMenu(false);
                     navigate('/settings/account');
                   }}
                   className="profile-menu-item"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.75rem',
-                    width: '100%',
-                    padding: '0.75rem 1rem',
-                    background: 'transparent',
-                    border: 'none',
-                    borderRadius: '8px',
-                    color: 'white',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    textAlign: 'left'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(102, 126, 234, 0.2)'}
-                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                 >
                   <Cog6ToothIcon style={{ width: '20px', height: '20px' }} />
                   <span>{t('settings') || 'Settings'}</span>
                 </button>
 
-                <div style={{ height: '1px', background: 'rgba(255, 255, 255, 0.1)', margin: '0.5rem 0' }} />
+                <div className="profile-menu-divider" />
 
                 <button
                   onClick={() => {
                     setShowProfileMenu(false);
                     handleLogout();
                   }}
-                  className="profile-menu-item"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.75rem',
-                    width: '100%',
-                    padding: '0.75rem 1rem',
-                    background: 'transparent',
-                    border: 'none',
-                    borderRadius: '8px',
-                    color: '#ef4444',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    textAlign: 'left'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'}
-                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                  className="profile-menu-item logout"
                 >
                   <ArrowRightOnRectangleIcon style={{ width: '20px', height: '20px' }} />
                   <span>{t('logout')}</span>
@@ -265,7 +218,7 @@ const Dashboard = () => {
               <SparklesIcon style={{ width: '32px', height: '32px', display: 'inline', marginRight: '12px', color: '#a78bfa' }} />
               {t('welcome')}
             </h2>
-            <p style={{ color: 'rgba(255, 255, 255, 0.7)', marginBottom: '1rem' }}>
+            <p style={{ marginBottom: '1rem' }}>
               {t('welcomeMessage')}
             </p>
             <div className="plan-badge">

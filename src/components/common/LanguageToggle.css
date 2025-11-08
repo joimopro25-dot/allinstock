@@ -80,3 +80,35 @@
   box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
   border-color: rgba(102, 126, 234, 0.5);
 }
+
+/* Light theme styles */
+[data-theme="light"] .language-icon {
+  color: #667eea;
+}
+
+[data-theme="light"] .language-toggle {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.12) 100%);
+  border: 1px solid rgba(102, 126, 234, 0.25);
+}
+
+[data-theme="light"] .language-toggle:hover {
+  box-shadow: 0 0 15px rgba(102, 126, 234, 0.3);
+  border-color: rgba(102, 126, 234, 0.5);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+}
+
+[data-theme="light"] .toggle-option {
+  color: #667eea;
+  font-weight: 700;
+}
+
+[data-theme="light"] .toggle-option.active {
+  color: white;
+}
+
+[data-theme="light"] .toggle-slider {
+  background: linear-gradient(135deg, #5b21b6 0%, #7c3aed 100%);
+  box-shadow:
+    0 0 15px rgba(124, 58, 237, 0.4),
+    inset 0 0 10px rgba(255, 255, 255, 0.3);
+}

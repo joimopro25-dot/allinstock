@@ -389,3 +389,159 @@
     font-size: 1.25rem;
   }
 }
+
+/* ==================== LIGHT THEME STYLES ==================== */
+
+[data-theme="light"] .movements-filters {
+  background: rgba(102, 126, 234, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .filter-icon {
+  color: #64748b;
+}
+
+[data-theme="light"] .filter-btn {
+  background: #f8fafc;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  color: #64748b;
+}
+
+[data-theme="light"] .filter-btn:hover {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.35);
+  color: #667eea;
+}
+
+[data-theme="light"] .filter-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+[data-theme="light"] .movements-content::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+
+[data-theme="light"] .movements-content::-webkit-scrollbar-thumb {
+  background: rgba(102, 126, 234, 0.4);
+}
+
+[data-theme="light"] .movements-timeline::before {
+  background: linear-gradient(180deg,
+    rgba(102, 126, 234, 0.4) 0%,
+    rgba(102, 126, 234, 0.2) 50%,
+    rgba(102, 126, 234, 0.1) 100%
+  );
+}
+
+[data-theme="light"] .movement-indicator {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.5);
+}
+
+[data-theme="light"] .movement-content {
+  background: #ffffff;
+  border: 1px solid rgba(102, 126, 234, 0.15);
+}
+
+[data-theme="light"] .movement-item.entry .movement-content {
+  border-left: 3px solid rgba(16, 185, 129, 0.5);
+}
+
+[data-theme="light"] .movement-item.exit .movement-content {
+  border-left: 3px solid rgba(239, 68, 68, 0.5);
+}
+
+[data-theme="light"] .movement-item.transfer .movement-content {
+  border-left: 3px solid rgba(59, 130, 246, 0.5);
+}
+
+[data-theme="light"] .movement-item.adjustment .movement-content {
+  border-left: 3px solid rgba(245, 158, 11, 0.5);
+}
+
+[data-theme="light"] .movement-content:hover {
+  background: #f8fafc;
+  border-color: rgba(102, 126, 234, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .movement-type-badge {
+  background: rgba(102, 126, 234, 0.1);
+  border-color: rgba(102, 126, 234, 0.25);
+  color: #667eea;
+}
+
+[data-theme="light"] .movement-item.entry .movement-type-badge {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.25);
+  color: #059669;
+}
+
+[data-theme="light"] .movement-item.exit .movement-type-badge {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.25);
+  color: #dc2626;
+}
+
+[data-theme="light"] .movement-item.transfer .movement-type-badge {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.25);
+  color: #2563eb;
+}
+
+[data-theme="light"] .movement-item.adjustment .movement-type-badge {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.25);
+  color: #d97706;
+}
+
+[data-theme="light"] .movement-description {
+  color: #334155;
+}
+
+[data-theme="light"] .location-name {
+  color: #0f172a;
+}
+
+[data-theme="light"] .movement-notes {
+  color: #64748b;
+}
+
+[data-theme="light"] .movement-meta {
+  color: #94a3b8;
+}
+
+[data-theme="light"] .meta-separator {
+  color: #cbd5e1;
+}
+
+[data-theme="light"] .movement-user {
+  color: #667eea;
+}
+
+[data-theme="light"] .movements-summary {
+  background: rgba(102, 126, 234, 0.05);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .stat-label {
+  color: #64748b;
+}
+
+[data-theme="light"] .stat-value {
+  color: #0f172a;
+}
+
+[data-theme="light"] .empty-icon {
+  color: rgba(102, 126, 234, 0.2);
+}
+
+[data-theme="light"] .empty-state p {
+  color: #64748b;
+}
+
+[data-theme="light"] .loading-state {
+  color: #64748b;
+}

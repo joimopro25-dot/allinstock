@@ -19,14 +19,14 @@
 [data-theme="light"] {
   --bg-primary: #f0f4f8;
   --bg-secondary: #ffffff;
-  --bg-card: rgba(255, 255, 255, 0.95);
-  --bg-card-hover: rgba(255, 255, 255, 1);
-  --text-primary: #1a202c;
-  --text-secondary: #4a5568;
-  --text-tertiary: #718096;
-  --border-color: rgba(0, 0, 0, 0.1);
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-tertiary: #475569;
+  --border-color: rgba(0, 0, 0, 0.08);
   --border-color-hover: rgba(102, 126, 234, 0.5);
-  --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.08);
   --input-bg: #ffffff;
   --color-scheme: light;
 }

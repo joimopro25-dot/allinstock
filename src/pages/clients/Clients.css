@@ -577,3 +577,255 @@
     font-size: 0.75rem;
   }
 }
+
+/* ==================== LIGHT THEME STYLES ==================== */
+
+[data-theme="light"] .clients-container {
+  background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 50%, #cbd5e0 100%);
+  color: #0f172a;
+}
+
+/* Header - Light Theme */
+[data-theme="light"] .clients-header {
+  border-bottom-color: rgba(102, 126, 234, 0.2);
+}
+
+[data-theme="light"] .logo-text {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .page-title {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .logout-button {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.25);
+  color: #334155;
+}
+
+[data-theme="light"] .logout-button:hover {
+  background: #f8fafc;
+  border-color: rgba(102, 126, 234, 0.35);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Search and Filters - Light Theme */
+[data-theme="light"] .search-input {
+  background: #f8fafc;
+  border-color: rgba(102, 126, 234, 0.2);
+  color: #0f172a;
+}
+
+[data-theme="light"] .search-input::placeholder {
+  color: #94a3b8;
+}
+
+[data-theme="light"] .search-input:focus {
+  background: #ffffff;
+  border-color: rgba(16, 185, 129, 0.5);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+[data-theme="light"] .filter-select {
+  background: #f8fafc;
+  border-color: rgba(102, 126, 234, 0.2);
+  color: #0f172a;
+}
+
+[data-theme="light"] .filter-select:focus {
+  background: #ffffff;
+  border-color: rgba(16, 185, 129, 0.5);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+[data-theme="light"] .filter-select option {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+[data-theme="light"] .add-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+[data-theme="light"] .add-button:hover {
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Loading and Empty States - Light Theme */
+[data-theme="light"] .loading {
+  color: #64748b;
+}
+
+[data-theme="light"] .empty-icon {
+  color: #cbd5e0;
+}
+
+[data-theme="light"] .empty-state p {
+  color: #64748b;
+}
+
+/* Client Cards - Light Theme */
+[data-theme="light"] .client-card {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .client-card:hover {
+  background: #ffffff;
+  border-color: rgba(16, 185, 129, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .client-card-header {
+  border-bottom-color: rgba(102, 126, 234, 0.15);
+}
+
+[data-theme="light"] .client-avatar {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+[data-theme="light"] .client-name {
+  color: #0f172a;
+}
+
+[data-theme="light"] .client-company {
+  color: #64748b;
+}
+
+/* Status Badges - Light Theme */
+[data-theme="light"] .status-badge.active {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #059669;
+}
+
+[data-theme="light"] .status-badge.inactive {
+  background: rgba(148, 163, 184, 0.15);
+  border-color: rgba(148, 163, 184, 0.3);
+  color: #64748b;
+}
+
+/* Client Details - Light Theme */
+[data-theme="light"] .detail-row {
+  color: #334155;
+}
+
+[data-theme="light"] .detail-icon {
+  color: #10b981;
+}
+
+[data-theme="light"] .detail-value {
+  color: #334155;
+}
+
+/* Action Buttons - Light Theme */
+[data-theme="light"] .action-button {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.2);
+  color: #334155;
+}
+
+[data-theme="light"] .action-button:hover {
+  background: #f8fafc;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .action-button.toggle.activate {
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+[data-theme="light"] .action-button.toggle.activate:hover {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.5);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+[data-theme="light"] .action-button.toggle.deactivate {
+  color: #64748b;
+  border-color: rgba(148, 163, 184, 0.3);
+}
+
+[data-theme="light"] .action-button.toggle.deactivate:hover {
+  background: rgba(148, 163, 184, 0.1);
+  border-color: rgba(148, 163, 184, 0.5);
+  box-shadow: 0 4px 12px rgba(148, 163, 184, 0.2);
+}
+
+[data-theme="light"] .action-button.edit {
+  color: #667eea;
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+[data-theme="light"] .action-button.edit:hover {
+  background: rgba(102, 126, 234, 0.1);
+  border-color: rgba(102, 126, 234, 0.5);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+[data-theme="light"] .action-button.delete {
+  color: #dc2626;
+  border-color: rgba(220, 38, 38, 0.3);
+}
+
+[data-theme="light"] .action-button.delete:hover {
+  background: rgba(220, 38, 38, 0.1);
+  border-color: rgba(220, 38, 38, 0.5);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+}
+
+/* Modal - Light Theme */
+[data-theme="light"] .modal-overlay {
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+[data-theme="light"] .modal-content {
+  background: #ffffff;
+  border-color: rgba(102, 126, 234, 0.2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .modal-title {
+  color: #dc2626;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .modal-text {
+  color: #334155;
+}
+
+[data-theme="light"] .modal-warning {
+  color: #dc2626;
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+[data-theme="light"] .modal-button.cancel {
+  background: #ffffff;
+  border: 1px solid rgba(102, 126, 234, 0.25);
+  color: #334155;
+}
+
+[data-theme="light"] .modal-button.cancel:hover {
+  background: #f8fafc;
+  border-color: rgba(102, 126, 234, 0.35);
+}
+
+[data-theme="light"] .modal-button.confirm {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+[data-theme="light"] .modal-button.confirm:hover {
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+}
