@@ -12,7 +12,12 @@ import { AddProductModal } from '../../components/stock/AddProductModal';
 import { EditProductModal } from '../../components/stock/EditProductModal';
 import { StockLocationsModal } from '../../components/stock/StockLocationsModal';
 import { StockMovementsModal } from '../../components/stock/StockMovementsModal';
-import { FunnelIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import {
+  FunnelIcon,
+  XMarkIcon,
+  Squares2X2Icon,
+  ListBulletIcon
+} from '@heroicons/react/24/outline';
 import { migrateProductFields } from '../../utils/migrateProductFields';
 import '../../styles/ProductList.css';
 
@@ -36,6 +41,8 @@ export function ProductList() {
   const [locationsModal, setLocationsModal] = useState({ show: false, product: null });
   const [movementsModal, setMovementsModal] = useState({ show: false, product: null });
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
+  const [sortBy, setSortBy] = useState('name-asc'); // Sort option
 
   const { company, currentUser, signOut } = useAuth();
   const { language } = useLanguage();
@@ -99,32 +106,55 @@ export function ProductList() {
     return 'in';
   };
 
-  const filteredProducts = products.filter(product => {
-    // Search filter
-    const matchesSearch = product.name.toLowerCase().includes(search.toLowerCase()) ||
-                         product.reference?.toLowerCase().includes(search.toLowerCase());
+  const filteredAndSortedProducts = products
+    .filter(product => {
+      // Search filter
+      const matchesSearch = product.name.toLowerCase().includes(search.toLowerCase()) ||
+                           product.reference?.toLowerCase().includes(search.toLowerCase());
 
-    // Family filter
-    const matchesFamily = familyFilter === 'all' || product.familyId === familyFilter;
+      // Family filter
+      const matchesFamily = familyFilter === 'all' || product.familyId === familyFilter;
 
-    // Type filter
-    const matchesType = typeFilter === 'all' || product.typeId === typeFilter;
+      // Type filter
+      const matchesType = typeFilter === 'all' || product.typeId === typeFilter;
 
-    // Category filter
-    const matchesCategory = categoryFilter === 'all' || product.categoryId === categoryFilter;
+      // Category filter
+      const matchesCategory = categoryFilter === 'all' || product.categoryId === categoryFilter;
 
-    // Stock status filter
-    const status = getStockStatus(product);
-    const matchesStockStatus = stockStatusFilter === 'all' || status === stockStatusFilter;
+      // Stock status filter
+      const status = getStockStatus(product);
+      const matchesStockStatus = stockStatusFilter === 'all' || status === stockStatusFilter;
 
-    // Price range filter
-    const productPrice = product.price || 0;
-    const matchesMinPrice = minPrice === '' || productPrice >= parseFloat(minPrice);
-    const matchesMaxPrice = maxPrice === '' || productPrice <= parseFloat(maxPrice);
+      // Price range filter
+      const productPrice = product.price || 0;
+      const matchesMinPrice = minPrice === '' || productPrice >= parseFloat(minPrice);
+      const matchesMaxPrice = maxPrice === '' || productPrice <= parseFloat(maxPrice);
 
-    return matchesSearch && matchesFamily && matchesType && matchesCategory &&
-           matchesStockStatus && matchesMinPrice && matchesMaxPrice;
-  });
+      return matchesSearch && matchesFamily && matchesType && matchesCategory &&
+             matchesStockStatus && matchesMinPrice && matchesMaxPrice;
+    })
+    .sort((a, b) => {
+      switch (sortBy) {
+        case 'name-asc':
+          return a.name.localeCompare(b.name);
+        case 'name-desc':
+          return b.name.localeCompare(a.name);
+        case 'price-high':
+          return (b.price || 0) - (a.price || 0);
+        case 'price-low':
+          return (a.price || 0) - (b.price || 0);
+        case 'stock-high':
+          return (b.totalStock || 0) - (a.totalStock || 0);
+        case 'stock-low':
+          return (a.totalStock || 0) - (b.totalStock || 0);
+        case 'family':
+          return (a.family || '').localeCompare(b.family || '');
+        case 'supplier':
+          return (a.supplier || '').localeCompare(b.supplier || '');
+        default:
+          return 0;
+      }
+    });
 
   const clearFilters = () => {
     setFamilyFilter('all');
@@ -223,6 +253,38 @@ export function ProductList() {
             {language === 'pt' ? 'Filtros' : 'Filters'}
             {activeFilterCount > 0 && <span className="filter-badge">{activeFilterCount}</span>}
           </button>
+
+          <div className="view-toggle">
+            <button
+              className={`view-toggle-btn ${viewMode === 'grid' ? 'active' : ''}`}
+              onClick={() => setViewMode('grid')}
+              title={language === 'pt' ? 'Vista de Grade' : 'Grid View'}
+            >
+              <Squares2X2Icon style={{ width: '18px', height: '18px' }} />
+            </button>
+            <button
+              className={`view-toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
+              onClick={() => setViewMode('list')}
+              title={language === 'pt' ? 'Vista de Lista' : 'List View'}
+            >
+              <ListBulletIcon style={{ width: '18px', height: '18px' }} />
+            </button>
+          </div>
+
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="sort-select"
+          >
+            <option value="name-asc">{language === 'pt' ? 'Nome (A-Z)' : 'Name (A-Z)'}</option>
+            <option value="name-desc">{language === 'pt' ? 'Nome (Z-A)' : 'Name (Z-A)'}</option>
+            <option value="price-high">{language === 'pt' ? 'Preço (Alto-Baixo)' : 'Price (High-Low)'}</option>
+            <option value="price-low">{language === 'pt' ? 'Preço (Baixo-Alto)' : 'Price (Low-High)'}</option>
+            <option value="stock-high">{language === 'pt' ? 'Stock (Alto-Baixo)' : 'Stock (High-Low)'}</option>
+            <option value="stock-low">{language === 'pt' ? 'Stock (Baixo-Alto)' : 'Stock (Low-High)'}</option>
+            <option value="family">{language === 'pt' ? 'Família' : 'Family'}</option>
+            <option value="supplier">{language === 'pt' ? 'Fornecedor' : 'Supplier'}</option>
+          </select>
 
           {families.length === 0 && types.length === 0 && categories.length === 0 && products.length > 0 && (
             <button
@@ -346,13 +408,13 @@ export function ProductList() {
 
         {loading ? (
           <div className="loading">{t('loading')}</div>
-        ) : filteredProducts.length === 0 ? (
+        ) : filteredAndSortedProducts.length === 0 ? (
           <div className="empty-state">
             <p>{t('noProducts')}</p>
           </div>
-        ) : (
+        ) : viewMode === 'grid' ? (
           <div className="products-grid">
-            {filteredProducts.map(product => {
+            {filteredAndSortedProducts.map(product => {
               const status = getStockStatus(product);
               return (
                 <div key={product.id} className="product-card" onClick={() => navigate(`/stock/${product.id}`)} style={{ cursor: 'pointer' }}>
@@ -364,7 +426,7 @@ export function ProductList() {
                       {status === 'in' && t('inStock')}
                     </span>
                   </div>
-                  
+
                   <div className="product-details">
                     {product.reference && (
                       <div className="detail-row">
@@ -389,8 +451,80 @@ export function ProductList() {
                       </div>
                     )}
                   </div>
-                  
+
                   <div className="product-actions" onClick={(e) => e.stopPropagation()}>
+                    <button
+                      className="action-button locations"
+                      onClick={() => setLocationsModal({ show: true, product })}
+                    >
+                      {language === 'pt' ? 'Localizações' : 'Locations'}
+                    </button>
+                    <button
+                      className="action-button history"
+                      onClick={() => setMovementsModal({ show: true, product })}
+                    >
+                      {language === 'pt' ? 'Histórico' : 'History'}
+                    </button>
+                    <button
+                      className="action-button edit"
+                      onClick={() => setEditModal({ show: true, product })}
+                    >
+                      {t('edit')}
+                    </button>
+                    <button
+                      className="action-button delete"
+                      onClick={() => setDeleteModal({ show: true, product })}
+                    >
+                      {t('delete')}
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="products-list">
+            {filteredAndSortedProducts.map(product => {
+              const status = getStockStatus(product);
+              return (
+                <div key={product.id} className="product-list-item" onClick={() => navigate(`/stock/${product.id}`)} style={{ cursor: 'pointer' }}>
+                  <div className="list-item-main">
+                    <div className="list-item-info">
+                      <h3 className="list-item-name">{product.name}</h3>
+                      {product.reference && (
+                        <span className="list-item-reference">{product.reference}</span>
+                      )}
+                    </div>
+
+                    <div className="list-item-details">
+                      {product.family && (
+                        <div className="list-detail">
+                          <span className="list-detail-label">{t('family')}:</span>
+                          <span className="list-detail-value family">{product.family}</span>
+                        </div>
+                      )}
+                      <div className="list-detail">
+                        <span className="list-detail-label">{t('totalStock')}:</span>
+                        <span className="list-detail-value">{product.totalStock} {product.unit}</span>
+                      </div>
+                      {product.price > 0 && (
+                        <div className="list-detail">
+                          <span className="list-detail-label">{t('price')}:</span>
+                          <span className="list-detail-value price">€{product.price.toFixed(2)}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="list-item-status">
+                    <span className={`stock-badge ${status}`}>
+                      {status === 'out' && t('outOfStock')}
+                      {status === 'low' && t('lowStock')}
+                      {status === 'in' && t('inStock')}
+                    </span>
+                  </div>
+
+                  <div className="list-item-actions" onClick={(e) => e.stopPropagation()}>
                     <button
                       className="action-button locations"
                       onClick={() => setLocationsModal({ show: true, product })}
