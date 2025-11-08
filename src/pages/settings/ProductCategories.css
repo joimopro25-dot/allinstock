@@ -1,5 +1,5 @@
 .categories-container {
-  margin-left: 250px;
+  margin-left: 280px;
   min-height: 100vh;
   background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #16213e 100%);
   transition: margin-left 0.3s ease;
@@ -26,7 +26,7 @@
 }
 
 .logo-text {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
   background: linear-gradient(135deg, #a78bfa 0%, #ec4899 100%);
   -webkit-background-clip: text;
@@ -35,7 +35,7 @@
 }
 
 .page-title {
-  font-size: 1.5rem;
+  font-size: 2.25rem;
   font-weight: 600;
   color: white;
   margin: 0;
@@ -53,7 +53,7 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   color: white;
-  font-size: 0.875rem;
+  font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -83,7 +83,7 @@
   border: none;
   border-bottom: 2px solid transparent;
   color: rgba(255, 255, 255, 0.6);
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -110,7 +110,7 @@
   color: #a78bfa;
   padding: 0.125rem 0.5rem;
   border-radius: 12px;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 600;
 }
 
@@ -132,7 +132,7 @@
 }
 
 .content-header h3 {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: white;
   margin: 0;
@@ -147,7 +147,7 @@
   border: none;
   border-radius: 8px;
   color: white;
-  font-size: 0.875rem;
+  font-size: 1.05rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -210,14 +210,14 @@
 }
 
 .item-content h4 {
-  font-size: 1rem;
+  font-size: 1.15rem;
   font-weight: 600;
   color: white;
   margin: 0 0 0.25rem 0;
 }
 
 .item-content p {
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: rgba(255, 255, 255, 0.5);
   margin: 0;
 }
@@ -273,7 +273,7 @@
 }
 
 .modal-content h3 {
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   font-weight: 600;
   color: white;
   margin: 0 0 1.5rem 0;
@@ -287,7 +287,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   color: white;
-  font-size: 0.875rem;
+  font-size: 1rem;
   margin-bottom: 1rem;
 }
 
@@ -314,7 +314,7 @@
   padding: 0.875rem;
   border: none;
   border-radius: 8px;
-  font-size: 0.875rem;
+  font-size: 1.05rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -336,6 +336,75 @@
 
 .modal-button.confirm:hover {
   background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+}
+
+/* ==================== RESPONSIVE DESIGN - FONT SIZES ==================== */
+
+/* Larger screens - 1600px+ */
+@media (min-width: 1600px) {
+  .logo-text {
+    font-size: 2rem !important;
+  }
+
+  .page-title {
+    font-size: 2.75rem !important;
+  }
+
+  .logout-button {
+    font-size: 1.15rem !important;
+  }
+
+  .tab {
+    font-size: 1.15rem !important;
+  }
+
+  .tab-badge {
+    font-size: 0.95rem !important;
+  }
+
+  .content-header h3 {
+    font-size: 1.75rem !important;
+  }
+
+  .add-button {
+    font-size: 1.2rem !important;
+  }
+
+  .item-content h4 {
+    font-size: 1.35rem !important;
+  }
+
+  .item-content p {
+    font-size: 1.15rem !important;
+  }
+
+  .modal-content h3 {
+    font-size: 1.6rem !important;
+  }
+
+  .modal-input,
+  .modal-select {
+    font-size: 1.15rem !important;
+  }
+
+  .modal-button {
+    font-size: 1.2rem !important;
+  }
+}
+
+/* Medium-large screens - 1400px */
+@media (max-width: 1400px) {
+  .page-title {
+    font-size: 2.1rem !important;
+  }
+
+  .content-header h3 {
+    font-size: 1.4rem !important;
+  }
+
+  .item-content h4 {
+    font-size: 1.1rem !important;
+  }
 }
 
 /* Responsive */

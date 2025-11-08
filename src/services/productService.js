@@ -15,18 +15,20 @@ async function getProducts(companyId) {
   const productsRef = collection(db, 'companies', companyId, 'products');
   const q = query(productsRef, orderBy('createdAt', 'desc'));
   const snapshot = await getDocs(q);
-  
-  const products = [];
-  for (const docSnap of snapshot.docs) {
+
+  // Fetch all stock locations in parallel for better performance
+  const productPromises = snapshot.docs.map(async (docSnap) => {
     const productData = { id: docSnap.id, ...docSnap.data() };
-    
+
     const locations = await getStockLocations(companyId, docSnap.id);
     productData.stockLocations = locations;
     productData.totalStock = locations.reduce((sum, loc) => sum + loc.quantity, 0);
-    
-    products.push(productData);
-  }
-  
+
+    return productData;
+  });
+
+  const products = await Promise.all(productPromises);
+
   return products;
 }
 

@@ -66,16 +66,15 @@ export function ProductList() {
 
   const loadFilterOptions = async () => {
     try {
-      // Load families
-      const familiesSnapshot = await getDocs(collection(db, 'companies', company.id, 'productFamilies'));
+      // Load all filter options in parallel for better performance
+      const [familiesSnapshot, typesSnapshot, categoriesSnapshot] = await Promise.all([
+        getDocs(collection(db, 'companies', company.id, 'productFamilies')),
+        getDocs(collection(db, 'companies', company.id, 'productTypes')),
+        getDocs(collection(db, 'companies', company.id, 'productCategories'))
+      ]);
+
       setFamilies(familiesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-
-      // Load types
-      const typesSnapshot = await getDocs(collection(db, 'companies', company.id, 'productTypes'));
       setTypes(typesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-
-      // Load categories
-      const categoriesSnapshot = await getDocs(collection(db, 'companies', company.id, 'productCategories'));
       setCategories(categoriesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
     } catch (err) {
       console.error('Failed to load filter options:', err);

@@ -58,11 +58,14 @@ export default function StockLocations() {
     const productsSnapshot = await getDocs(collection(db, 'companies', company.id, 'products'));
     const locationMap = new Map();
 
-    for (const productDoc of productsSnapshot.docs) {
-      const locationsSnapshot = await getDocs(
-        collection(db, 'companies', company.id, 'products', productDoc.id, 'stockLocations')
-      );
+    // Fetch all stock locations in parallel for better performance
+    const locationPromises = productsSnapshot.docs.map(productDoc =>
+      getDocs(collection(db, 'companies', company.id, 'products', productDoc.id, 'stockLocations'))
+    );
 
+    const allLocationsSnapshots = await Promise.all(locationPromises);
+
+    allLocationsSnapshots.forEach(locationsSnapshot => {
       locationsSnapshot.docs.forEach(locDoc => {
         const locData = locDoc.data();
         const locationKey = locData.name; // Use name as unique key
@@ -78,16 +81,16 @@ export default function StockLocations() {
           });
         }
       });
-    }
+    });
 
     setLocations(Array.from(locationMap.values()));
   };
 
   const loadProducts = async () => {
     const snapshot = await getDocs(collection(db, 'companies', company.id, 'products'));
-    const productsData = [];
 
-    for (const productDoc of snapshot.docs) {
+    // Fetch all stock locations in parallel for better performance
+    const productPromises = snapshot.docs.map(async (productDoc) => {
       const productData = {
         id: productDoc.id,
         ...productDoc.data()
@@ -106,8 +109,10 @@ export default function StockLocations() {
       // Calculate total stock
       productData.totalStock = productData.stockLocations.reduce((sum, loc) => sum + (loc.quantity || 0), 0);
 
-      productsData.push(productData);
-    }
+      return productData;
+    });
+
+    const productsData = await Promise.all(productPromises);
 
     setProducts(productsData);
   };

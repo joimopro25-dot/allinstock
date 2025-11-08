@@ -85,12 +85,19 @@
 }
 
 .company-name {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 700;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* Larger screens */
+@media (min-width: 1600px) {
+  .company-name {
+    font-size: 2.2rem;
+  }
 }
 
 .user-info {
@@ -101,7 +108,13 @@
 
 .user-email {
   color: var(--text-secondary);
-  font-size: 0.9rem;
+  font-size: 1.05rem;
+}
+
+@media (min-width: 1600px) {
+  .user-email {
+    font-size: 1.25rem;
+  }
 }
 
 /* Light theme header text */
@@ -310,9 +323,15 @@
 
 .welcome-card h2 {
   color: var(--text-primary);
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin-bottom: 0.5rem;
   font-weight: 700;
+}
+
+@media (min-width: 1600px) {
+  .welcome-card h2 {
+    font-size: 3rem;
+  }
 }
 
 .welcome-card h2 svg {
@@ -326,6 +345,13 @@
 
 .welcome-card p {
   color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+@media (min-width: 1600px) {
+  .welcome-card p {
+    font-size: 1.35rem;
+  }
 }
 
 .plan-badge {
@@ -335,8 +361,16 @@
   border: 1px solid rgba(102, 126, 234, 0.5);
   border-radius: 20px;
   color: #a78bfa;
+  font-size: 1rem;
   font-weight: 600;
   box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+}
+
+@media (min-width: 1600px) {
+  .plan-badge {
+    font-size: 1.25rem;
+    padding: 0.625rem 1.25rem;
+  }
 }
 
 /* Light theme plan badge */
@@ -371,17 +405,57 @@ h2[style*="background-clip: text"] {
   z-index: 1;
 }
 
+@media (max-width: 768px) {
+  .analytics-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    padding: 0 1rem 1rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .analytics-card {
   background: var(--bg-card);
   backdrop-filter: blur(20px);
   border: 1px solid var(--border-color);
   border-radius: 16px;
-  padding: 1.5rem;
+  padding: 1.25rem 1rem;
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1rem;
   transition: all 0.3s ease;
   box-shadow: 0 2px 8px var(--shadow-color);
+  min-width: 0;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .analytics-card {
+    padding: 1rem 0.875rem;
+    gap: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .analytics-card {
+    padding: 0.875rem 0.75rem;
+    gap: 0.75rem;
+  }
+
+  .analytics-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .analytics-icon svg {
+    width: 22px;
+    height: 22px;
+  }
 }
 
 .analytics-card:hover {
@@ -435,8 +509,8 @@ h2[style*="background-clip: text"] {
 }
 
 .analytics-icon {
-  width: 56px;
-  height: 56px;
+  width: 50px;
+  height: 50px;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -445,33 +519,149 @@ h2[style*="background-clip: text"] {
 }
 
 .analytics-icon svg {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
 }
 
 .analytics-content {
   flex: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .analytics-label {
-  font-size: 0.75rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: var(--text-tertiary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
 }
 
 .analytics-value {
-  font-size: 2rem;
+  font-size: 2rem !important;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.4rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.2;
+  display: block;
+  width: 100%;
+  overflow: visible;
+  white-space: normal;
 }
 
 .analytics-subtitle {
-  font-size: 0.875rem;
+  font-size: 1.05rem;
   color: var(--text-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+/* Larger screens - analytics cards */
+@media (min-width: 1600px) {
+  .analytics-label {
+    font-size: 1.25rem !important;
+  }
+
+  .analytics-value {
+    font-size: 2.5rem !important;
+  }
+
+  .analytics-subtitle {
+    font-size: 1.25rem !important;
+  }
+
+  .analytics-card {
+    padding: 1.75rem 1.5rem;
+  }
+
+  .analytics-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .analytics-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 1400px) {
+  .analytics-label {
+    font-size: 0.85rem;
+  }
+
+  .analytics-value {
+    font-size: 1.75rem !important;
+  }
+
+  .analytics-subtitle {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .analytics-label {
+    font-size: 0.8rem;
+  }
+
+  .analytics-value {
+    font-size: 1.5rem !important;
+  }
+
+  .analytics-subtitle {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .analytics-label {
+    font-size: 0.75rem;
+  }
+
+  .analytics-value {
+    font-size: 1.35rem !important;
+  }
+
+  .analytics-subtitle {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .analytics-label {
+    font-size: 0.7rem;
+  }
+
+  .analytics-value {
+    font-size: 1.25rem !important;
+  }
+
+  .analytics-subtitle {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .analytics-label {
+    font-size: 0.65rem;
+  }
+
+  .analytics-value {
+    font-size: 1.1rem !important;
+  }
+
+  .analytics-subtitle {
+    font-size: 0.7rem;
+  }
 }
 
 /* Force text colors in light mode */
@@ -495,6 +685,13 @@ h2[style*="background-clip: text"] {
   padding: 2rem;
   position: relative;
   z-index: 1;
+}
+
+@media (min-width: 1600px) {
+  .modules-grid {
+    gap: 2rem;
+    padding: 2.5rem;
+  }
 }
 
 /* Card de módulo com efeitos incríveis */
@@ -625,16 +822,37 @@ h2[style*="background-clip: text"] {
 
 .module-card h3 {
   color: var(--text-primary);
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-weight: 700;
 }
 
 .module-card p {
   color: var(--text-secondary);
-  font-size: 0.95rem;
+  font-size: 1.1rem;
+}
+
+/* Larger screens - module cards */
+@media (min-width: 1600px) {
+  .module-card {
+    padding: 2.5rem;
+  }
+
+  .module-card h3 {
+    font-size: 2rem;
+  }
+
+  .module-card p {
+    font-size: 1.35rem;
+  }
+
+  .module-icon {
+    font-size: 3.75rem;
+    margin-bottom: 1.5rem;
+  }
 }
 
 /* Card desativado */
@@ -701,6 +919,12 @@ h2[style*="background-clip: text"] {
   z-index: 1;
 }
 
+@media (min-width: 1600px) {
+  .modules-grid-small {
+    gap: 1.5rem;
+  }
+}
+
 .module-card-small {
   background: var(--bg-card);
   backdrop-filter: blur(20px);
@@ -765,16 +989,32 @@ h2[style*="background-clip: text"] {
 
 .module-card-small h4 {
   color: var(--text-primary);
-  font-size: 1rem;
+  font-size: 1.25rem;
   font-weight: 700;
   margin: 0 0 0.5rem 0;
 }
 
 .module-card-small p {
   color: var(--text-secondary);
-  font-size: 0.8125rem;
+  font-size: 1rem;
   margin: 0;
   line-height: 1.4;
+}
+
+/* Larger screens - small module cards */
+@media (min-width: 1600px) {
+  .module-card-small {
+    padding: 2rem;
+    min-height: 200px;
+  }
+
+  .module-card-small h4 {
+    font-size: 1.5rem;
+  }
+
+  .module-card-small p {
+    font-size: 1.2rem;
+  }
 }
 
 @media (max-width: 768px) {

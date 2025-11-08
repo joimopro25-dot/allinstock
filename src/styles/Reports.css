@@ -167,8 +167,8 @@
 
 .metric-label {
   color: rgba(255, 255, 255, 0.6);
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: 1.05rem;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -177,7 +177,10 @@
   color: white;
   font-size: 2rem;
   font-weight: 700;
-  line-height: 1;
+  line-height: 1.2;
+  overflow: visible;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 .metric-value.large {
@@ -196,8 +199,8 @@
 
 .section-title {
   color: white;
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.6rem;
+  font-weight: 700;
   margin: 0 0 1.5rem 0;
   padding-bottom: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -226,8 +229,8 @@
 
 .family-name {
   color: white;
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.25rem;
+  font-weight: 700;
   margin: 0 0 1rem 0;
 }
 
@@ -245,12 +248,14 @@
 
 .stat-label {
   color: rgba(255, 255, 255, 0.6);
-  font-size: 0.85rem;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .stat-value {
   color: white;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1.1rem;
 }
 
 /* Table */
@@ -273,8 +278,8 @@
   padding: 1rem;
   text-align: left;
   color: rgba(255, 255, 255, 0.8);
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -283,7 +288,7 @@
 .report-table td {
   padding: 1rem;
   color: rgba(255, 255, 255, 0.8);
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -403,21 +408,25 @@
 
 .valuation-family {
   color: white;
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.25rem;
+  font-weight: 700;
   margin: 0 0 0.75rem 0;
 }
 
 .valuation-amount {
   color: #10b981;
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
+  line-height: 1.2;
+  overflow: visible;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 .valuation-detail {
   color: rgba(255, 255, 255, 0.6);
-  font-size: 0.85rem;
+  font-size: 1rem;
   margin-bottom: 1rem;
 }
 
@@ -445,7 +454,122 @@
   font-size: 1rem;
 }
 
-/* Responsive */
+/* Responsive - Larger Screens */
+@media (min-width: 1600px) {
+  .metric-label {
+    font-size: 1.25rem !important;
+  }
+
+  .metric-value {
+    font-size: 2.5rem !important;
+  }
+
+  .metric-value.large {
+    font-size: 3rem !important;
+  }
+
+  .section-title {
+    font-size: 2rem !important;
+  }
+
+  .family-name {
+    font-size: 1.5rem !important;
+  }
+
+  .stat-label {
+    font-size: 1.15rem !important;
+  }
+
+  .stat-value {
+    font-size: 1.35rem !important;
+  }
+
+  .report-table th {
+    font-size: 1.15rem !important;
+    padding: 1.25rem !important;
+  }
+
+  .report-table td {
+    font-size: 1.2rem !important;
+    padding: 1.25rem !important;
+  }
+
+  .valuation-family {
+    font-size: 1.5rem !important;
+  }
+
+  .valuation-amount {
+    font-size: 2.5rem !important;
+  }
+
+  .valuation-detail {
+    font-size: 1.15rem !important;
+  }
+
+  .metric-card {
+    padding: 2rem !important;
+  }
+
+  .metric-icon {
+    width: 64px !important;
+    height: 64px !important;
+  }
+
+  .metric-icon svg {
+    width: 36px !important;
+    height: 36px !important;
+  }
+}
+
+/* Responsive - Medium-Large Screens */
+@media (max-width: 1400px) {
+  .metric-label {
+    font-size: 0.9rem;
+  }
+
+  .metric-value {
+    font-size: 1.75rem !important;
+  }
+
+  .metric-value.large {
+    font-size: 2.25rem !important;
+  }
+
+  .valuation-amount {
+    font-size: 1.75rem !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .metric-label {
+    font-size: 0.85rem;
+  }
+
+  .metric-value {
+    font-size: 1.5rem !important;
+  }
+
+  .metric-value.large {
+    font-size: 2rem !important;
+  }
+
+  .section-title {
+    font-size: 1.4rem;
+  }
+
+  .valuation-amount {
+    font-size: 1.5rem !important;
+  }
+
+  .report-table th {
+    font-size: 0.9rem;
+  }
+
+  .report-table td {
+    font-size: 0.95rem;
+  }
+}
+
 @media (max-width: 1024px) {
   .reports-container {
     margin-left: 80px;
@@ -461,6 +585,22 @@
 
   .metric-card.large {
     grid-column: span 1;
+  }
+
+  .metric-label {
+    font-size: 0.8rem;
+  }
+
+  .metric-value {
+    font-size: 1.35rem !important;
+  }
+
+  .metric-value.large {
+    font-size: 1.75rem !important;
+  }
+
+  .valuation-amount {
+    font-size: 1.35rem !important;
   }
 }
 
@@ -506,12 +646,20 @@
     height: 24px;
   }
 
+  .metric-label {
+    font-size: 0.75rem;
+  }
+
   .metric-value {
-    font-size: 1.5rem;
+    font-size: 1.25rem !important;
   }
 
   .metric-value.large {
-    font-size: 2rem;
+    font-size: 1.75rem !important;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
   }
 
   .report-section {
@@ -523,13 +671,92 @@
     grid-template-columns: 1fr;
   }
 
+  .family-name {
+    font-size: 1.1rem;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+  }
+
+  .stat-value {
+    font-size: 1rem;
+  }
+
+  .valuation-family {
+    font-size: 1.1rem;
+  }
+
+  .valuation-amount {
+    font-size: 1.25rem !important;
+  }
+
+  .valuation-detail {
+    font-size: 0.9rem;
+  }
+
   .table-container {
     font-size: 0.85rem;
   }
 
-  .report-table th,
+  .report-table th {
+    font-size: 0.8rem !important;
+    padding: 0.75rem 0.5rem !important;
+  }
+
   .report-table td {
-    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem !important;
+    padding: 0.75rem 0.5rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .metric-label {
+    font-size: 0.7rem;
+  }
+
+  .metric-value {
+    font-size: 1.1rem !important;
+  }
+
+  .metric-value.large {
+    font-size: 1.5rem !important;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+  }
+
+  .family-name {
+    font-size: 1rem;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+  }
+
+  .stat-value {
+    font-size: 0.95rem;
+  }
+
+  .valuation-family {
+    font-size: 1rem;
+  }
+
+  .valuation-amount {
+    font-size: 1.1rem !important;
+  }
+
+  .valuation-detail {
+    font-size: 0.85rem;
+  }
+
+  .report-table th {
+    font-size: 0.75rem !important;
+  }
+
+  .report-table td {
+    font-size: 0.8rem !important;
   }
 }
 

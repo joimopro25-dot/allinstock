@@ -60,20 +60,39 @@ const Dashboard = () => {
     try {
       setLoading(true);
 
-      // Load products
-      const productsSnapshot = await getDocs(collection(db, 'companies', company.id, 'products'));
-      const products = productsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      const lowStock = products.filter(p => (p.stock || 0) <= (p.minStock || 0));
-      const stockValue = products.reduce((sum, p) => sum + ((p.stock || 0) * (p.price || 0)), 0);
+      // Load all data in parallel for better performance
+      const [productsSnapshot, clientsSnapshot, suppliersSnapshot, quotationsSnapshot] = await Promise.all([
+        getDocs(collection(db, 'companies', company.id, 'products')),
+        getDocs(collection(db, 'companies', company.id, 'clients')),
+        getDocs(collection(db, 'companies', company.id, 'suppliers')),
+        getDocs(collection(db, 'companies', company.id, 'quotations'))
+      ]);
 
-      // Load clients
-      const clientsSnapshot = await getDocs(collection(db, 'companies', company.id, 'clients'));
+      // Load stock locations for all products in parallel
+      const productPromises = productsSnapshot.docs.map(async (docSnap) => {
+        const productData = { id: docSnap.id, ...docSnap.data() };
 
-      // Load suppliers
-      const suppliersSnapshot = await getDocs(collection(db, 'companies', company.id, 'suppliers'));
+        // Get stock locations for this product
+        const locationsSnapshot = await getDocs(
+          collection(db, 'companies', company.id, 'products', docSnap.id, 'stockLocations')
+        );
 
-      // Load quotations
-      const quotationsSnapshot = await getDocs(collection(db, 'companies', company.id, 'quotations'));
+        // Calculate total stock from all locations
+        const totalStock = locationsSnapshot.docs.reduce(
+          (sum, locDoc) => sum + (locDoc.data().quantity || 0),
+          0
+        );
+
+        productData.totalStock = totalStock;
+        return productData;
+      });
+
+      const products = await Promise.all(productPromises);
+
+      const lowStock = products.filter(p => (p.totalStock || 0) <= (p.minStock || 0));
+      const stockValue = products.reduce((sum, p) => sum + ((p.totalStock || 0) * (p.price || 0)), 0);
+
+      // Process quotations
       const quotations = quotationsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       const pending = quotations.filter(q => q.status === 'sent' || q.status === 'draft');
       const approved = quotations.filter(q => q.status === 'approved');
@@ -308,7 +327,7 @@ const Dashboard = () => {
         <div style={{ padding: '0 2rem 1rem 2rem' }}>
           <h2 style={{
             color: 'white',
-            fontSize: '1.5rem',
+            fontSize: '2rem',
             fontWeight: '700',
             marginBottom: '1.5rem',
             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -385,7 +404,7 @@ const Dashboard = () => {
         <div style={{ padding: '1rem 2rem 2rem 2rem' }}>
           <h2 style={{
             color: 'white',
-            fontSize: '1.25rem',
+            fontSize: '1.75rem',
             fontWeight: '700',
             marginBottom: '1.5rem',
             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',

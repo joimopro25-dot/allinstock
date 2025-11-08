@@ -30,7 +30,7 @@
 }
 
 .logo-text {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   -webkit-background-clip: text;
@@ -39,7 +39,7 @@
 }
 
 .page-title {
-  font-size: 2rem;
+  font-size: 2.25rem;
   margin: 0;
   font-weight: 600;
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
@@ -97,7 +97,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   color: white;
-  font-size: 1rem;
+  font-size: 1.05rem;
   transition: all 0.3s ease;
 }
 
@@ -118,7 +118,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   color: white;
-  font-size: 1rem;
+  font-size: 1.05rem;
   cursor: pointer;
   transition: all 0.3s ease;
   min-width: 180px;
@@ -142,7 +142,7 @@
   border: none;
   border-radius: 12px;
   color: white;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -241,7 +241,7 @@
 }
 
 .supplier-name {
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   font-weight: 600;
   margin: 0 0 0.25rem 0;
   color: white;
@@ -251,7 +251,7 @@
 }
 
 .supplier-contact {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: rgba(255, 255, 255, 0.6);
   margin: 0;
   overflow: hidden;
@@ -263,7 +263,7 @@
 .status-badge {
   padding: 0.4rem 0.75rem;
   border-radius: 8px;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -306,7 +306,7 @@
 }
 
 .detail-value {
-  font-size: 0.9rem;
+  font-size: 1rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -327,7 +327,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   color: white;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -490,6 +490,56 @@
 .modal-button.confirm:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+}
+
+/* ==================== RESPONSIVE DESIGN - FONT SIZES ==================== */
+
+/* Larger screens - 1600px+ */
+@media (min-width: 1600px) {
+  .logo-text {
+    font-size: 2rem !important;
+  }
+
+  .page-title {
+    font-size: 2.75rem !important;
+  }
+
+  .search-input,
+  .filter-select,
+  .add-button {
+    font-size: 1.2rem !important;
+  }
+
+  .supplier-name {
+    font-size: 1.6rem !important;
+  }
+
+  .supplier-contact {
+    font-size: 1.15rem !important;
+  }
+
+  .status-badge {
+    font-size: 0.95rem !important;
+  }
+
+  .detail-value {
+    font-size: 1.15rem !important;
+  }
+
+  .action-button {
+    font-size: 1.05rem !important;
+  }
+}
+
+/* Medium-large screens - 1400px */
+@media (max-width: 1400px) {
+  .page-title {
+    font-size: 2.1rem !important;
+  }
+
+  .supplier-name {
+    font-size: 1.3rem !important;
+  }
 }
 
 /* Responsive */
